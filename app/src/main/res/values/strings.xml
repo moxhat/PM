@@ -1,3 +1,26 @@
 <resources>
-    <string name="app_name">PravaMobil</string>
+    <string name="app_name">Права Мобил</string>
+    <string name="welcome">Добро пожаловать в</string>
+    <string name="prava_mobil_cool">Права Мобил!</string>
+    <string name="january">Января</string>
+    <string name="february">Февраля</string>
+    <string name="march">Марта</string>
+    <string name="april">Апреля</string>
+    <string name="may">Мая</string>
+    <string name="june">Июня</string>
+    <string name="july">Июля</string>
+    <string name="august">Августа</string>
+    <string name="september">Сентября</string>
+    <string name="october">Октября</string>
+    <string name="november">Ноября</string>
+    <string name="december">Декабря</string>
+    <string name="sign_in">Войти</string>
+    <string name="enter">Вход</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="remember_me">Зампомнить меня</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

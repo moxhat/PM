@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_main_button.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_main_button_down.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_main_button_up.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_down.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_up.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.5185185185185185" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_bg_anim.xml" value="0.5" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_bganim.xml" value="0.34074074074074073" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/activity_enter.xml" value="0.33152173913043476" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/activity_splash.xml" value="0.40217391304347827" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/assets.xml" value="0.31666666666666665" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_enter.xml" value="0.5" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_sign_in.xml" value="0.5" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_sign_up.xml" value="0.3026041666666667" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
