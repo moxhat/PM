@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.signin
+package com.madcrew.pravamobil.view.fragment.registration.signin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignInBinding
-import com.madcrew.pravamobil.view.fragment.EnterFragment
+import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 
 
 class SignInFragment : Fragment() {

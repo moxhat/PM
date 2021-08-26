@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment
+package com.madcrew.pravamobil.view.fragment.registration
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentEnterBinding
-import com.madcrew.pravamobil.view.fragment.signin.SignInFragment
-import com.madcrew.pravamobil.view.fragment.signup.SignUpFragment
+import com.madcrew.pravamobil.view.fragment.registration.signin.SignInFragment
+import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpFragment
 
 
 class EnterFragment : Fragment() {
@@ -19,7 +19,6 @@ class EnterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(

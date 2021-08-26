@@ -21,9 +21,17 @@
     <string name="forget_password">Забыли пароль?</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
+    <string name="confirm_password">Повторите пароль</string>
     <string name="phone_number">Номер телефона</string>
     <string name="name">Имя</string>
     <string name="registration">Регистрация</string>
     <string name="name_alert">*Поле не заполнено</string>
     <string name="get_code">Получить код</string>
+    <string name="sms_code_title">Укажите последние 4 цифры номера телефона с которого поступит проверочный звонок</string>
+    <string name="retry_call">Заказать повторный звонок</string>
+    <string name="add_password">Установите пароль</string>
+    <string name="next">Продолжить</string>
+    <string name="add_password_help">Пароль должен содержать 8 символов</string>
+    <string name="passwords_mismatch">Пароли не совпадают</string>
+    <string name="invalid_code">*Неверный код</string>
 </resources>

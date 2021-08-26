@@ -9,8 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEnterBinding
-import com.madcrew.pravamobil.databinding.ActivitySplashBinding
-import com.madcrew.pravamobil.view.fragment.EnterFragment
+import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 
 class EnterActivity : AppCompatActivity() {
 

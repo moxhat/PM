@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.signup.SignUpFragment">
+    tools:context=".view.fragment.registration.signup.SignUpFragment">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/bt_signup_back"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu_m"
                 android:inputType="phone"
-                android:maxLength="12"
+                android:maxLength="16"
                 android:maxLines="1"
                 android:singleLine="true" />
 

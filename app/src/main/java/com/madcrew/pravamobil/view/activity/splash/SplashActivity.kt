@@ -63,11 +63,11 @@ class SplashActivity : AppCompatActivity() {
 
 
         Handler(Looper.getMainLooper()).postDelayed({
-            starMainActivity()
+            starProgressActivity()
         }, 3300)
     }
 
-    private fun starMainActivity() {
+    private fun starProgressActivity() {
         val intent = Intent(this, EnterActivity::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)

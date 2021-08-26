@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="24dp"
-    tools:context=".view.fragment.signin.SignInFragment">
+    tools:context=".view.fragment.registration.signin.SignInFragment">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/bt_signin_back"

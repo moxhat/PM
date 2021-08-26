@@ -230,7 +230,7 @@ fun View.hideKeyboard() {
 
 fun View.showKeyboard() {
     val skb = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    skb.showSoftInput(this,0)
+    skb.showSoftInput(this,2)
 }
 
 fun isOnline(context: Context): Boolean {
