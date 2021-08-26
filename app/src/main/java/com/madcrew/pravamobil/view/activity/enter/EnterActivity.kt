@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.activity
+package com.madcrew.pravamobil.view.activity.enter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

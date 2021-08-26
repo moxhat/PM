@@ -15,8 +15,7 @@ import com.madcrew.pravamobil.databinding.ActivitySplashBinding
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
-import com.madcrew.pravamobil.view.activity.EnterActivity
-import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -54,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
             webSettings.loadWithOverviewMode = true
             webSettings.javaScriptEnabled = true
             webSettings.cacheMode
-            webView.loadUrl("https://new.serviceavtoshkola.ru/bg_anim.svg"); // point it to the SVG
+            webView.loadUrl("https://new.serviceavtoshkola.ru/bg_anim.svg")
             webView.setBackgroundColor(0x00000000)
         } else {
             webView.setGone()

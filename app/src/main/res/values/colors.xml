@@ -11,4 +11,5 @@
     <color name="main">#1083FE</color>
     <color name="transparent">#00000000</color>
     <color name="hint">#899CB1</color>
+    <color name="red_alert">#EF2323</color>
 </resources>
