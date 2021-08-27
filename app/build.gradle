@@ -96,4 +96,7 @@ dependencies {
 
     //Text mask
     implementation 'ru.egslava:MaskedEditText:1.0.5'
+
+    //scrollPicker
+    implementation 'io.github.ShawnLin013:number-picker:2.4.13'
 }

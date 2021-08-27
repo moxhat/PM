@@ -12,4 +12,5 @@
     <color name="transparent">#00000000</color>
     <color name="hint">#899CB1</color>
     <color name="red_alert">#EF2323</color>
+    <color name="help_gray">#CDDAE9</color>
 </resources>

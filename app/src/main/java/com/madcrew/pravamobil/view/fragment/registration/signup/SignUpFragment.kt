@@ -22,11 +22,6 @@ class SignUpFragment : Fragment() {
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,8 +33,6 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainManager = parentFragmentManager
-
         val noTextAlert = binding.signupNotextAlert
         val btGetCode = binding.btSignupCode
         val nameText = binding.signupNameEditText
@@ -50,8 +43,11 @@ class SignUpFragment : Fragment() {
 
         phoneText.addTextChangedListener(MaskWatcher("+7 ### ### ## ##"))
 
-        phoneText.doOnTextChanged { text, start, before, count ->
-            if (phoneText.length() == 1 && (phoneText.text.toString() == "8" || phoneText.text.toString() == "7" || phoneText.text.toString() == "9")){
+        phoneText.doOnTextChanged { _, _, _, count ->
+            if (phoneText.length() == 1 &&
+                (phoneText.text.toString() == "8" ||
+                        phoneText.text.toString() == "7" ||
+                        phoneText.text.toString() == "9")) {
                 phoneText.setText("+7 9")
                 phoneText.setSelection(4)
             }
@@ -68,7 +64,7 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        nameText.doOnTextChanged { text, start, before, count ->
+        nameText.doOnTextChanged { _, _, _, _ ->
             if (phoneText.length() == 16 && nameText.length() > 2) {
                 btGetCode.alpha = 1f
             } else {
@@ -86,19 +82,13 @@ class SignUpFragment : Fragment() {
             if (phoneText.length() < 12) {
                 binding.signupPhone.setErrorOn()
             }
-            if (phoneText.length() == 16 && nameText.length() > 2){
-                val transaction: FragmentTransaction = mainManager.beginTransaction()
-                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                transaction.replace(R.id.enter_activity_fragment_container, SmsCodeFragment())
-                transaction.commit()
+            if (phoneText.length() == 16 && nameText.length() > 2) {
+                replaceFragment(SmsCodeFragment(), R.anim.fade_in, R.anim.fade_out)
             }
         }
 
         binding.btSignupBack.setOnClickListener {
-            val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-            transaction.replace(R.id.enter_activity_fragment_container, EnterFragment())
-            transaction.commit()
+            replaceFragment(EnterFragment(),R.anim.slide_right_in, R.anim.slide_right_out)
         }
     }
 
@@ -112,4 +102,12 @@ class SignUpFragment : Fragment() {
         this.isErrorEnabled = false
     }
 
+    private fun replaceFragment(fragment: Fragment, animationIn: Int, animationOut: Int){
+        val mainManager = parentFragmentManager
+        val transaction: FragmentTransaction = mainManager.beginTransaction()
+        transaction.setCustomAnimations(animationIn, animationOut)
+        transaction.remove(this)
+        transaction.replace(R.id.enter_activity_fragment_container, fragment)
+        transaction.commit()
+    }
 }

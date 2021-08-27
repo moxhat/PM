@@ -22,10 +22,6 @@ class SmsCodeFragment : Fragment() {
     private var _binding: FragmentSmsCodeBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +32,6 @@ class SmsCodeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val mainManager = parentFragmentManager
 
         val codeChar1 = binding.smsCode1EditText
         val codeChar2 = binding.smsCode2EditText
@@ -64,89 +58,82 @@ class SmsCodeFragment : Fragment() {
             codeChar4.requestFocus()
         }
 
-        codeChar1.doOnTextChanged{ text, start, before, count ->
-            if (codeChar1.length() > 0){
+        codeChar1.doOnTextChanged { _, _, _, _ ->
+            if (codeChar1.length() > 0) {
                 codeChar2.requestFocus()
             } else {
                 errorOff(code1, code2, code3, code4)
                 codeChar1.requestFocus()
                 codeChar1.text?.clear()
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
         }
 
-        codeChar2.doOnTextChanged{ text, start, before, count ->
-            if (codeChar2.length() > 0){
+        codeChar2.doOnTextChanged { _, _, _, _ ->
+            if (codeChar2.length() > 0) {
                 codeChar3.requestFocus()
             } else {
                 codeChar1.requestFocus()
                 codeChar1.text?.clear()
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
-            if (codeChar1.length() == 0){
+            if (codeChar1.length() == 0) {
                 errorOff(code1, code2, code3, code4)
                 codeChar1.requestFocus()
                 codeChar1.setText(codeChar2.text.toString())
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
         }
 
-        codeChar3.doOnTextChanged{ text, start, before, count ->
-            if (codeChar3.length() > 0){
+        codeChar3.doOnTextChanged { _, _, _, _ ->
+            if (codeChar3.length() > 0) {
                 codeChar4.requestFocus()
             } else {
                 codeChar1.requestFocus()
                 codeChar1.setText(codeChar3.text.toString())
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
-            if (codeChar1.length() == 0){
+            if (codeChar1.length() == 0) {
                 errorOff(code1, code2, code3, code4)
                 codeChar1.requestFocus()
                 codeChar1.setText(codeChar4.text.toString())
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
         }
 
-        codeChar4.doOnTextChanged{ text, start, before, count ->
-            if (codeChar4.length() > 0){
+        codeChar4.doOnTextChanged { _, _, _, _ ->
+            if (codeChar4.length() > 0) {
                 this.view?.hideKeyboard()
             } else {
                 codeChar1.requestFocus()
                 codeChar1.text?.clear()
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
-            if (codeChar1.length() == 0){
+            if (codeChar1.length() == 0) {
                 errorOff(code1, code2, code3, code4)
                 codeChar1.requestFocus()
                 codeChar1.text?.clear()
-                codeChar2.text?.clear()
-                codeChar3.text?.clear()
-                codeChar4.text?.clear()
+                clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
-            if (codeChar1.length() > 0 && codeChar2.length() > 0 && codeChar3.length() > 0 && codeChar4.length() > 0){
-                if ((codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == "0000" ){
+            val codeValid =
+                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == "0000"
+
+            if (codeChar1.length() > 0 && codeChar2.length() > 0 && codeChar3.length() > 0 && codeChar4.length() > 0) {
+                if (codeValid) {
                     starProgressActivity()
-                }
-                if ((codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) != "0000" ){
+                } else {
                     errorOn(code1, code2, code3, code4)
                 }
             }
         }
     }
 
-    private fun errorOff(code1: TextInputLayout, code2: TextInputLayout, code3: TextInputLayout, code4: TextInputLayout){
+    private fun errorOff(
+        code1: TextInputLayout,
+        code2: TextInputLayout,
+        code3: TextInputLayout,
+        code4: TextInputLayout
+    ) {
         code1.error = null
         code2.error = null
         code3.error = null
@@ -158,7 +145,12 @@ class SmsCodeFragment : Fragment() {
         binding.invalidCodeAlert.setGone()
     }
 
-    private fun errorOn(code1: TextInputLayout, code2: TextInputLayout, code3: TextInputLayout, code4: TextInputLayout){
+    private fun errorOn(
+        code1: TextInputLayout,
+        code2: TextInputLayout,
+        code3: TextInputLayout,
+        code4: TextInputLayout
+    ) {
         code1.isErrorEnabled = true
         code2.isErrorEnabled = true
         code3.isErrorEnabled = true
@@ -175,5 +167,15 @@ class SmsCodeFragment : Fragment() {
         startActivity(intent)
         this.activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         this.activity?.finish()
+    }
+
+    private fun clearCodeEnd(
+        code2: TextInputEditText,
+        code3: TextInputEditText,
+        code4: TextInputEditText
+    ) {
+        code2.text?.clear()
+        code3.text?.clear()
+        code4.text?.clear()
     }
 }

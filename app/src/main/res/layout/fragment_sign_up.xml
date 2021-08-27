@@ -66,6 +66,7 @@
                 android:fontFamily="@font/ubuntu_m"
                 android:inputType="phone"
                 android:maxLength="16"
+                android:digits="0123456789 +"
                 android:maxLines="1"
                 android:singleLine="true" />
 

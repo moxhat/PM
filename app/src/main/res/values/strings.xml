@@ -34,4 +34,15 @@
     <string name="add_password_help">Пароль должен содержать 8 символов</string>
     <string name="passwords_mismatch">Пароли не совпадают</string>
     <string name="invalid_code">*Неверный код</string>
+    <string name="enter_email">Введите почту</string>
+    <string name="email">Email</string>
+    <string name="email_help">Используется для получения договора и восстановления пароля</string>
+    <string name="choose_category">Выберите категорию обучения</string>
+    <string name="change_school">Сменить автошколу</string>
+    <string name="ubuntu_medium">ubuntu_m</string>
+    <string name="mechanic">Механика</string>
+    <string name="automatic">Автомат</string>
+    <string name="select_theory_title">Обучение теории</string>
+    <string name="theory_offline">В учебном классе</string>
+    <string name="theory_online">Online</string>
 </resources>

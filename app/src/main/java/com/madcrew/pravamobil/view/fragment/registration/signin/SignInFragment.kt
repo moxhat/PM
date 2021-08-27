@@ -16,11 +16,6 @@ class SignInFragment : Fragment() {
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +32,7 @@ class SignInFragment : Fragment() {
         binding.btSigninBack.setOnClickListener {
             val transaction: FragmentTransaction = mainManager.beginTransaction()
             transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+            transaction.remove(this)
             transaction.replace(R.id.enter_activity_fragment_container, EnterFragment())
             transaction.commit()
         }

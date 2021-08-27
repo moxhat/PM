@@ -17,10 +17,6 @@ class EnterFragment : Fragment() {
     private var _binding: FragmentEnterBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,17 +31,20 @@ class EnterFragment : Fragment() {
         val mainManager = parentFragmentManager
 
         binding.btEnterSignIn.setOnClickListener {
-            val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-            transaction.replace(R.id.enter_activity_fragment_container, SignInFragment())
-            transaction.commit()
+            replaceFragment(SignInFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
         }
 
         binding.btEnterSignUp.setOnClickListener {
-            val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-            transaction.replace(R.id.enter_activity_fragment_container, SignUpFragment())
-            transaction.commit()
+            replaceFragment(SignUpFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment, animationIn: Int, animationOut: Int){
+        val mainManager = parentFragmentManager
+        val transaction: FragmentTransaction = mainManager.beginTransaction()
+        transaction.setCustomAnimations(animationIn, animationOut)
+        transaction.remove(this)
+        transaction.replace(R.id.enter_activity_fragment_container, fragment)
+        transaction.commit()
     }
 }
