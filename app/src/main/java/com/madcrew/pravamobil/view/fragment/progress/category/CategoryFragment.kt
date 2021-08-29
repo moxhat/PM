@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentCategoryBinding
 import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
+import com.shawnlin.numberpicker.NumberPicker
 
 
 class CategoryFragment : Fragment() {
@@ -36,12 +37,8 @@ class CategoryFragment : Fragment() {
 
         val data =
             arrayOf("Категория $a", "Категория $b", "Категория $c", "Категория $d", "Категория $m")
-        picker.minValue = 0
-        picker.maxValue = data.size - 1
-        picker.displayedValues = data
-        picker.typeface = resources.getFont(R.font.ubuntu_m)
-        picker.setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
-        picker.wrapSelectorWheel = true
+
+        setUpPicker(picker, data)
 
         picker.setOnClickListener {
             val selectedCategory = data[picker.value]
@@ -53,5 +50,17 @@ class CategoryFragment : Fragment() {
             )
             transaction.commit()
         }
+    }
+
+    private fun setUpPicker(
+        picker: NumberPicker,
+        data: Array<String>
+    ) {
+        picker.minValue = 0
+        picker.maxValue = data.size - 1
+        picker.displayedValues = data
+        picker.typeface = resources.getFont(R.font.ubuntu_m)
+        picker.setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
+        picker.wrapSelectorWheel = true
     }
 }

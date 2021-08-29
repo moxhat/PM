@@ -35,13 +35,17 @@ class EmailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btEmailNext.setOnClickListener {
-            val mainManager = parentFragmentManager
-            val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-            transaction.remove(this)
-            transaction.replace(R.id.progress_activity_fragment_container, CategoryFragment())
-            transaction.commit()
+            nextFragment()
         }
+    }
+
+    private fun nextFragment() {
+        val mainManager = parentFragmentManager
+        val transaction: FragmentTransaction = mainManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
+        transaction.remove(this)
+        transaction.replace(R.id.progress_activity_fragment_container, CategoryFragment())
+        transaction.commit()
     }
 
 }
