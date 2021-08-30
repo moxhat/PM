@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentTransmissionBinding
+import com.madcrew.pravamobil.view.dialog.InfoFragment
 import com.madcrew.pravamobil.view.fragment.progress.selecttheory.SelectTheoryFragment
 
 
@@ -37,6 +38,10 @@ class TransmissionFragment(private var selectedCategory: String) : Fragment() {
             replaceFragment(SelectTheoryFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
         }
 
+        binding.btTransmissionHelp.setOnClickListener {
+            showInfo()
+        }
+
     }
 
     private fun replaceFragment(fragment: Fragment, animationIn: Int, animationOut: Int){
@@ -46,5 +51,11 @@ class TransmissionFragment(private var selectedCategory: String) : Fragment() {
         transaction.remove(this)
         transaction.replace(R.id.progress_activity_fragment_container, fragment)
         transaction.commit()
+    }
+
+    private fun showInfo(){
+        val newFragment =
+            InfoFragment()
+        newFragment.show(parentFragmentManager, "InfoFragment")
     }
 }

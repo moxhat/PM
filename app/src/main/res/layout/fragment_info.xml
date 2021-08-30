@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    tools:context=".view.dialog.InfoFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/info_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/ubuntu_m"
+        android:text="@string/automatic"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/info_text1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/ubuntu_r"
+        android:text="апдвлопвлаповдлповдпоалдопдвлопдавповдаповдпловдапловдподпвалповдлаповдлаповдлповдлап   "
+        android:textAlignment="center"
+        android:textColor="@color/hint"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_title1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/info_brake_line"
+        android:layout_width="250dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_break_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_text1"
+        app:tint="@color/hint" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_info_close"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/ic_main_button"
+        android:fontFamily="@font/ubuntu_b"
+        android:singleLine="true"
+        android:text="@string/ok"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_text2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/info_text2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/ubuntu_r"
+        android:text="апдвлопвлаповдлповдпоалдопдвлопдавповдаповдпловдапловдподпвалповдлаповдлаповдлповдлап   "
+        android:textAlignment="center"
+        android:textColor="@color/hint"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_title2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/info_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/ubuntu_m"
+        android:text="@string/mechanic"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_brake_line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
