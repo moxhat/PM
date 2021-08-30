@@ -40,14 +40,6 @@ class SplashActivity : AppCompatActivity() {
             bgImage.setGone()
 
             val webSettings = webView.settings
-            webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    if (url != null) {
-                        view?.loadUrl(url)
-                    }
-                    return true
-                }
-            }
             webSettings.allowContentAccess = true
             webSettings.allowFileAccess = true
             webSettings.useWideViewPort = true

@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.activity.enter
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEnterBinding
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 
 class EnterActivity : AppCompatActivity() {
@@ -31,5 +33,12 @@ class EnterActivity : AppCompatActivity() {
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.add(R.id.enter_activity_fragment_container, EnterFragment())
         transaction.commit()
+    }
+
+    fun starProgressActivity() {
+        val intent = Intent(this, ProgressActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 }

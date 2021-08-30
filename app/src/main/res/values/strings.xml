@@ -45,4 +45,8 @@
     <string name="select_theory_title">Обучение теории</string>
     <string name="theory_offline">В учебном классе</string>
     <string name="theory_online">Online</string>
+    <string name="greetings_morning">Доброе утро,</string>
+    <string name="greetings_day">Добрый день,</string>
+    <string name="greetings_evening">Добрый вечер,</string>
+    <string name="greetings_night">Доброй ночи,</string>
 </resources>
