@@ -50,4 +50,8 @@
     <string name="greetings_evening">Добрый вечер,</string>
     <string name="greetings_night">Доброй ночи,</string>
     <string name="ok">Ок</string>
+    <string name="filial_title">Филиал</string>
+    <string name="start">Запуск</string>
+    <string name="time_list">Расписание</string>
+    <string name="choose_theory_group">Выберите группу по теории</string>
 </resources>

@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#F1F2F6</color>
     <color name="main">#1083FE</color>
+    <color name="main_70">#B31083FE</color>
     <color name="transparent">#00000000</color>
     <color name="hint">#899CB1</color>
     <color name="red_alert">#EF2323</color>
     <color name="help_gray">#CDDAE9</color>
+    <color name="gray_text">#899CB1</color>
 </resources>

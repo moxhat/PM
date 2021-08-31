@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentTransmissionBinding
 import com.madcrew.pravamobil.view.dialog.InfoFragment
-import com.madcrew.pravamobil.view.fragment.progress.selecttheory.SelectTheoryFragment
+import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 
 
 class TransmissionFragment(private var selectedCategory: String) : Fragment() {

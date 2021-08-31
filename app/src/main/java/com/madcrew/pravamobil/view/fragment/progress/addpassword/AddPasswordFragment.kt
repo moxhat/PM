@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentAddPasswordBinding
 import com.madcrew.pravamobil.utils.hideKeyboard
@@ -29,6 +32,8 @@ class AddPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mainManager = parentFragmentManager
 
         val firstPassword = binding.addPasswordPassword2
         val secondPassword = binding.addPasswordPassword1
@@ -56,24 +61,43 @@ class AddPasswordFragment : Fragment() {
         }
 
         binding.btAddPasswordNext.setOnClickListener {
-            if (firstPasswordText.length() == 8 && secondPasswordText.length() == 8) {
-                if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
-                    Toast.makeText(requireContext(), "Пароль установлен", Toast.LENGTH_SHORT).show()
-                    val mainManager = parentFragmentManager
-                    val transaction: FragmentTransaction = mainManager.beginTransaction()
-                    transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-                    transaction.remove(this)
-                    transaction.replace(R.id.progress_activity_fragment_container, EmailFragment())
-                    transaction.commit()
-                } else {
-                    secondPassword.isErrorEnabled = true
-                    secondPassword.error = resources.getString(R.string.passwords_mismatch)
-                }
-            } else {
-                secondPassword.isErrorEnabled = true
-                secondPassword.error = resources.getString(R.string.add_password_help)
-            }
+//            chekPassword(
+//                firstPasswordText,
+//                secondPasswordText,
+//                secondPassword,
+//                mainManager,
+//                EmailFragment()
+//            )
+            nextFragment(mainManager, EmailFragment())
         }
     }
 
+    private fun chekPassword(
+        firstPasswordText: TextInputEditText,
+        secondPasswordText: TextInputEditText,
+        secondPassword: TextInputLayout,
+        fragmentManager: FragmentManager,
+        fragment: Fragment
+    ) {
+        if (firstPasswordText.length() == 8 && secondPasswordText.length() == 8) {
+            if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
+                Toast.makeText(requireContext(), "Пароль установлен", Toast.LENGTH_SHORT).show()
+                nextFragment(fragmentManager, fragment)
+            } else {
+                secondPassword.isErrorEnabled = true
+                secondPassword.error = resources.getString(R.string.passwords_mismatch)
+            }
+        } else {
+            secondPassword.isErrorEnabled = true
+            secondPassword.error = resources.getString(R.string.add_password_help)
+        }
+    }
+
+    private fun nextFragment(fragmentManager: FragmentManager, fragment: Fragment) {
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
+        transaction.remove(this)
+        transaction.replace(R.id.progress_activity_fragment_container, fragment)
+        transaction.commit()
+    }
 }

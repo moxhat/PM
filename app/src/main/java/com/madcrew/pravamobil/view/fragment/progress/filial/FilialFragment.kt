@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.progress.category
+package com.madcrew.pravamobil.view.fragment.progress.filial
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,21 +8,27 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.databinding.FragmentCategoryBinding
+import com.madcrew.pravamobil.databinding.FragmentFilialBinding
+import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
 import com.shawnlin.numberpicker.NumberPicker
 
 
-class CategoryFragment : Fragment() {
+class FilialFragment : Fragment() {
 
-    private var _binding: FragmentCategoryBinding? = null
+    private var _binding: FragmentFilialBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        _binding = FragmentFilialBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,32 +37,29 @@ class CategoryFragment : Fragment() {
 
         val mainManager = parentFragmentManager
 
-        val picker = binding.categoryPicker
-        val a = "\"A\""
-        val b = "\"B\""
-        val c = "\"C\""
-        val d = "\"D\""
-        val m = "\"M\""
+        val picker = binding.filialPicker
 
         val data =
-            arrayOf("Категория $a", "Категория $b", "Категория $c", "Категория $d", "Категория $m")
+            arrayOf("Центр", "Фрунзе", "Заволга", "Брагино", "Московский")
 
         setUpPicker(picker, data)
 
-        binding.btCategoryNext.setOnClickListener {
+        binding.btFilialNext.setOnClickListener {
             val selectedCategory = data[picker.value]
-            nextFragment(mainManager, selectedCategory)
+            nextFragment(mainManager, TheoryGroupFragment())
         }
+
+
     }
 
     private fun nextFragment(
         mainManager: FragmentManager,
-        selectedCategory: String
+        fragment: Fragment
     ) {
         val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.replace(
             R.id.progress_activity_fragment_container,
-            TransmissionFragment(selectedCategory)
+            fragment
         )
         transaction.commit()
     }
@@ -72,4 +75,5 @@ class CategoryFragment : Fragment() {
         picker.setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
         picker.wrapSelectorWheel = true
     }
+
 }
