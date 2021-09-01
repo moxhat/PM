@@ -54,4 +54,11 @@
     <string name="start">Запуск</string>
     <string name="time_list">Расписание</string>
     <string name="choose_theory_group">Выберите группу по теории</string>
+    <string name="tariff">Тариф</string>
+    <string name="in_contract_title">Включено в договор</string>
+    <string name="additional_payments">Дополнительные затраты</string>
+    <string name="may_be_installments">Возможна рассрочка</string>
+    <string name="back">Назад</string>
+    <string name="next_tariff">Следующий</string>
+    <string name="select">Выбать</string>
 </resources>

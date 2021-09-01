@@ -1,20 +1,14 @@
 package com.madcrew.pravamobil.adapter
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.models.GroupTimes
-import kotlin.coroutines.coroutineContext
 
 class GroupListRecyclerAdapter(
     private var list: MutableList<GroupTimes>,

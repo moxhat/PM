@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorOnBackground">@color/background_dark</item>
+        <item name="colorBackgroundFloating">@color/background_dark</item>
     </style>
 
     <style name="NumberPickerStyle">

@@ -57,6 +57,7 @@ class FilialFragment : Fragment() {
         fragment: Fragment
     ) {
         val transaction: FragmentTransaction = mainManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
         transaction.replace(
             R.id.progress_activity_fragment_container,
             fragment
