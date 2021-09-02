@@ -52,10 +52,10 @@ class GroupListRecyclerAdapter(
         }
 
         override fun onClick(itemView: View?) {
-            val position = adapterPosition
+            val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 currentSelection = position
-                listenerGroup.onGroupClick(itemView, adapterPosition)
+                listenerGroup.onGroupClick(itemView, absoluteAdapterPosition)
                 notifyDataSetChanged()
             }
         }
@@ -82,7 +82,7 @@ class GroupListRecyclerAdapter(
             holder.dayTimeTitle?.alpha = 0.5f
             holder.brakeLine?.setBackgroundResource(R.drawable.ic_rectangle_white)
         } else {
-            holder.groupCard?.setBackgroundResource(R.drawable.ic_rectangle_light_gray)
+            holder.groupCard?.setBackgroundResource(R.drawable.ic_rectangle_light_gray_group)
             holder.dateString?.setTextColor(Color.BLACK)
             holder.dayTimeString?.setTextColor(Color.BLACK)
             holder.dateTitle?.setTextColor(Color.BLACK)

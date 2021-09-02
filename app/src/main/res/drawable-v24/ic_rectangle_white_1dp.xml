@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="?attr/colorOnPrimarySurface"/>
-            <corners android:radius="10dip" />
+            <solid android:color="@color/white"/>
+            <corners android:radius="1dip" />
         </shape>
     </item>
 </selector>

@@ -14,9 +14,15 @@
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/white</item>
         <item name="colorBackgroundFloating">@color/help_gray</item>
+        <item name="colorOnPrimarySurface">@color/light_gray</item>
     </style>
 
     <style name="NumberPickerStyle">
         <item name="colorControlNormal">@color/transparent</item>
+    </style>
+
+    <style name="SeekThemeTwo" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/main</item>
+        <item name="android:colorControlNormal">@color/white</item>
     </style>
 </resources>

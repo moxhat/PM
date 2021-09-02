@@ -9,6 +9,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="16dp"
     android:background="@color/transparent"
+    app:cardBackgroundColor="?attr/colorOnBackground"
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp">
 
@@ -49,7 +50,7 @@
             android:fontFamily="@font/ubuntu_b"
             android:text="Стандарт"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="34sp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_title_label_background" />
@@ -191,7 +192,7 @@
             android:fontFamily="@font/ubuntu_b"
             android:text="23 000 руб."
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="32sp"
+            android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_2" />

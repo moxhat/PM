@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentFilialBinding
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
-import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
 import com.shawnlin.numberpicker.NumberPicker
 
 

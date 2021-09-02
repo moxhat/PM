@@ -61,4 +61,10 @@
     <string name="back">Назад</string>
     <string name="next_tariff">Следующий</string>
     <string name="select">Выбать</string>
+    <string name="choose_payment_option">Выберите способ оплаты</string>
+    <string name="payment_options">Способ оплаты</string>
+    <string name="first_payment">Первый платеж</string>
+    <string name="payments_dates_title">График платежей</string>
+    <string name="payment_date_title">Срок оплаты</string>
+    <string name="sum">Сумма</string>
 </resources>

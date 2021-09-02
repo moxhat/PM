@@ -42,15 +42,9 @@ class TheoryGroupFragment : Fragment(),
 
         mGroupTimeList = mutableListOf(
             GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
-            GroupTimes("12 июля", "Пн, Ср 18:30-20:00")
+            GroupTimes("15 Августа", "Вт, Ср 11:30-21:00"),
+            GroupTimes("2 сентября", "Чт, Сб 12:30-15:00"),
+            GroupTimes("21 сентября", "Пн, Ср 18:30-20:00")
         )
 
         mAdapter = GroupListRecyclerAdapter(mGroupTimeList, this)

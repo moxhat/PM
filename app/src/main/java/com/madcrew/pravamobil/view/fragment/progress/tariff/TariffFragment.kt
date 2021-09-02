@@ -19,13 +19,14 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.TariffSliderAdapter
 import com.madcrew.pravamobil.databinding.FragmentTarifBinding
 import com.madcrew.pravamobil.models.TariffSliderData
+import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import kotlin.math.abs
 
 lateinit var sliderAdapter: TariffSliderAdapter
 lateinit var tariffSlides:MutableList<TariffSliderData>
 
-class TariffFragment : Fragment() {
+class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
     private var _binding: FragmentTarifBinding? = null
     private val binding get() = _binding!!
@@ -47,15 +48,13 @@ class TariffFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainManager = parentFragmentManager
-
         tariffSlides = mutableListOf(
             TariffSliderData("Стандарт", "23 000 руб."),
             TariffSliderData("Продвинутый", "28 500 руб."),
             TariffSliderData("VIP", "32 000 руб.")
         )
 
-        sliderAdapter = TariffSliderAdapter(tariffSlides)
+        sliderAdapter = TariffSliderAdapter(tariffSlides, this)
 
         val viewPager = binding.tariffViewPager
 
@@ -118,15 +117,19 @@ class TariffFragment : Fragment() {
         }
 
         binding.btTariffBack.setOnClickListener {
-            previousFragment(mainManager, TheoryGroupFragment())
+            previousFragment(TheoryGroupFragment())
         }
 
     }
 
+    override fun onSelectClick(itemView: View?, position: Int) {
+        nextFragment(PaymentOptionsFragment())
+    }
+
     private fun previousFragment(
-        mainManager: FragmentManager,
         fragment: Fragment
     ) {
+        val mainManager = parentFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
         transaction.replace(
@@ -137,9 +140,9 @@ class TariffFragment : Fragment() {
     }
 
     private fun nextFragment(
-        mainManager: FragmentManager,
         fragment: Fragment
     ) {
+        val mainManager = parentFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
         transaction.replace(

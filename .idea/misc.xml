@@ -14,8 +14,12 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_main_button_up.xml" value="0.5231481481481481" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_blue_outline.xml" value="0.425" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_light_gray.xml" value="0.2953703703703704" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_light_gray_group.xml" value="0.43703703703703706" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_light_gray_half_radius.xml" value="0.2824074074074074" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_light_gray_half_radius_bottom.xml" value="0.2824074074074074" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_light_gray_text.xml" value="0.4076923076923077" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_white.xml" value="0.2953703703703704" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_rectangle_white_1dp.xml" value="0.43703703703703706" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button.xml" value="0.5231481481481481" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_down.xml" value="0.5231481481481481" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_up.xml" value="0.5231481481481481" />
@@ -45,6 +49,7 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_filial.xml" value="0.41757246376811596" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_greetings.xml" value="0.3532608695652174" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_info.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_pyment_options.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_select_theory.xml" value="0.3713768115942029" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_sign_in.xml" value="0.1" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_sign_up.xml" value="0.39832285115303984" />
