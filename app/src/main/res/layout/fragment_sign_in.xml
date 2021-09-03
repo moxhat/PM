@@ -39,68 +39,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signin_logo" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/signin_cardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_title">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signin_login"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/phone_number"
             android:textColorHint="@color/hint"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/signin_login_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu_m" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/signin_cardView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_cardView">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signin_password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/password"
-            android:textColorHint="@color/hint"
+            android:background="@color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:passwordToggleEnabled="true">
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signin_title">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/signin_password_edit_text"
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/signin_login_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:inputType="phone"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPassword" />
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                app:allowed_chars="1234567890"
+                app:errorEnabled="true"
+                app:keep_hint="true"
+                app:mask="+7 ### ### ## ##" />
 
         </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
 
-    <TextView
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:background="@color/transparent"
+        android:hint="@string/password"
+        android:textColorHint="@color/hint"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signin_login"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/ic_rectangle_light_gray"
+            android:fontFamily="@font/ubuntu_m"
+            android:inputType="textPassword"
+            android:maxLength="8"
+            android:paddingHorizontal="12dp"
+            android:singleLine="true"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
+            app:keep_hint="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/bt_signin_forgot_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,17 +124,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/signin_remember_chek" />
 
-    <CheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/signin_remember_chek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="78dp"
         android:fontFamily="@font/ubuntu_m"
         android:text="@string/remember_me"
         android:textColor="@color/main"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/signin_cardView2"
-        app:layout_constraintTop_toBottomOf="@+id/signin_cardView2" />
+        app:layout_constraintStart_toStartOf="@+id/signin_password"
+        app:layout_constraintTop_toBottomOf="@+id/signin_login" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_signin_enter"
@@ -135,9 +147,8 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/signin_cardView2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/signin_cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signin_remember_chek" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

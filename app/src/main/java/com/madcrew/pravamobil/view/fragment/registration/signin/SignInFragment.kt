@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignInBinding
+import com.madcrew.pravamobil.utils.hideKeyboard
 import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.greetings.GreetingsFragment
 
@@ -30,13 +33,35 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mainManager = parentFragmentManager
+        val loginText = binding.signinLoginEditText
+        val loginField = binding.signinLogin
+        val passwordText = binding.signinPasswordEditText
+        val passwordField = binding.signinPassword
+
+        val tempPassword = "00000000"
+
+        loginText.doOnTextChanged { _, _, _, _ ->
+            if (loginText.length() > 1) loginField.setErrorOff()
+            if (loginText.length() == 16) passwordText.requestFocus()
+        }
+
+        passwordText.doOnTextChanged { _, _, _, _ ->
+            if (passwordText.length() > 1) passwordField.setErrorOff()
+            if (passwordText.length() == 8) this.view?.hideKeyboard()
+        }
 
         binding.btSigninBack.setOnClickListener {
             previousFragment(mainManager, EnterFragment())
         }
 
         binding.btSigninEnter.setOnClickListener {
-            nextFragment(mainManager, GreetingsFragment())
+            if (loginText.length() < 16) loginField.setErrorOn()
+            if (passwordText.text.toString() == tempPassword){
+                nextFragment(mainManager, GreetingsFragment())
+            } else {
+                passwordField.isErrorEnabled = true
+                passwordField.error = resources.getString(R.string.wrong_password)
+            }
         }
     }
 
@@ -56,4 +81,13 @@ class SignInFragment : Fragment() {
         transaction.commit()
     }
 
+    private fun TextInputLayout.setErrorOff() {
+        this.error = null
+        this.isErrorEnabled = false
+    }
+
+    private fun TextInputLayout.setErrorOn() {
+        this.isErrorEnabled = true
+        this.error = resources.getString(R.string.name_alert)
+    }
 }

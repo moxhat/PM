@@ -19,6 +19,8 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.TariffSliderAdapter
 import com.madcrew.pravamobil.databinding.FragmentTarifBinding
 import com.madcrew.pravamobil.models.TariffSliderData
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.previousFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import kotlin.math.abs
@@ -117,39 +119,15 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
         }
 
         binding.btTariffBack.setOnClickListener {
-            previousFragment(TheoryGroupFragment())
+            val mainManager = parentFragmentManager
+            previousFragmentInProgress(mainManager, TheoryGroupFragment())
         }
 
     }
 
     override fun onSelectClick(itemView: View?, position: Int) {
-        nextFragment(PaymentOptionsFragment())
-    }
-
-    private fun previousFragment(
-        fragment: Fragment
-    ) {
         val mainManager = parentFragmentManager
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-        transaction.replace(
-            R.id.progress_activity_fragment_container,
-            fragment
-        )
-        transaction.commit()
-    }
-
-    private fun nextFragment(
-        fragment: Fragment
-    ) {
-        val mainManager = parentFragmentManager
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-        transaction.replace(
-            R.id.progress_activity_fragment_container,
-            fragment
-        )
-        transaction.commit()
+        nextFragmentInProgress(mainManager, PaymentOptionsFragment())
     }
 
     private fun setupCurrentIndicator(index: Int) {

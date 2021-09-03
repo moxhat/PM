@@ -42,51 +42,49 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signup_phone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="@string/phone_number"
             android:textColorHint="@color/hint"
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="1dp"
+            android:background="@color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_title">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <br.com.sapereaude.maskedEditText.MaskedEditText
                 android:id="@+id/signup_phone_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
                 android:inputType="phone"
-                android:maxLength="16"
-                android:digits="0123456789 +"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:allowed_chars="1234567890"
+                app:errorEnabled="true"
+                app:keep_hint="true"
+                app:mask="+7 ### ### ## ##" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signup_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@color/transparent"
             android:hint="@string/name"
             android:textColorHint="@color/hint"
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="1dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,30 +93,26 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/signup_name_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:keep_hint="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/signup_notext_alert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ubuntu_m"
-            android:text="@string/name_alert"
-            android:textColor="@color/red_alert"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/signup_name"
-            app:layout_constraintTop_toBottomOf="@+id/signup_name"
-            tools:visibility="invisible" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bt_signup_code"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/ic_main_button"
             android:fontFamily="@font/ubuntu_b"
             android:text="@string/get_code"
@@ -127,7 +121,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_notext_alert" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

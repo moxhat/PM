@@ -9,8 +9,10 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPymentOptionsBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.skydoves.powerspinner.IconSpinnerItem
 
@@ -39,6 +41,8 @@ class PaymentOptionsFragment : Fragment() {
         val spinnerPayment = binding.paymentOptionsSpinner
         val paymentSeekCard = binding.cardPaymentSeek
         val paymentDatesCard = binding.cardPaymentDates
+
+        val mainManager = parentFragmentManager
 
         paymentSeekCard.setGone()
         paymentDatesCard.setGone()
@@ -100,5 +104,9 @@ class PaymentOptionsFragment : Fragment() {
                 }
             }
         })
+
+        binding.btPaymentOptionsNext.setOnClickListener {
+            nextFragmentInProgress(mainManager, DocumentTypeFragment())
+        }
     }
 }

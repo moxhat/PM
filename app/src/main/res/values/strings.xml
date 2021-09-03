@@ -16,6 +16,7 @@
     <string name="december">Декабря</string>
     <string name="sign_in">Войти</string>
     <string name="enter">Вход</string>
+    <string name="wrong_password">Парль неверный</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="remember_me">Зампомнить меня</string>
     <string name="forget_password">Забыли пароль?</string>
@@ -25,7 +26,7 @@
     <string name="phone_number">Номер телефона</string>
     <string name="name">Имя</string>
     <string name="registration">Регистрация</string>
-    <string name="name_alert">*Поле не заполнено</string>
+    <string name="name_alert">Поле не заполнено</string>
     <string name="get_code">Получить код</string>
     <string name="sms_code_title">Укажите последние 4 цифры номера телефона с которого поступит проверочный звонок</string>
     <string name="retry_call">Заказать повторный звонок</string>
@@ -36,6 +37,7 @@
     <string name="invalid_code">*Неверный код</string>
     <string name="enter_email">Введите почту</string>
     <string name="email">Email</string>
+    <string name="email_error">Неверный формат email</string>
     <string name="email_help">Используется для получения договора и восстановления пароля</string>
     <string name="choose_category">Выберите категорию обучения</string>
     <string name="change_school">Сменить автошколу</string>
@@ -67,4 +69,12 @@
     <string name="payments_dates_title">График платежей</string>
     <string name="payment_date_title">Срок оплаты</string>
     <string name="sum">Сумма</string>
+    <string name="document_type">Тип документа</string>
+    <string name="of_student">Обучающегося</string>
+    <string name="choose_document_type">Выберите тип документа</string>
+    <string name="first_name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="third_name_if_true">Отчество (при наличии)</string>
+    <string name="birth_date">Дата рождения</string>
+    <string name="student">Обучающийся</string>
 </resources>

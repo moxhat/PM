@@ -25,8 +25,8 @@ class ProgressActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.main)
 
-        val manager: FragmentManager = supportFragmentManager
-        val transaction: FragmentTransaction = manager.beginTransaction()
+        val mainManager = supportFragmentManager
+        val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.add(R.id.progress_activity_fragment_container, AddPasswordFragment())
         transaction.commit()

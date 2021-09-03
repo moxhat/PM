@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentFilialBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import com.shawnlin.numberpicker.NumberPicker
 
@@ -45,23 +44,8 @@ class FilialFragment : Fragment() {
 
         binding.btFilialNext.setOnClickListener {
             val selectedCategory = data[picker.value]
-            nextFragment(mainManager, TheoryGroupFragment())
+            nextFragmentInProgress(mainManager, TheoryGroupFragment())
         }
-
-
-    }
-
-    private fun nextFragment(
-        mainManager: FragmentManager,
-        fragment: Fragment
-    ) {
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-        transaction.replace(
-            R.id.progress_activity_fragment_container,
-            fragment
-        )
-        transaction.commit()
     }
 
     private fun setUpPicker(

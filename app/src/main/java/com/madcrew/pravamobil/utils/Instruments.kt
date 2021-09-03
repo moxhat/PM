@@ -7,14 +7,14 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import java.text.SimpleDateFormat
 
 fun dateConverter(date: String, context: Context): String {
-    var day = date.split(".")[0]
-    val month = date.split(".")[1]
-    val year = date.split(".")[2]
-
+    var (day, month, year) = date.split(".")
     if (day[0].toString() == "0"){
         day = day[day.length - 1].toString()
     }
@@ -37,9 +37,7 @@ fun dateConverter(date: String, context: Context): String {
 }
 
 fun dateConverterSecond(date: String, context: Context): String {
-    var day = date.split("-")[2]
-    val month = date.split("-")[1]
-    val year = date.split("-")[0]
+    var (year, month, day) = date.split("-")
     if (day[0].toString() == "0"){
         day = day[day.length - 1].toString()
     }
@@ -61,9 +59,7 @@ fun dateConverterSecond(date: String, context: Context): String {
 }
 
 fun dateConverterThird(date: String, context: Context): String {
-    var day = date.split("-")[0]
-    val month = date.split("-")[1]
-    val year = date.split("-")[2]
+    var (day, month, year) = date.split("-")
     if (day[0].toString() == "0"){
         day = day[day.length - 1].toString()
     }
@@ -85,14 +81,10 @@ fun dateConverterThird(date: String, context: Context): String {
 }
 
 fun dateConverterSpravka(date: String, context: Context): String {
-    var day = date.split(".")[0]
-    val month = date.split(".")[1]
-    val year = date.split(".")[2]
-
+    var (day, month, year) = date.split(".")
     if (day[0].toString() == "0"){
         day = day[day.length - 1].toString()
     }
-
     return when (month) {
         "1" -> {
             return if ((day.toInt() + 20) > 31){
@@ -200,9 +192,7 @@ fun dateConverterSpravka(date: String, context: Context): String {
 }
 
 fun dateConverterReverse(date: String, context: Context): String {
-    var day = date.split(" ")[0]
-    val month = date.split(" ")[1]
-    val year = date.split(" ")[2]
+    var (day, month, year) = date.split(" ")
     if (day.length == 1){
         day = "0$day"
     }
@@ -277,6 +267,32 @@ fun dateToMillis(date: String) : Long {
     val formatter = SimpleDateFormat("yyyy-MM-dd")
     val dateInMillis = formatter.parse(date).time
     return dateInMillis
+}
+
+fun nextFragmentInProgress(
+    fragmentManager: FragmentManager,
+    fragment: Fragment
+) {
+    val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+    transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
+    transaction.replace(
+        R.id.progress_activity_fragment_container,
+        fragment
+    )
+    transaction.commit()
+}
+
+fun previousFragmentInProgress(
+    fragmentManager: FragmentManager,
+    fragment: Fragment
+) {
+    val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+    transaction.replace(
+        R.id.progress_activity_fragment_container,
+        fragment
+    )
+    transaction.commit()
 }
 
 

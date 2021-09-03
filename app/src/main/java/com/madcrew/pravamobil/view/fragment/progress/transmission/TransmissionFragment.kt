@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentTransmissionBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.dialog.InfoFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 
@@ -28,29 +29,21 @@ class TransmissionFragment(private var selectedCategory: String) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainManager = parentFragmentManager
+
         binding.transmissionTitle.text = selectedCategory
 
         binding.btTransmissionMechanic.setOnClickListener {
-            replaceFragment(SelectTheoryFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
+            nextFragmentInProgress(mainManager, SelectTheoryFragment())
         }
 
         binding.btTransmissionAutomatic.setOnClickListener {
-            replaceFragment(SelectTheoryFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
+            nextFragmentInProgress(mainManager,SelectTheoryFragment())
         }
 
         binding.btTransmissionHelp.setOnClickListener {
             showInfo()
         }
-
-    }
-
-    private fun replaceFragment(fragment: Fragment, animationIn: Int, animationOut: Int){
-        val mainManager = parentFragmentManager
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(animationIn, animationOut)
-        transaction.remove(this)
-        transaction.replace(R.id.progress_activity_fragment_container, fragment)
-        transaction.commit()
     }
 
     private fun showInfo(){

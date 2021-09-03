@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentCategoryBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
 import com.shawnlin.numberpicker.NumberPicker
 
@@ -45,20 +46,8 @@ class CategoryFragment : Fragment() {
 
         binding.btCategoryNext.setOnClickListener {
             val selectedCategory = data[picker.value]
-            nextFragment(mainManager, selectedCategory)
+            nextFragmentInProgress(mainManager, TransmissionFragment(selectedCategory))
         }
-    }
-
-    private fun nextFragment(
-        mainManager: FragmentManager,
-        selectedCategory: String
-    ) {
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.replace(
-            R.id.progress_activity_fragment_container,
-            TransmissionFragment(selectedCategory)
-        )
-        transaction.commit()
     }
 
     private fun setUpPicker(

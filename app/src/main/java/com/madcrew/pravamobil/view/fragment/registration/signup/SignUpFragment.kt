@@ -33,57 +33,27 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val noTextAlert = binding.signupNotextAlert
         val btGetCode = binding.btSignupCode
         val nameText = binding.signupNameEditText
         val phoneText = binding.signupPhoneEditText
 
-        noTextAlert.setInvisible()
-        btGetCode.alpha = 0.5f
+        val nameField = binding.signupName
+        val phoneField = binding.signupPhone
 
-        phoneText.addTextChangedListener(MaskWatcher("+7 ### ### ## ##"))
-
-        phoneText.doOnTextChanged { _, _, _, count ->
-            if (phoneText.length() == 1 &&
-                (phoneText.text.toString() == "8" ||
-                        phoneText.text.toString() == "7" ||
-                        phoneText.text.toString() == "9")) {
-                phoneText.setText("+7 9")
-                phoneText.setSelection(4)
-            }
-            if (count == 12) {
-                this.view?.hideKeyboard()
-            }
-            if (phoneText.length() == 12 && nameText.length() > 2) {
-                btGetCode.alpha = 1f
-            } else {
-                btGetCode.alpha = 0.5f
-            }
-            if (phoneText.length() >= 10) {
-                binding.signupPhone.setErrorOff()
-            }
+        phoneText.doOnTextChanged { _, _, _, _ ->
+            if (phoneText.length() > 3) phoneField.setErrorOff()
         }
 
         nameText.doOnTextChanged { _, _, _, _ ->
-            if (phoneText.length() == 16 && nameText.length() > 2) {
-                btGetCode.alpha = 1f
-            } else {
-                btGetCode.alpha = 0.5f
-            }
-            if (nameText.length() >= 2) {
-                binding.signupName.setErrorOff()
-            }
+            if (nameText.length() > 1) nameField.setErrorOff()
         }
 
-        binding.btSignupCode.setOnClickListener {
-            if (nameText.length() < 2) {
-                binding.signupName.setErrorOn()
-            }
-            if (phoneText.length() < 12) {
-                binding.signupPhone.setErrorOn()
-            }
-            if (phoneText.length() == 16 && nameText.length() > 2) {
+        btGetCode.setOnClickListener {
+            if (nameText.length() > 1 && phoneText.length() == 16){
                 replaceFragment(SmsCodeFragment(), R.anim.fade_in, R.anim.fade_out)
+            } else {
+                if (phoneText.length() < 16) phoneField.setErrorOn()
+                if (nameText.length() < 2) nameField.setErrorOn()
             }
         }
 

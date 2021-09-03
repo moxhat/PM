@@ -29,40 +29,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/email_cardView"
-            android:layout_width="match_parent"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_text_input"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:cardCornerRadius="10dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/email"
+            android:textColorHint="@color/hint"
+            android:background="@color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_title">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_text_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/email"
-                android:maxLength="8"
-                android:maxLines="1"
+                android:layout_gravity="center"
+                android:inputType="textEmailAddress"
+                android:paddingHorizontal="12dp"
                 android:singleLine="true"
-                android:textColorHint="@color/hint"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:helperTextEnabled="false"
-                app:helperTextTextColor="@color/main">
+                android:fontFamily="@font/ubuntu_m"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                app:keep_hint="true"
+                app:errorEnabled="true"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu_m"
-                    android:inputType="textEmailAddress" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView2"
@@ -71,7 +71,7 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_baseline_error_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_cardView" />
+            app:layout_constraintTop_toBottomOf="@+id/email_text_input" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/email_help"

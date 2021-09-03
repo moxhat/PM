@@ -52,7 +52,7 @@
         <com.skydoves.powerspinner.PowerSpinnerView
             android:id="@+id/payment_options_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_rectangle_light_gray"
             android:fontFamily="@font/ubuntu_m"

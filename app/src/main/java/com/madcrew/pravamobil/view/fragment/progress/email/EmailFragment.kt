@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentAddPasswordBinding
 import com.madcrew.pravamobil.databinding.FragmentEmailBinding
+import com.madcrew.pravamobil.utils.hideKeyboard
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
 import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 
@@ -34,18 +37,25 @@ class EmailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainManager = parentFragmentManager
+
+        val emailText = binding.emailEditText
+        val emailTextLayout = binding.emailTextInput
+
+        emailText.doOnTextChanged { _, _, _, _ ->
+            if (emailText.length() > 1) {
+                emailTextLayout.isErrorEnabled = false
+            }
+        }
+
         binding.btEmailNext.setOnClickListener {
-            nextFragment()
+            if(emailText.length() > 4 && emailText.text!!.contains(Regex("[@.]"))){
+                this.view?.hideKeyboard()
+                nextFragmentInProgress(mainManager, CategoryFragment())
+            } else {
+                emailTextLayout.isErrorEnabled = true
+                emailTextLayout.error = resources.getString(R.string.email_error)
+            }
         }
     }
-
-    private fun nextFragment() {
-        val mainManager = parentFragmentManager
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-        transaction.remove(this)
-        transaction.replace(R.id.progress_activity_fragment_container, CategoryFragment())
-        transaction.commit()
-    }
-
 }

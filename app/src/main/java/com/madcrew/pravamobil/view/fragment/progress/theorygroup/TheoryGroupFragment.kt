@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.GroupListRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentTheoryGroupBinding
 import com.madcrew.pravamobil.models.GroupTimes
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
 
 private var mGroupTimeList: MutableList<GroupTimes> = mutableListOf()
@@ -40,6 +39,8 @@ class TheoryGroupFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainManager = parentFragmentManager
+
         mGroupTimeList = mutableListOf(
             GroupTimes("12 июля", "Пн, Ср 18:30-20:00"),
             GroupTimes("15 Августа", "Вт, Ср 11:30-21:00"),
@@ -55,7 +56,7 @@ class TheoryGroupFragment : Fragment(),
         }
 
         binding.btTheoryGroupNext.setOnClickListener {
-            nextFragment(TariffFragment())
+            nextFragmentInProgress(mainManager, TariffFragment())
         }
     }
 
@@ -63,12 +64,4 @@ class TheoryGroupFragment : Fragment(),
         Toast.makeText(requireContext(), "Works!", Toast.LENGTH_SHORT).show()
     }
 
-    private fun nextFragment(fragment: Fragment) {
-        val mainManager = parentFragmentManager
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-        transaction.remove(this)
-        transaction.replace(R.id.progress_activity_fragment_container, fragment)
-        transaction.commit()
-    }
 }
