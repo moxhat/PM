@@ -77,4 +77,10 @@
     <string name="third_name_if_true">Отчество (при наличии)</string>
     <string name="birth_date">Дата рождения</string>
     <string name="student">Обучающийся</string>
+    <string name="series">Серия</string>
+    <string name="number">Номер</string>
+    <string name="giver">Кем выдан</string>
+    <string name="given_date">Дата выдачи</string>
+    <string name="department_code">Код подразделения</string>
+    <string name="passport_data">Паспортные данные</string>
 </resources>

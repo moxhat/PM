@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentStudentNameBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 
 class StudentNameFragment : Fragment() {
 
@@ -29,6 +31,12 @@ class StudentNameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        binding.btStudentNameNext.setOnClickListener {
+            val mainManager= parentFragmentManager
+            nextFragmentInProgress(mainManager,PassportFragment())
+        }
     }
 
     private fun TextInputLayout.setErrorOn() {

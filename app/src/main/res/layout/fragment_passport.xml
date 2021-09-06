@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.progress.studentname.StudentNameFragment">
+    tools:context=".view.fragment.progress.passport.PassportFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/student_name_content_constraint"
+        android:id="@+id/passport_content_constraint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/student_name_title"
+            android:id="@+id/passport_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_b"
-            android:text="@string/student"
+            android:text="@string/passport_data"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,124 +30,129 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_name_second_name"
+            android:id="@+id/passport_series"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="32dp"
-            android:hint="@string/second_name"
-            android:textColorHint="@color/hint"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="@color/transparent"
-            app:errorEnabled="true"
-            app:layout_constraintTop_toBottomOf="@+id/student_name_title">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/student_name_second_name_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:background="@drawable/ic_rectangle_light_gray"
-                android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSecondary"
-                android:textColorHint="?attr/colorOnSecondary"
-                app:keep_hint="true"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_name_first_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:background="@color/transparent"
-            android:hint="@string/first_name"
+            android:hint="@string/series"
             android:textColorHint="@color/hint"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/student_name_second_name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/student_name_first_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:background="@drawable/ic_rectangle_light_gray"
-                android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSecondary"
-                android:textColorHint="?attr/colorOnSecondary"
-                app:keep_hint="true"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_name_third_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:background="@color/transparent"
-            android:hint="@string/third_name_if_true"
-            android:textColorHint="@color/hint"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/student_name_first_name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/student_name_third_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:background="@drawable/ic_rectangle_light_gray"
-                android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSecondary"
-                android:textColorHint="?attr/colorOnSecondary"
-                app:keep_hint="true"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_name_birth_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:background="@color/transparent"
-            android:hint="@string/birth_date"
-            android:textColorHint="@color/hint"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/student_name_third_name">
+            app:layout_constraintTop_toBottomOf="@+id/passport_title">
 
             <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/student_name_birth_date_text"
+                android:id="@+id/passport_series_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="phone"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:allowed_chars="1234567890"
+                app:keep_hint="true"
+                app:mask="####"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passport_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/transparent"
+            android:hint="@string/number"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/passport_series"
+            app:layout_constraintTop_toBottomOf="@+id/passport_title">
+
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/passport_number_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="phone"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:allowed_chars="1234567890"
+                app:keep_hint="true"
+                app:mask="######"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passport_giver"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:background="@color/transparent"
+            android:hint="@string/giver"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/passport_series">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passport_giver_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:keep_hint="true"
+                tools:ignore="TextContrastCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passport_given_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:background="@color/transparent"
+            android:hint="@string/given_date"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/passport_giver">
+
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/passport_given_date_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -167,8 +172,44 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passport_department_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:background="@color/transparent"
+            android:hint="@string/department_code"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/passport_given_date">
+
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/passport_department_code_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="phone"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:allowed_chars="1234567890"
+                app:keep_hint="true"
+                app:mask="###-###"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_student_name_next"
+            android:id="@+id/bt_passport_next"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="24dp"
@@ -182,7 +223,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/student_name_birth_date" />
+            app:layout_constraintTop_toBottomOf="@+id/passport_department_code" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp"
+            app:layout_constraintGuide_percent="0.4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
