@@ -119,7 +119,7 @@
         android:fontFamily="@font/ubuntu_m"
         android:text="@string/forget_password"
         android:textColor="@color/main"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/signin_remember_chek"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/signin_remember_chek" />
@@ -132,7 +132,7 @@
         android:fontFamily="@font/ubuntu_m"
         android:text="@string/remember_me"
         android:textColor="@color/main"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/signin_password"
         app:layout_constraintTop_toTopOf="@+id/signin_password" />
 

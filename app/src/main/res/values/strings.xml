@@ -83,4 +83,18 @@
     <string name="given_date">Дата выдачи</string>
     <string name="department_code">Код подразделения</string>
     <string name="passport_data">Паспортные данные</string>
+    <string name="add">Добавить</string>
+    <string name="passport_scan_title">Добавьте скан главной страницы паспорта</string>
+    <string name="add_snils">Добавьте СНИЛС</string>
+    <string name="add_snils_scan">Добавить скан СНИЛС</string>
+    <string name="snils">СНИЛС</string>
+    <string name="registration_address">Адрес регистриции</string>
+    <string name="living_address">Адрес проживания</string>
+    <string name="region">Область</string>
+    <string name="city">Город</string>
+    <string name="street">Улица</string>
+    <string name="house">Дом</string>
+    <string name="housing">Корпус</string>
+    <string name="apartment">Квартира</string>
+    <string name="registration_and_living_address">Адрес проживания совпадает с регистрицей</string>
 </resources>

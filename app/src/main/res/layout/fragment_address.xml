@@ -4,25 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.progress.passport.PassportFragment">
+    tools:context=".view.fragment.progress.address.AddressFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/passport_content_constraint"
+        android:id="@+id/address_content_constraint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/passport_title"
+            android:id="@+id/address_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_b"
-            android:text="@string/passport_data"
+            android:text="@string/registration_address"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,21 +31,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passport_series"
+            android:id="@+id/address_region"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="32dp"
             android:background="@color/transparent"
-            android:hint="@string/series"
+            android:hint="@string/region"
             android:textColorHint="@color/hint"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passport_title">
+            app:layout_constraintTop_toBottomOf="@+id/address_title">
 
-            <br.com.sapereaude.maskedEditText.MaskedEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/address_region_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,72 +54,34 @@
                 android:layout_marginEnd="2dp"
                 android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="phone"
+                android:inputType="text"
                 android:paddingHorizontal="12dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSecondary"
                 android:textColorHint="?attr/colorOnSecondary"
-                app:allowed_chars="1234567890"
                 app:keep_hint="true"
-                app:mask="####"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passport_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/transparent"
-            android:hint="@string/number"
-            android:textColorHint="@color/hint"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/passport_series"
-            app:layout_constraintTop_toBottomOf="@+id/passport_title">
-
-            <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/passport_number_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:background="@drawable/ic_rectangle_light_gray"
-                android:fontFamily="@font/ubuntu_m"
-                android:inputType="phone"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSecondary"
-                android:textColorHint="?attr/colorOnSecondary"
-                app:allowed_chars="1234567890"
-                app:keep_hint="true"
-                app:mask="######"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passport_giver"
+            android:id="@+id/address_city"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
             android:background="@color/transparent"
-            android:hint="@string/giver"
+            android:hint="@string/city"
             android:textColorHint="@color/hint"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/passport_series">
+            app:layout_constraintTop_toTopOf="@+id/address_region">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passport_giver_text"
+                android:id="@+id/address_city_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -126,7 +89,7 @@
                 android:layout_marginEnd="2dp"
                 android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:paddingHorizontal="12dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSecondary"
@@ -137,22 +100,22 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passport_given_date"
+            android:id="@+id/address_street"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
             android:background="@color/transparent"
-            android:hint="@string/given_date"
+            android:hint="@string/street"
             android:textColorHint="@color/hint"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/passport_giver">
+            app:layout_constraintTop_toTopOf="@+id/address_city">
 
-            <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/passport_given_date_text"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address_street_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -160,35 +123,34 @@
                 android:layout_marginEnd="2dp"
                 android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="phone"
+                android:inputType="text"
                 android:paddingHorizontal="12dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSecondary"
                 android:textColorHint="?attr/colorOnSecondary"
-                app:allowed_chars="1234567890"
                 app:keep_hint="true"
-                app:mask="##.##.####"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passport_department_code"
+            android:id="@+id/address_house"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/transparent"
-            android:hint="@string/department_code"
+            android:hint="@string/house"
             android:textColorHint="@color/hint"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/passport_given_date">
+            app:layout_constraintTop_toTopOf="@+id/address_street">
 
-            <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/passport_department_code_text"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address_house_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -196,23 +158,90 @@
                 android:layout_marginEnd="2dp"
                 android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="phone"
+                android:inputType="number"
                 android:paddingHorizontal="12dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSecondary"
                 android:textColorHint="?attr/colorOnSecondary"
-                app:allowed_chars="1234567890"
                 app:keep_hint="true"
-                app:mask="###-###"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="TextContrastCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address_housing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:hint="@string/housing"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toStartOf="@+id/guideline6"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="@+id/address_house">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address_housing_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="number"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:keep_hint="true"
+                tools:ignore="TextContrastCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address_apartment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:background="@color/transparent"
+            android:hint="@string/apartment"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="@+id/address_house">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address_apartment_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="number"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:keep_hint="true"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_passport_next"
+            android:id="@+id/bt_address_next"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="148dp"
             android:background="@drawable/ic_main_button"
             android:fontFamily="@font/ubuntu_b"
             android:singleLine="true"
@@ -223,15 +252,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passport_department_code" />
+            app:layout_constraintTop_toTopOf="@+id/address_housing" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintGuide_begin="20dp"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.66" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/address_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:text="@string/registration_and_living_address"
+            android:textColor="@color/main"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_house" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.progress.passport
+package com.madcrew.pravamobil.view.fragment.progress.passportscan
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,24 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportBinding
+import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
+import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
 
 
-class PassportFragment : Fragment() {
+class PassportScanFragment : Fragment() {
 
-    private var _binding: FragmentPassportBinding? = null
+    private var _binding: FragmentPassportScanBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPassportBinding.inflate(inflater, container, false)
+        _binding = FragmentPassportScanBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,8 +35,8 @@ class PassportFragment : Fragment() {
 
         val mainManager = parentFragmentManager
 
-        binding.btPassportNext.setOnClickListener {
-            nextFragmentInProgress(mainManager, PassportScanFragment())
+        binding.btPassportScanNext.setOnClickListener {
+            nextFragmentInProgress(mainManager, SnilsFragment())
         }
     }
 

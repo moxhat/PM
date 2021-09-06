@@ -1,0 +1,72 @@
+package com.madcrew.pravamobil.view.fragment.progress.address
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import com.madcrew.pravamobil.R
+import com.madcrew.pravamobil.databinding.FragmentAddressBinding
+import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.setGone
+
+
+class AddressFragment : Fragment() {
+
+    private var _binding: FragmentAddressBinding? = null
+    private val binding get() = _binding!!
+    private var trigger = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAddressBinding.inflate(inflater, container, false)
+        return  binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mainProgress = parentFragmentManager
+
+        binding.addressCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+            trigger = if (isChecked){
+                1
+            } else {
+                0
+            }
+        }
+
+        binding.btAddressNext.setOnClickListener {
+            if (trigger == 1){
+//                nextFragmentInProgress(mainProgress, PassportRegistrationFragment())
+                Toast.makeText(requireContext(), "Next!", Toast.LENGTH_SHORT).show()
+            } else {
+                livingAddress()
+            }
+        }
+    }
+
+    private fun livingAddress() {
+        binding.addressRegionText.text?.clear()
+        binding.addressCityText.text?.clear()
+        binding.addressStreetText.text?.clear()
+        binding.addressHouseText.text?.clear()
+        binding.addressHousingText.text?.clear()
+        binding.addressApartmentText.text?.clear()
+        binding.addressTitle.setText(R.string.living_address)
+        binding.addressCheck.setGone()
+        binding.addressRegionText.requestFocus()
+        binding.addressRegionText.clearFocus()
+        trigger = 1
+    }
+
+}
