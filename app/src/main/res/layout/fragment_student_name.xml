@@ -19,10 +19,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/student_name_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_b"
             android:text="@string/student"
+            android:textAlignment="center"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

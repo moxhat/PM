@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.progress.documenttype.DocumentTypeFragment">
+    tools:context=".view.fragment.progress.parentphone.ParentPhoneNumberFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/document_type_content_constraint"
+        android:id="@+id/parent_phone_content_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/document_type_title1"
+            android:id="@+id/parent_phone_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_b"
-            android:text="@string/document_type"
+            android:text="@string/phone_number"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="24sp"
@@ -31,52 +31,60 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/document_type_title2"
+            android:id="@+id/parent_phone_title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/ubuntu_b"
-            android:text="@string/of_student"
+            android:text="@string/representatives"
             android:textAlignment="center"
             android:textColor="@color/gray_text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/document_type_title1" />
+            app:layout_constraintTop_toBottomOf="@+id/parent_phone_title1" />
 
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/document_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/parent_phone_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:background="@drawable/ic_rectangle_light_gray"
-            android:fontFamily="@font/ubuntu_m"
-            android:gravity="center"
-            android:hint="@string/choose_document_type"
-            android:padding="10dp"
-            android:pointerIcon="arrow"
-            android:textColor="?attr/colorOnSecondary"
-            android:textColorHint="@color/gray_text"
-            android:textSize="16sp"
+            android:background="@color/transparent"
+            android:hint="@string/phone_number"
+            android:textColorHint="@color/hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/document_type_title2"
-            app:spinner_arrow_gravity="end"
-            app:spinner_arrow_padding="8dp"
-            app:spinner_arrow_tint="@color/gray_text"
-            app:spinner_divider_color="?attr/colorOnPrimary"
-            app:spinner_divider_show="true"
-            app:spinner_divider_size="1dp"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_background="?attr/colorOnPrimarySurface"
-            app:spinner_popup_elevation="0dp"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toBottomOf="@+id/parent_phone_title2">
+
+            <br.com.sapereaude.maskedEditText.MaskedEditText
+                android:id="@+id/parent_phone_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_rectangle_light_gray"
+                android:fontFamily="@font/ubuntu_m"
+                android:inputType="phone"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="?attr/colorOnSecondary"
+                android:textColorHint="?attr/colorOnSecondary"
+                app:allowed_chars="1234567890"
+                app:errorEnabled="true"
+                app:keep_hint="true"
+                app:mask="+7 ### ### ## ##" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_document_type_next"
+            android:id="@+id/bt_parent_phone_next"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/ic_main_button"
             android:fontFamily="@font/ubuntu_b"
             android:singleLine="true"
@@ -87,7 +95,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/document_type_spinner" />
+            app:layout_constraintTop_toTopOf="@+id/parent_phone_phone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

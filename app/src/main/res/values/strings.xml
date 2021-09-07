@@ -97,4 +97,12 @@
     <string name="housing">Корпус</string>
     <string name="apartment">Квартира</string>
     <string name="registration_and_living_address">Адрес проживания совпадает с регистрицей</string>
+    <string name="registration_scan_title">Добавьте скан регистрации по паспорту</string>
+    <string name="your_photo">Ваше фото</string>
+    <string name="student_representative">Представитель обучающегося</string>
+    <string name="student_is_not_adult">Обучающийся несовершеннолетний!</string>
+    <string name="needed_representative_data">Необходимо ввести данные представителя</string>
+    <string name="representatives">Представителя</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

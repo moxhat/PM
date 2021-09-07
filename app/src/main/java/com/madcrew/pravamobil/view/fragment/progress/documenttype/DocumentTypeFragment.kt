@@ -12,12 +12,13 @@ import com.madcrew.pravamobil.databinding.FragmentDocumentTypeBinding
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
 import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.skydoves.powerspinner.IconSpinnerItem
 
 
-class DocumentTypeFragment : Fragment() {
+class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: String = "student") : Fragment() {
 
     private var _binding: FragmentDocumentTypeBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +42,8 @@ class DocumentTypeFragment : Fragment() {
         val spinnerDocument = binding.documentTypeSpinner
 
         val mainManager = parentFragmentManager
+
+        binding.documentTypeTitle2.setText(title2)
 
         spinnerDocument.apply {
             setSpinnerAdapter(IconSpinnerAdapter(this))
@@ -78,7 +81,11 @@ class DocumentTypeFragment : Fragment() {
         }
 
         binding.btDocumentTypeNext.setOnClickListener {
-            nextFragmentInProgress(mainManager, StudentNameFragment())
+            when(type){
+                "student" -> nextFragmentInProgress(mainManager, StudentNameFragment())
+                "parent" -> nextFragmentInProgress(mainManager, PassportFragment("parent"))
+            }
+
         }
     }
 }

@@ -11,13 +11,14 @@ import com.madcrew.pravamobil.databinding.FragmentAddressBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
+import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
 
 
 class AddressFragment : Fragment() {
 
     private var _binding: FragmentAddressBinding? = null
     private val binding get() = _binding!!
-    private var trigger = 0
+    private var checkAddress = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +39,12 @@ class AddressFragment : Fragment() {
         val mainProgress = parentFragmentManager
 
         binding.addressCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-            trigger = if (isChecked){
-                1
-            } else {
-                0
-            }
+            checkAddress = isChecked
         }
 
         binding.btAddressNext.setOnClickListener {
-            if (trigger == 1){
-//                nextFragmentInProgress(mainProgress, PassportRegistrationFragment())
-                Toast.makeText(requireContext(), "Next!", Toast.LENGTH_SHORT).show()
+            if (checkAddress){
+                nextFragmentInProgress(mainProgress, PassportScanFragment(R.string.registration_scan_title, "registrationAddress"))
             } else {
                 livingAddress()
             }
@@ -66,7 +62,6 @@ class AddressFragment : Fragment() {
         binding.addressCheck.setGone()
         binding.addressRegionText.requestFocus()
         binding.addressRegionText.clearFocus()
-        trigger = 1
+        checkAddress = true
     }
-
 }

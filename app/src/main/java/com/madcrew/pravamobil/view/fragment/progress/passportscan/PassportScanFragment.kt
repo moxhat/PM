@@ -6,20 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.databinding.FragmentPassportBinding
 import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
+import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFragment
 import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
 
 
-class PassportScanFragment : Fragment() {
+class PassportScanFragment(var titleText: Int = R.string.passport_scan_title, var typeOfPage: String = "passport" ) : Fragment() {
 
     private var _binding: FragmentPassportScanBinding? = null
     private val binding get() = _binding!!
+    private var clientIsAdult = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -35,9 +36,18 @@ class PassportScanFragment : Fragment() {
 
         val mainManager = parentFragmentManager
 
+        binding.passportScanTitle.setText(titleText)
+
         binding.btPassportScanNext.setOnClickListener {
-            nextFragmentInProgress(mainManager, SnilsFragment())
+            when (typeOfPage){
+                "passport" -> nextFragmentInProgress(mainManager, SnilsFragment())
+                "registrationAddress" -> nextFragmentInProgress(mainManager, PassportScanFragment(R.string.your_photo, "avatar"))
+                "avatar" -> if (clientIsAdult) {
+                    nextFragmentInProgress(mainManager, CheckDataFragment())
+                } else {
+                    nextFragmentInProgress(mainManager, ClientIsNotAdultFragment())
+                }
+            }
         }
     }
-
 }
