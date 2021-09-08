@@ -2,18 +2,18 @@ package com.madcrew.pravamobil.view.fragment.progress.checkdata
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentCheckDataBinding
-
 import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.dateConverterSpravka
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.view.fragment.progress.confirmcontract.ConfirmContractFragment
 
 
-class CheckDataFragment : Fragment() {
+class CheckDataFragment(var type: String) : Fragment() {
 
     private var _binding: FragmentCheckDataBinding? = null
     private val binding get() = _binding!!
@@ -52,6 +52,10 @@ class CheckDataFragment : Fragment() {
         binding.checkDataTransmissionText.text = transmission
         binding.checkDataGroupText.text = theory
         binding.checkDataAddressText.text = registrationAddress
+
+        binding.btCheckDataNext.setOnClickListener {
+            nextFragmentInProgress(parentFragmentManager, ConfirmContractFragment(type))
+        }
 
     }
 

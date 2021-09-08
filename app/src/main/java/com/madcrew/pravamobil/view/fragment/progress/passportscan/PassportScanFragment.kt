@@ -43,7 +43,7 @@ class PassportScanFragment(var titleText: Int = R.string.passport_scan_title, va
                 "passport" -> nextFragmentInProgress(mainManager, SnilsFragment())
                 "registrationAddress" -> nextFragmentInProgress(mainManager, PassportScanFragment(R.string.your_photo, "avatar"))
                 "avatar" -> if (clientIsAdult) {
-                    nextFragmentInProgress(mainManager, CheckDataFragment())
+                    nextFragmentInProgress(mainManager, CheckDataFragment("student"))
                 } else {
                     nextFragmentInProgress(mainManager, ClientIsNotAdultFragment())
                 }

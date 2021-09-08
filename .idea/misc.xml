@@ -41,6 +41,7 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_indicator_active.xml" value="0.44351851851851853" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_indicator_inactive.xml" value="0.44351851851851853" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_logo_shadow.xml" value="0.45925925925925926" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_sent_by_email.xml" value="0.5526041666666667" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/activity_enter.xml" value="0.33152173913043476" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/activity_progress.xml" value="0.2608915906788247" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/activity_splash.xml" value="0.40217391304347827" />
@@ -52,6 +53,8 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_category.xml" value="0.33" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_check_data.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_client_is_not_adult.xml" value="0.302536231884058" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_confirm_contract.xml" value="0.5" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_contract_confirmed.xml" value="0.5364583333333334" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_document_type.xml" value="0.41304347826086957" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_email.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_enter.xml" value="0.5" />

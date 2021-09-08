@@ -108,4 +108,10 @@
     <string name="transmission">Трансмиссия</string>
     <string name="theory_group_form">Форма обучения</string>
     <string name="given">выдан</string>
+    <string name="contract_sent_by_email">Договор отправлен по email</string>
+    <string name="please_read_contract">Внимательно ознакомьтесь с условиями договора!</string>
+    <string name="i_confirm_contract">Я ознакомлен и согласен с условиями договора</string>
+    <string name="parent_confirm_contract">Представитель согласен с условиями договора</string>
+    <string name="student_confirm_contract">Обучающийся согласен с условиями договора</string>
+    <string name="contract_confirmed">Договор успешно заключен!</string>
 </resources>

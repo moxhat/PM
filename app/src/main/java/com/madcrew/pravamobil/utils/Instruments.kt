@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import java.text.SimpleDateFormat
 
@@ -293,6 +294,16 @@ fun previousFragmentInProgress(
         fragment
     )
     transaction.commit()
+}
+
+fun TextInputLayout.setErrorOn() {
+    this.isErrorEnabled = true
+    this.error = resources.getString(R.string.name_alert)
+}
+
+fun TextInputLayout.setErrorOff() {
+    this.error = null
+    this.isErrorEnabled = false
 }
 
 

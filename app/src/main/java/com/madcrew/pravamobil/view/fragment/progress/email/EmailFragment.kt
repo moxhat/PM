@@ -1,19 +1,17 @@
 package com.madcrew.pravamobil.view.fragment.progress.email
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.databinding.FragmentAddPasswordBinding
 import com.madcrew.pravamobil.databinding.FragmentEmailBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.hideKeyboard
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
-import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 
 
 class EmailFragment : Fragment() {
@@ -50,6 +48,7 @@ class EmailFragment : Fragment() {
 
         binding.btEmailNext.setOnClickListener {
             if(emailText.length() > 4 && emailText.text!!.contains(Regex("[@.]"))){
+                Preferences.setPrefsString("email", emailText.text.toString(), requireContext())
                 this.view?.hideKeyboard()
                 nextFragmentInProgress(mainManager, CategoryFragment())
             } else {

@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
 
 
@@ -34,11 +34,21 @@ class SnilsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainManager = parentFragmentManager
+        val snilsText = binding.snilsNumberText
+        val snilsField = binding.snilsNumber
+
+        snilsText.doOnTextChanged{_,_,_,_ ->
+            if(snilsText.length() > 1) snilsField.setErrorOff()
+            if(snilsText.length() == 14) snilsField.hideKeyboard()
+        }
 
         binding.btSnilsNext.setOnClickListener {
-            Preferences.setPrefsString("snils", binding.snilsNumberText.text.toString(), requireContext())
-            nextFragmentInProgress(mainManager, AddressFragment())
+            if (snilsText.length() < 14) {
+                snilsField.setErrorOn()
+            } else {
+                Preferences.setPrefsString("snils", binding.snilsNumberText.text.toString(), requireContext())
+                nextFragmentInProgress(parentFragmentManager, AddressFragment())
+            }
         }
     }
 

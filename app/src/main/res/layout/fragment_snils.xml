@@ -72,13 +72,14 @@
             android:id="@+id/cardView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
             app:cardBackgroundColor="?attr/colorOnPrimarySurface"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="@+id/snils_number"
             app:layout_constraintHeight_min="250dp"
             app:layout_constraintStart_toStartOf="@+id/snils_number"
-            app:layout_constraintTop_toBottomOf="@+id/snils_number">
+            app:layout_constraintTop_toTopOf="@+id/snils_number">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/snils_scan_image"
