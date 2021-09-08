@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSelectTheoryBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.filial.FilialFragment
@@ -37,6 +38,11 @@ class SelectTheoryFragment : Fragment() {
         val mainManager = parentFragmentManager
 
         binding.btSelectTheoryOffline.setOnClickListener {
+            Preferences.setPrefsString("theory", resources.getString(R.string.theory_offline), requireContext())
+            nextFragmentInProgress(mainManager, FilialFragment())
+        }
+        binding.btSelectTheoryOnline.setOnClickListener {
+            Preferences.setPrefsString("theory", resources.getString(R.string.theory_online), requireContext())
             nextFragmentInProgress(mainManager, FilialFragment())
         }
     }

@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/passport_title">
 
             <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/address_region_text"
+                android:id="@+id/passport_series_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

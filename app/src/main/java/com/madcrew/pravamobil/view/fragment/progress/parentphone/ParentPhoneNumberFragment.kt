@@ -6,10 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.madcrew.pravamobil.R
+import com.madcrew.pravamobil.databinding.FragmentParentPhoneNumberBinding
+import com.madcrew.pravamobil.databinding.FragmentPassportBinding
+import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 
 
 class ParentPhoneNumberFragment : Fragment() {
 
+    private var _binding: FragmentParentPhoneNumberBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +26,15 @@ class ParentPhoneNumberFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_parent_phone_number, container, false)
+        _binding = FragmentParentPhoneNumberBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btParentPhoneNext.setOnClickListener {
+            nextFragmentInProgress(parentFragmentManager, CheckDataFragment())
+        }
     }
 }

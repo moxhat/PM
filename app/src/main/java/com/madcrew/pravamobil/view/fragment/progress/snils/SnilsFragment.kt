@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
 
@@ -36,6 +37,7 @@ class SnilsFragment : Fragment() {
         val mainManager = parentFragmentManager
 
         binding.btSnilsNext.setOnClickListener {
+            Preferences.setPrefsString("snils", binding.snilsNumberText.text.toString(), requireContext())
             nextFragmentInProgress(mainManager, AddressFragment())
         }
     }

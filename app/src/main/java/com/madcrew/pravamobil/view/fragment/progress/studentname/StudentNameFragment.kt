@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentStudentNameBinding
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.dateConverter
+import com.madcrew.pravamobil.utils.dateConverterSpravka
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
@@ -38,7 +41,10 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         binding.btStudentNameNext.setOnClickListener {
             val mainManager= parentFragmentManager
             when(type){
-                "student" -> nextFragmentInProgress(mainManager,PassportFragment())
+                "student" -> {
+                    nextFragmentInProgress(mainManager, PassportFragment())
+                    Preferences.setPrefsString("birthDate", dateConverter(binding.studentNameBirthDateText.text.toString(), requireContext()), requireContext())
+                }
                 "parent" ->  nextFragmentInProgress(mainManager, DocumentTypeFragment(R.string.representatives, "parent"))
             }
 

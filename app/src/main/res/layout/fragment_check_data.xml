@@ -1,14 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragment.progress.checkdata.CheckDataFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/check_data_content_constraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/checkdata_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_b"
+            android:text="@string/checkdata_title"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_document_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/passport"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkdata_title" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_document_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_document_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_document_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_document_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_document_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_birthdate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/birth_date"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_document_text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_birthdate_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_birthdate_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_birthdate_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_birthdate_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_birthdate_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_snils_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/snils"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_birthdate_text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_snils_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_snils_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_snils_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_snils_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_snils_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_transmission_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/transmission"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_snils_text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_transmission_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_transmission_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_transmission_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_transmission_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_transmission_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_group_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/theory_group_form"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_transmission_text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_group_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_group_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_group_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_group_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_group_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_address_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:text="@string/registration_address"
+            android:textColor="@color/gray_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_group_text" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bt_check_data_address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/check_data_address_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_data_address_title"
+            tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/check_data_address_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_address_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_check_data_next"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_main_button"
+            android:fontFamily="@font/ubuntu_b"
+            android:singleLine="true"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_data_address_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

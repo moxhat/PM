@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentAddressBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
@@ -30,7 +31,7 @@ class AddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddressBinding.inflate(inflater, container, false)
-        return  binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,8 +44,21 @@ class AddressFragment : Fragment() {
         }
 
         binding.btAddressNext.setOnClickListener {
-            if (checkAddress){
-                nextFragmentInProgress(mainProgress, PassportScanFragment(R.string.registration_scan_title, "registrationAddress"))
+            Preferences.setPrefsString(
+                "registrationAddress",
+                "${binding.addressRegionText.text}, " +
+                        "${binding.addressCityText.text}, " +
+                        "${binding.addressStreetText.text}, " +
+                        "${binding.addressHouseText.text}, " +
+                        "${binding.addressHousingText.text}, " +
+                        "${binding.addressApartmentText.text}",
+                requireContext()
+            )
+            if (checkAddress) {
+                nextFragmentInProgress(
+                    mainProgress,
+                    PassportScanFragment(R.string.registration_scan_title, "registrationAddress")
+                )
             } else {
                 livingAddress()
             }
