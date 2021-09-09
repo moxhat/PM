@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.progress.tariff
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,6 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -33,11 +32,6 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
     private var _binding: FragmentTarifBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +41,7 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,12 +55,13 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
         val viewPager = binding.tariffViewPager
 
-        viewPager.adapter = sliderAdapter
-        viewPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-        viewPager.clipToPadding = false
-        viewPager.clipChildren = false
-        viewPager.offscreenPageLimit = 3
-
+        viewPager.apply {
+            adapter = sliderAdapter
+            getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            clipToPadding = false
+            clipChildren = false
+            offscreenPageLimit
+        }
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(20))
         compositePageTransformer.addTransformer { page, position ->

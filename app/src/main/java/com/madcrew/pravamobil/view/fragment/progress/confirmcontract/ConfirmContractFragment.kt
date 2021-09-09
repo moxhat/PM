@@ -76,12 +76,17 @@ class ConfirmContractFragment(var type: String) : Fragment() {
     }
 
     private fun contractConfirmed(){
-        binding.btContractNext.isEnabled = true
-        binding.btContractNext.alpha = 1f
+        binding.btContractNext.apply {
+            isEnabled = true
+            alpha = 1f
+        }
+
     }
 
     private fun contractNotConfirmed(){
-        binding.btContractNext.isEnabled = false
-        binding.btContractNext.alpha = 0.5f
+        binding.btContractNext.apply {
+            isEnabled = false
+            alpha = 0.5f
+        }
     }
 }

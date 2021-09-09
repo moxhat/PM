@@ -68,11 +68,13 @@ class PassportFragment(var type: String = "student") : Fragment() {
                 when (type){
                     "student" -> {
                         nextFragmentInProgress(parentFragmentManager, PassportScanFragment())
-                        Preferences.setPrefsString("passportSeries", binding.passportSeriesText.text.toString(), requireContext())
-                        Preferences.setPrefsString("passportNumber", binding.passportNumberText.text.toString(), requireContext())
-                        Preferences.setPrefsString("passportGiver", binding.passportGiverText.text.toString(), requireContext())
-                        Preferences.setPrefsString("passportDate", dateConverter(binding.passportGivenDateText.text.toString(), requireContext()), requireContext())
-                        Preferences.setPrefsString("passportDepartmentCode", binding.passportDepartmentCodeText.text.toString(), requireContext())
+                        Preferences.apply {
+                            setPrefsString("passportSeries", binding.passportSeriesText.text.toString(), requireContext())
+                            setPrefsString("passportNumber", binding.passportNumberText.text.toString(), requireContext())
+                            setPrefsString("passportGiver", binding.passportGiverText.text.toString(), requireContext())
+                            setPrefsString("passportDate", dateConverter(binding.passportGivenDateText.text.toString(), requireContext()), requireContext())
+                            setPrefsString("passportDepartmentCode", binding.passportDepartmentCodeText.text.toString(), requireContext())
+                        }
                     }
                     "parent" -> nextFragmentInProgress(parentFragmentManager, ParentPhoneNumberFragment())
                 }

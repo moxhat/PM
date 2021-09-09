@@ -67,18 +67,21 @@ class SignInFragment : Fragment() {
 
     private fun previousFragment(mainManager: FragmentManager, fragment: Fragment) {
         val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-        transaction.remove(this)
-        transaction.replace(R.id.enter_activity_fragment_container, fragment)
-        transaction.commit()
+        transaction.apply {
+            setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+            replace(R.id.enter_activity_fragment_container, fragment)
+            commit()
+        }
+
     }
 
     private fun nextFragment(mainManager: FragmentManager, fragment: Fragment) {
         val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-        transaction.remove(this)
-        transaction.replace(R.id.enter_activity_fragment_container, fragment)
-        transaction.commit()
+        transaction.apply {
+            setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            replace(R.id.enter_activity_fragment_container, fragment)
+            commit()
+        }
     }
 
     private fun TextInputLayout.setErrorOff() {

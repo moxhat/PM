@@ -275,12 +275,11 @@ fun nextFragmentInProgress(
     fragment: Fragment
 ) {
     val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-    transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
-    transaction.replace(
-        R.id.progress_activity_fragment_container,
-        fragment
-    )
-    transaction.commit()
+    transaction.apply {
+        setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
+        replace(R.id.progress_activity_fragment_container, fragment)
+        commit()
+    }
 }
 
 fun previousFragmentInProgress(
@@ -288,12 +287,11 @@ fun previousFragmentInProgress(
     fragment: Fragment
 ) {
     val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-    transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-    transaction.replace(
-        R.id.progress_activity_fragment_container,
-        fragment
-    )
-    transaction.commit()
+    transaction.apply {
+        setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+        replace(R.id.progress_activity_fragment_container, fragment)
+        commit()
+    }
 }
 
 fun TextInputLayout.setErrorOn() {

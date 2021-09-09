@@ -1,16 +1,12 @@
 package com.madcrew.pravamobil.view.fragment.registration.greetings
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentGreetingsBinding
 import com.madcrew.pravamobil.utils.isOnline
@@ -23,11 +19,6 @@ class GreetingsFragment : Fragment() {
 
     private var _binding: FragmentGreetingsBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,19 +50,22 @@ class GreetingsFragment : Fragment() {
             bgImage.setGone()
 
             val webSettings = webView.settings
-            webSettings.allowContentAccess = true
-            webSettings.allowFileAccess = true
-            webSettings.useWideViewPort = true
-            webSettings.loadWithOverviewMode = true
-            webSettings.javaScriptEnabled = true
-            webSettings.cacheMode
+
+            webSettings.apply {
+                allowContentAccess = true
+                allowFileAccess = true
+                useWideViewPort = true
+                loadWithOverviewMode = true
+                javaScriptEnabled = true
+                cacheMode
+            }
+
             webView.loadUrl("https://new.serviceavtoshkola.ru/bg_anim.svg")
             webView.setBackgroundColor(0x00000000)
         } else {
             webView.setGone()
             bgImage.setVisible()
         }
-
 
         Handler(Looper.getMainLooper()).postDelayed({
             parent.starProgressActivity()

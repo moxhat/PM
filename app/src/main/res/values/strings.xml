@@ -114,4 +114,6 @@
     <string name="parent_confirm_contract">Представитель согласен с условиями договора</string>
     <string name="student_confirm_contract">Обучающийся согласен с условиями договора</string>
     <string name="contract_confirmed">Договор успешно заключен!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

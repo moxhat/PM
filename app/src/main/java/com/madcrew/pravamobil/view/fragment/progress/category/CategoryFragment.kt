@@ -54,11 +54,14 @@ class CategoryFragment : Fragment() {
         picker: NumberPicker,
         data: Array<String>
     ) {
-        picker.minValue = 0
-        picker.maxValue = data.size - 1
-        picker.displayedValues = data
-        picker.typeface = resources.getFont(R.font.ubuntu_m)
-        picker.setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
-        picker.wrapSelectorWheel = true
+        picker.apply {
+            minValue = 0
+            maxValue = data.size - 1
+            displayedValues = data
+            typeface = resources.getFont(R.font.ubuntu_m)
+            setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
+            wrapSelectorWheel = true
+        }
+
     }
 }

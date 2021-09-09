@@ -10,9 +10,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignUpBinding
-import com.madcrew.pravamobil.utils.MaskWatcher
-import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.utils.setInvisible
 import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.smscode.SmsCodeFragment
 
@@ -75,9 +72,10 @@ class SignUpFragment : Fragment() {
     private fun replaceFragment(fragment: Fragment, animationIn: Int, animationOut: Int){
         val mainManager = parentFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(animationIn, animationOut)
-        transaction.remove(this)
-        transaction.replace(R.id.enter_activity_fragment_container, fragment)
-        transaction.commit()
+        transaction.apply {
+            setCustomAnimations(animationIn, animationOut)
+            replace(R.id.enter_activity_fragment_container, fragment)
+            commit()
+        }
     }
 }

@@ -65,6 +65,7 @@
             android:text="@string/please_read_contract"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSecondary"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contract_client_email" />
@@ -88,7 +89,7 @@
             android:id="@+id/contract_parent_chek1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
             android:paddingStart="8dp"
@@ -97,7 +98,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contract_student_chek" />
+            app:layout_constraintTop_toBottomOf="@+id/read_contract_alert" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/contract_parent_chek2"

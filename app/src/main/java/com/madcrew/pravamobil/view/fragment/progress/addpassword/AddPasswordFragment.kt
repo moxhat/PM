@@ -1,16 +1,12 @@
 package com.madcrew.pravamobil.view.fragment.progress.addpassword
 
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
@@ -86,19 +82,26 @@ class AddPasswordFragment : Fragment() {
     ) {
         if (firstPasswordText.length() == 8 && secondPasswordText.length() == 8) {
             if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
-                Toast.makeText(requireContext(), "Пароль установлен", Toast.LENGTH_SHORT).show()
                 nextFragmentInProgress(fragmentManager, fragment)
             } else {
-                secondPassword.isErrorEnabled = true
-                firstPassword.isErrorEnabled = true
-                secondPassword.error = resources.getString(R.string.passwords_mismatch)
-                firstPassword.error = ""
+                secondPassword.apply {
+                    isErrorEnabled = true
+                    error = resources.getString(R.string.passwords_mismatch)
+                }
+                firstPassword.apply {
+                    isErrorEnabled = true
+                    error = ""
+                }
             }
         } else {
-            secondPassword.isErrorEnabled = true
-            firstPassword.isErrorEnabled = true
-            secondPassword.error = resources.getString(R.string.add_password_help)
-            firstPassword.error = ""
+            secondPassword.apply {
+                error = resources.getString(R.string.add_password_help)
+                isErrorEnabled = true
+            }
+            firstPassword.apply {
+                isErrorEnabled = true
+                error = ""
+            }
         }
     }
 }
