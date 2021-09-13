@@ -32,6 +32,11 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
     private var _binding: FragmentTarifBinding? = null
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +65,7 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
             getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             clipToPadding = false
             clipChildren = false
-            offscreenPageLimit
+            offscreenPageLimit = 3
         }
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(20))

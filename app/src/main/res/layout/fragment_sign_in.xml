@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
     tools:context=".view.fragment.registration.signin.SignInFragment">
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/bt_signin_back"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,48 +40,52 @@
         app:layout_constraintTop_toBottomOf="@+id/signin_logo" />
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signin_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/phone_number"
-            android:textColorHint="@color/hint"
-            android:background="@color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/signin_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/transparent"
+        android:hint="@string/phone_number"
+        android:textColorHint="@color/hint"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signin_title">
+
+        <br.com.sapereaude.maskedEditText.MaskedEditText
+            android:id="@+id/signin_login_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/ic_rectangle_light_gray"
+            android:fontFamily="@font/ubuntu_m"
+            android:inputType="phone"
+            android:paddingHorizontal="12dp"
+            android:singleLine="true"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
+            app:allowed_chars="1234567890"
             app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signin_title">
+            app:keep_hint="true"
+            app:mask="+7 ### ### ## ##" />
 
-            <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/signin_login_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:inputType="phone"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:fontFamily="@font/ubuntu_m"
-                android:textColor="?attr/colorOnSecondary"
-                android:textColorHint="?attr/colorOnSecondary"
-                android:background="@drawable/ic_rectangle_light_gray"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                app:allowed_chars="1234567890"
-                app:errorEnabled="true"
-                app:keep_hint="true"
-                app:mask="+7 ### ### ## ##" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signin_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="24dp"
         android:background="@color/transparent"
         android:hint="@string/password"
         android:textColorHint="@color/hint"
@@ -140,7 +144,9 @@
         android:id="@+id/bt_signin_enter"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/ic_main_button"
         android:fontFamily="@font/ubuntu_b"
         android:text="@string/sign_in"

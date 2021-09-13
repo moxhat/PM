@@ -25,4 +25,27 @@
         <item name="android:colorControlActivated">@color/main</item>
         <item name="android:colorControlNormal">@color/white</item>
     </style>
+
+    <style name="Widget.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemTextAppearanceActive">@style/BottomNavigationTextActivate</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavigationTextInactivate</item>
+    </style>
+
+    <style name="BottomNavigationTextActivate">
+        <item name="fontFamily">@font/ubuntu_m</item>
+        <item name="android:textSize">12sp</item>
+        <item name="rippleColor">@color/main_05</item>
+    </style>
+
+    <style name="BottomNavigationTextInactivate" parent="BottomNavigationTextActivate" >
+        <item name="android:iconTint">@color/gray_text</item>
+        <item name="android:textColor">@color/gray_text</item>
+    </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="fontFamily">@font/ubuntu_m</item>
+        <item name="android:textSize">14sp</item>
+        <item name="rippleColor">@color/main_05</item>
+    </style>
+
 </resources>

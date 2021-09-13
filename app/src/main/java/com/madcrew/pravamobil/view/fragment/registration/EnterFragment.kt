@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentEnterBinding
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.fragment.registration.signin.SignInFragment
 import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpFragment
 
@@ -28,14 +29,15 @@ class EnterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainManager = parentFragmentManager
+        val parent = this.context as EnterActivity
 
         binding.btEnterSignIn.setOnClickListener {
             replaceFragment(SignInFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
         }
 
         binding.btEnterSignUp.setOnClickListener {
-            replaceFragment(SignUpFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
+//            replaceFragment(SignUpFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
+            parent.starEducationActivity()
         }
     }
 

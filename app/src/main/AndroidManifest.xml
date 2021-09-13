@@ -16,14 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PravaMobil">
         <activity
+            android:name=".view.activity.education.EducationActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.activity.enter.EnterActivity"
-            android:exported="true"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.splash.SplashActivity"
-            android:exported="true"
             android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,12 +36,9 @@
         </activity>
         <activity
             android:name=".view.activity.progress.ProgressActivity"
-            android:exported="true"
             android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
     </application>
 

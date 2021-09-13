@@ -35,7 +35,6 @@ class TariffSliderAdapter(private var slides: List<TariffSliderData>, private va
         override fun onClick(v: View?) {
             listenerTariff.onSelectClick(v, absoluteAdapterPosition)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderAdapterViewHolder {

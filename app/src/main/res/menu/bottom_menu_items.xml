@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/education_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/main" />
+    <item android:id="@+id/education_payments"
+        android:icon="@drawable/ic_payments"
+        android:title="@string/payments" />
+    <item android:id="@+id/education_more"
+        android:icon="@drawable/ic_more"
+        android:title="@string/more" />
+</menu>
