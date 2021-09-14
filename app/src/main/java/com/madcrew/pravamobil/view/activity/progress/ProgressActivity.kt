@@ -28,7 +28,7 @@ class ProgressActivity : AppCompatActivity() {
         val mainManager = supportFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-        transaction.add(R.id.progress_activity_fragment_container, AddPasswordFragment())
+        transaction.replace(R.id.progress_activity_fragment_container, AddPasswordFragment())
         transaction.commit()
     }
 }

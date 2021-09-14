@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         val fragsList = mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
         val adapter = HomePagerAdapter(this, fragsList)
         homeViewPager.adapter = adapter
-        homeViewPager.currentItem = 1
+        homeViewPager.currentItem = 0
 
 //
 //        homePagerAdapter = HomePagerAdapter(this)

@@ -15,6 +15,7 @@
         <item name="colorOnBackground">@color/white</item>
         <item name="colorBackgroundFloating">@color/help_gray</item>
         <item name="colorOnPrimarySurface">@color/light_gray</item>
+        <item name="colorPrimaryDark">#F9F9F9</item>
     </style>
 
     <style name="NumberPickerStyle">
@@ -37,7 +38,7 @@
         <item name="rippleColor">@color/main_05</item>
     </style>
 
-    <style name="BottomNavigationTextInactivate" parent="BottomNavigationTextActivate" >
+    <style name="BottomNavigationTextInactivate" parent="BottomNavigationTextActivate">
         <item name="android:iconTint">@color/gray_text</item>
         <item name="android:textColor">@color/gray_text</item>
     </style>

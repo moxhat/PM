@@ -10,7 +10,8 @@
     <color name="light_gray">#F1F2F6</color>
     <color name="main">#1083FE</color>
     <color name="main_70">#B31083FE</color>
-    <color name="main_05">#081083FE</color>
+    <color name="main_05">#0D1083FE</color>
+    <color name="main_15">#261083FE</color>
     <color name="transparent">#00000000</color>
     <color name="hint">#899CB1</color>
     <color name="red_alert">#EF2323</color>
