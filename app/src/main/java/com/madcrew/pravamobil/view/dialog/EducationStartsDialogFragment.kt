@@ -10,37 +10,40 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.databinding.FragmentInfoBinding
+import com.madcrew.pravamobil.databinding.FragmentEducationStartsDialogBinding
+import com.madcrew.pravamobil.databinding.FragmentHomePracticeBinding
 
-class InfoFragment : DialogFragment() {
 
-    private var _binding: FragmentInfoBinding? = null
+class EducationStartsDialogFragment : DialogFragment() {
+
+    private var _binding: FragmentEducationStartsDialogBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentInfoBinding.inflate(inflater, container, false)
-
-        // transparent background
+        _binding = FragmentEducationStartsDialogBinding.inflate(inflater, container, false)
         if (!(dialog == null || dialog!!.window == null)) {
             dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog!!.window?.requestFeature(Window.FEATURE_NO_TITLE)
         }
-        return binding.root
+        return  binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btInfoClose.setOnClickListener {
+        binding.btEducationStartsClose.setOnClickListener {
             this.dialog?.dismiss()
         }
     }
+
+
 }

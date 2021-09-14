@@ -28,6 +28,7 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button.xml" value="0.5231481481481481" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_down.xml" value="0.5231481481481481" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable-v24/ic_transparent_button_up.xml" value="0.5231481481481481" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/dialog_background.xml" value="0.37592592592592594" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic__arrow_forward.xml" value="0.44351851851851853" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_add_image.xml" value="0.5441025641025641" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/drawable/ic_arrow_back.xml" value="0.44351851851851853" />
@@ -74,6 +75,7 @@
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_confirm_contract.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_contract_confirmed.xml" value="0.5364583333333334" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_document_type.xml" value="0.41304347826086957" />
+        <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_education_starts_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_email.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_enter.xml" value="0.5" />
         <entry key="..\:/Users/Max/AndroidStudioProjects/PravaMobil/app/src/main/res/layout/fragment_filial.xml" value="0.41757246376811596" />
