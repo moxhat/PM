@@ -1,6 +1,8 @@
 package com.madcrew.pravamobil.view.fragment.education.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.HomePagerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHomeBinding
+import com.madcrew.pravamobil.view.dialog.SpravkaConfirmedDialogFragment
+import com.madcrew.pravamobil.view.dialog.SpravkaImageDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.exam.HomeExamFragment
 import com.madcrew.pravamobil.view.fragment.education.home.practice.HomePracticeFragment
+import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.ConfirmationSpravkaFragment
+import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.NoSpravkaFragment
 import com.madcrew.pravamobil.view.fragment.education.home.theory.HomeTheoryFragment
+import okhttp3.internal.notifyAll
 
 class HomeFragment : Fragment() {
 
@@ -40,14 +47,29 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewPager = binding.homeViewPager
-        val fragsList = mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
-        val adapter = HomePagerAdapter(this, fragsList)
-        homeViewPager.adapter = adapter
+
+
+        setSpravkaAdd()
+        homeViewPager.adapter = homePagerAdapter
         homeViewPager.currentItem = 0
 
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            setSpravkaConfirmation()
+//            val item = homeViewPager.currentItem
+//            homeViewPager.adapter = homePagerAdapter
+//            homeViewPager.currentItem = item
 //
-//        homePagerAdapter = HomePagerAdapter(this)
-//        homeViewPager.adapter = homePagerAdapter
+//        }, 5000)
+//
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            setSpravkaConfirmed()
+//            val item = homeViewPager.currentItem
+//            homeViewPager.adapter = homePagerAdapter
+//            homeViewPager.currentItem = item
+//
+//        }, 10000)
+
+
 
         val tabLayout = binding.homeTabs
         TabLayoutMediator(tabLayout, homeViewPager) { tab, position ->
@@ -58,7 +80,21 @@ class HomeFragment : Fragment() {
             }
         }.attach()
 
+    }
 
+    fun setSpravkaConfirmed() {
+        val fragmentsWithSpravkaList = mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
+        homePagerAdapter = HomePagerAdapter(this, fragmentsWithSpravkaList)
+    }
+
+    fun setSpravkaConfirmation() {
+        val fragmentsConfirmationSpravkaList = mutableListOf(HomeTheoryFragment(), ConfirmationSpravkaFragment(), HomeExamFragment())
+        homePagerAdapter = HomePagerAdapter(this, fragmentsConfirmationSpravkaList)
+    }
+
+    fun setSpravkaAdd() {
+        val fragmentsNoSpravkaList = mutableListOf(HomeTheoryFragment(), NoSpravkaFragment(), HomeExamFragment())
+        homePagerAdapter = HomePagerAdapter(this, fragmentsNoSpravkaList)
     }
 
 }

@@ -29,10 +29,10 @@ class EducationActivity : AppCompatActivity() {
         bottomMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.education_home -> {
-                    changeFragment(supportFragmentManager, HomeFragment())
+                    changeFragment(supportFragmentManager, HomeFragment(), "HomeFragment")
                 }
                 R.id.education_payments -> {
-                    changeFragment(supportFragmentManager, PaymentsFragment())
+                    changeFragment(supportFragmentManager, PaymentsFragment(), "PaymentsFragment")
                 }
                 R.id.education_more -> {
                     Toast.makeText(this, "Later!", Toast.LENGTH_SHORT).show()
@@ -51,12 +51,13 @@ class EducationActivity : AppCompatActivity() {
 
     private fun changeFragment(
         fragmentManager: FragmentManager,
-        fragment: Fragment
+        fragment: Fragment,
+        tag: String
     ) {
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
         transaction.apply {
             setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            replace(R.id.education_fragment_container, fragment)
+            replace(R.id.education_fragment_container, fragment, tag)
             commit()
         }
     }

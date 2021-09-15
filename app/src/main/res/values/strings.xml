@@ -131,6 +131,18 @@
     <string name="education_starts">Обучение началось!</string>
     <string name="education_starts_text">Для записи на вождение вам необходимо получить шоферскую комиссию и заполнить данные  во вкладке “Практика”</string>
     <string name="how_get_spravka">Узнать о получении справки</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="needed_spravka_data">Необходимо заполнить данные по шоферской комисси</string>
+    <string name="add_data">Заполнить данные</string>
+    <string name="waiting">Ожидайте!</string>
+    <string name="confirm_may">Проверка шоферской комиссии\nзанимает до 24 часов</string>
+    <string name="spravka_confirmed">Справка прошла проверку!</string>
+    <string name="spravka_confirmed_text">Запишитесь на вождение с помощью Меню во вкладке Практика</string>
+    <string name="spravka_data_title">Шоферская комиссия</string>
+    <string name="spravka_data_text">Заполнение полей должно быть строго в соответсвии с данными по медсправке!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="done">Готово</string>
+    <string name="add_spravka_scan">Загрузите скан справки</string>
+    <string name="medical_name">Название мед центра (полностью)</string>
+    <string name="license">Лицензия</string>
+    <string name="given_date_spravka">Дата получения</string>
 </resources>
