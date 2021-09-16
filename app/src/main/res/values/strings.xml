@@ -139,10 +139,23 @@
     <string name="spravka_confirmed_text">Запишитесь на вождение с помощью Меню во вкладке Практика</string>
     <string name="spravka_data_title">Шоферская комиссия</string>
     <string name="spravka_data_text">Заполнение полей должно быть строго в соответсвии с данными по медсправке!</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="done">Готово</string>
     <string name="add_spravka_scan">Загрузите скан справки</string>
     <string name="medical_name">Название мед центра (полностью)</string>
     <string name="license">Лицензия</string>
     <string name="given_date_spravka">Дата получения</string>
+    <string name="send">Отправить</string>
+    <string name="on_instructor_change">на смену инструктора</string>
+    <string name="request">Запрос</string>
+    <string name="reason">Причина</string>
+    <string name="signup_to_practice">Записаться на занятие</string>
+    <string name="learn_cancel">Отменить занятие</string>
+    <string name="lessons_history">История занятий</string>
+    <string name="news">Новости</string>
+    <string name="profile">Профиль</string>
+    <string name="about">Об автошколе</string>
+    <string name="faq">Часто задаваемые вопросы</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="call_to_school">Позвонить в автошколу</string>
+    <string name="sign_out">Выход из аккаунта</string>
 </resources>

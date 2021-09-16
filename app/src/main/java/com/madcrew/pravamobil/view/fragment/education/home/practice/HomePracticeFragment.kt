@@ -1,14 +1,19 @@
 package com.madcrew.pravamobil.view.fragment.education.home.practice
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentHomePracticeBinding
-import com.madcrew.pravamobil.databinding.FragmentHomeTheoryBinding
+import com.madcrew.pravamobil.utils.alphaDown
+import com.madcrew.pravamobil.utils.alphaUp
+import com.madcrew.pravamobil.utils.setGone
+import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
 
 
 class HomePracticeFragment : Fragment() {
@@ -32,7 +37,31 @@ class HomePracticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.homePracticeMenuConstraint.setGone()
+
         Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop().into(binding.homePracticeInstructorAvatar)
+
+        binding.btHomePracticeChangeInstructor.setOnClickListener {
+            val changeDialog = InstructorCancelDialogFragment()
+            changeDialog.show(childFragmentManager, "InstructorCancelDialogFragment")
+        }
+
+        binding.btHomePracticeMenu.setOnClickListener {
+            showMenu(binding.homePracticeMenuConstraint)
+        }
+        binding.homePracticeMenuConstraint.setOnClickListener {
+            hideMenu(it)
+        }
+    }
+
+    private fun showMenu(view: View){
+        view.setVisible()
+        view.alphaUp(100)
+    }
+
+    private fun hideMenu(view: View){
+        view.setGone()
+        view.alphaDown(100)
     }
 
 }

@@ -15,7 +15,8 @@
         <item name="colorOnBackground">@color/dark_text</item>
         <item name="colorBackgroundFloating">@color/background_dark</item>
         <item name="colorOnPrimarySurface">@color/background_dark</item>
-        <item name="colorPrimaryDark">#222222</item>
+        <item name="colorPrimarySurface">#3A3A3A</item>
+        <item name="colorPrimaryDark">#131313</item>
     </style>
 
     <style name="NumberPickerStyle">

@@ -7,6 +7,230 @@
     tools:context=".view.activity.education.EducationActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/education_more_menu_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/education_more_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="6dp"
+            android:src="@drawable/ic_triangle_down"
+            app:layout_constraintEnd_toEndOf="@+id/education_more_menu_card"
+            app:layout_constraintTop_toBottomOf="@+id/education_more_menu_card" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/education_more_menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="70dp"
+            app:cardBackgroundColor="?attr/colorPrimarySurface"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/education_more_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_news"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/news"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_news"></FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/profile"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_profile">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_about"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/about"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine2" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_about">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_faq"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/faq"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine3" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_faq">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_rate_app"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/rate_app"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine4" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_rate_app">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_call_school"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/call_to_school"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine5" />
+
+                <FrameLayout
+                    android:id="@+id/education_more_brakeLine6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_call_school">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_education_more_menu_sign_out"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/sign_out"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red_alert"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine6" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/education_info_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,8 +290,8 @@
         style="@style/Widget.AppCompat.SeekBar"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@null"
-        android:elevation="8dp"
+        android:background="?attr/colorOnBackground"
+        android:elevation="1dp"
         android:indeterminate="false"
         android:indeterminateOnly="false"
         android:max="50"

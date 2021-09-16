@@ -61,13 +61,13 @@ class HomeFragment : Fragment() {
 //
 //        }, 5000)
 //
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            setSpravkaConfirmed()
-//            val item = homeViewPager.currentItem
-//            homeViewPager.adapter = homePagerAdapter
-//            homeViewPager.currentItem = item
-//
-//        }, 10000)
+        Handler(Looper.getMainLooper()).postDelayed({
+            setSpravkaConfirmed()
+            val item = homeViewPager.currentItem
+            homeViewPager.adapter = homePagerAdapter
+            homeViewPager.currentItem = item
+
+        }, 10000)
 
 
 

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -302,6 +303,18 @@ fun TextInputLayout.setErrorOn() {
 fun TextInputLayout.setErrorOff() {
     this.error = null
     this.isErrorEnabled = false
+}
+
+fun View.alphaUp(duration: Int = 500) {
+    val animate = AlphaAnimation(0f, 1f)
+    animate.duration = duration.toLong()
+    this.startAnimation(animate)
+}
+
+fun View.alphaDown(duration: Int = 500) {
+    val animate = AlphaAnimation(1f, 0f)
+    animate.duration = duration.toLong()
+    this.startAnimation(animate)
 }
 
 

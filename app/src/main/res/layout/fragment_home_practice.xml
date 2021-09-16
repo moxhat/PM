@@ -7,6 +7,120 @@
     android:background="?attr/colorPrimaryDark"
     tools:context=".view.fragment.education.home.practice.HomePracticeFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_practice_menu_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/education_more_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="6dp"
+            android:src="@drawable/ic_triangle_down"
+            app:layout_constraintEnd_toEndOf="@+id/home_practice_menu_card"
+            app:layout_constraintStart_toStartOf="@+id/home_practice_menu_card"
+            app:layout_constraintTop_toBottomOf="@+id/home_practice_menu_card" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_practice_menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="115dp"
+            app:cardBackgroundColor="?attr/colorPrimarySurface"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_practice_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/bt_home_practice_menu_signup_to_practice"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/signup_to_practice"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_home_practice_menu_signup_to_practice">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_home_practice_menu_learn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/learn_cancel"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+                <FrameLayout
+                    android:id="@+id/frameLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.2"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_home_practice_menu_learn_cancel">
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/bt_home_practice_menu_lessons_history"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:autoSizeTextType="none"
+                    android:background="@drawable/ic_menu_button"
+                    android:fontFamily="@font/ubuntu_r"
+                    android:letterSpacing="0.03"
+                    android:text="@string/lessons_history"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textIsSelectable="false"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/home_practice_cardView"
         android:layout_width="0dp"
@@ -62,9 +176,9 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
-                android:background="@drawable/ic_circle_button"
-                android:elevation="5dp"
-                android:src="@drawable/ic_call"
+                android:background="@drawable/ic_circle_blue_button"
+                android:elevation="8dp"
+                android:src="@drawable/ic_call_white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintStart_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toTopOf="parent"
@@ -77,9 +191,9 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/ic_circle_button"
-                android:elevation="5dp"
-                android:src="@drawable/ic_info_circle"
+                android:background="@drawable/ic_circle_blue_button"
+                android:elevation="8dp"
+                android:src="@drawable/ic_info_circle_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline8"
                 app:layout_constraintTop_toTopOf="parent"
@@ -142,7 +256,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                android:alpha="0.3"
+                android:alpha="0.2"
                 android:background="?attr/colorOnSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +319,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="32dp"
-                android:background="@drawable/ic_gray_button"
+                android:background="@drawable/ic_main_button"
                 android:elevation="2dp"
                 android:fontFamily="@font/ubuntu_m"
                 android:shadowDx="@integer/material_motion_duration_short_1"
@@ -213,7 +327,7 @@
                 android:singleLine="true"
                 android:text="@string/menu"
                 android:textAllCaps="false"
-                android:textColor="?attr/colorOnSecondary"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

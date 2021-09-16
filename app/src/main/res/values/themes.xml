@@ -16,6 +16,7 @@
         <item name="colorBackgroundFloating">@color/help_gray</item>
         <item name="colorOnPrimarySurface">@color/light_gray</item>
         <item name="colorPrimaryDark">#F9F9F9</item>
+        <item name="colorPrimarySurface">#FFFFFF</item>
     </style>
 
     <style name="NumberPickerStyle">
