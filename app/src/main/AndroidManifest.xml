@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PravaMobil">
         <activity
+            android:name=".view.activity.practiceoptions.PracticeOptionsActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.activity.education.EducationActivity"
             android:exported="true" />
         <activity
@@ -38,8 +41,7 @@
             android:name=".view.activity.progress.ProgressActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

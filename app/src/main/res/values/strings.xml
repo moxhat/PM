@@ -158,4 +158,6 @@
     <string name="rate_app">Оценить приложение</string>
     <string name="call_to_school">Позвонить в автошколу</string>
     <string name="sign_out">Выход из аккаунта</string>
+    <string name="choose_instructor">Выберите инструктора</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
