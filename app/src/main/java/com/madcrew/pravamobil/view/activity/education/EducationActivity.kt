@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.activity.education
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,8 @@ import com.madcrew.pravamobil.utils.alphaDown
 import com.madcrew.pravamobil.utils.alphaUp
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.EducationStartsDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
 import com.madcrew.pravamobil.view.fragment.education.payments.PaymentsFragment
@@ -91,4 +94,12 @@ class EducationActivity : AppCompatActivity() {
         view.setGone()
         view.alphaDown(100)
     }
+
+    fun starPracticeOptionsActivity(option: String) {
+        val intent = Intent(this, PracticeOptionsActivity::class.java)
+        intent.putExtra("option", option)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.madcrew.pravamobil.R
@@ -13,6 +12,7 @@ import com.madcrew.pravamobil.utils.alphaDown
 import com.madcrew.pravamobil.utils.alphaUp
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
 
 
@@ -39,6 +39,8 @@ class HomePracticeFragment : Fragment() {
 
         binding.homePracticeMenuConstraint.setGone()
 
+        val parent = this.context as EducationActivity
+
         Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop().into(binding.homePracticeInstructorAvatar)
 
         binding.btHomePracticeChangeInstructor.setOnClickListener {
@@ -51,6 +53,11 @@ class HomePracticeFragment : Fragment() {
         }
         binding.homePracticeMenuConstraint.setOnClickListener {
             hideMenu(it)
+        }
+
+        binding.btHomePracticeMenuSignupToPractice.setOnClickListener {
+            hideMenu(binding.homePracticeMenuConstraint)
+            parent.starPracticeOptionsActivity("record")
         }
     }
 

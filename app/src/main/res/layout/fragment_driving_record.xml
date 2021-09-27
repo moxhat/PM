@@ -7,36 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment">
 
-    <com.skydoves.powerspinner.PowerSpinnerView
-        android:id="@+id/driving_record_instructor_spinner"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:background="?attr/colorOnBackground"
-        android:elevation="1dp"
-        android:fontFamily="@font/ubuntu_m"
-        android:gravity="center"
-        android:hint="@string/choose_instructor"
-        android:padding="10dp"
-        android:pointerIcon="arrow"
-        android:textColor="?attr/colorOnSecondary"
-        android:textColorHint="@color/gray_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="92dp"
+        app:cardBackgroundColor="?attr/colorOnBackground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:spinner_arrow_gravity="end"
-        app:spinner_arrow_padding="8dp"
-        app:spinner_arrow_tint="@color/gray_text"
-        app:spinner_divider_color="?attr/colorOnPrimary"
-        app:spinner_divider_show="true"
-        app:spinner_divider_size="1dp"
-        app:spinner_popup_animation="dropdown"
-        app:spinner_popup_background="?attr/colorOnPrimarySurface"
-        app:spinner_popup_elevation="0dp"
-        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/driving_record_instructor_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="1dp"
+            android:fontFamily="@font/ubuntu_m"
+            android:gravity="center"
+            android:pointerIcon="arrow"
+            android:spinnerMode="dropdown"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="@color/gray_text"
+            android:textSize="16sp"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/driving_record_card_view"
+        style="@android:style/Widget.Material.DropDownItem.Spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,7 +43,7 @@
         app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/driving_record_instructor_spinner">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,6 +56,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/driving_record_selected_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/_12"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/driving_record_pointer_icon"
+                    app:layout_constraintStart_toEndOf="@+id/driving_record_ic_calendar"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/driving_record_ic_calendar"
@@ -81,19 +90,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_arrow_forward_gray" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/driving_record_selected_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu_m"
-                    android:text="12 июня (вторник)"
-                    android:textColor="?attr/colorOnSecondary"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/driving_record_pointer_icon"
-                    app:layout_constraintStart_toEndOf="@+id/driving_record_ic_calendar"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/driving_break"
@@ -122,11 +118,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/bt_driving_record_choose_date" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_driving_record_instructor_time_recycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

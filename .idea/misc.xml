@@ -135,12 +135,17 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_add_password.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_address.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_category.xml" value="0.19114583333333332" />
-        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_driving_record.xml" value="0.33" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_driving_record.xml" value="0.25" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_email.xml" value="0.49728260869565216" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_filial.xml" value="0.30117753623188404" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_home_practice.xml" value="0.30117753623188404" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_lesson_history.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_parent_phone_number.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_passport.xml" value="0.49094202898550726" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_pyment_options.xml" value="0.33" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_sign_in.xml" value="0.29528985507246375" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/instructor_time_item.xml" value="0.49094202898550726" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/spinner_instructor_item.xml" value="0.49094202898550726" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/menu/bottom_menu_items.xml" value="0.19114583333333332" />
       </map>
     </option>
