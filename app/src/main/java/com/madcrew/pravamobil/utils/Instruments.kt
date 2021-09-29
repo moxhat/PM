@@ -38,6 +38,29 @@ fun dateConverter(date: String, context: Context): String {
     }
 }
 
+fun dateConverterForTitle(date: String, context: Context): String {
+    var (day, month, year) = date.split(".")
+    if (day[0].toString() == "0"){
+        day = day[day.length - 1].toString()
+    }
+
+    return when (month) {
+        "01" -> return "$day ${context.getString(R.string.january)}"
+        "02" -> return "$day ${context.getString(R.string.february)}"
+        "03" -> return "$day ${context.getString(R.string.march)}"
+        "04" -> return "$day ${context.getString(R.string.april)}"
+        "05" -> return "$day ${context.getString(R.string.may)}"
+        "06" -> return "$day ${context.getString(R.string.june)}"
+        "07" -> return "$day ${context.getString(R.string.july)}"
+        "08" -> return "$day ${context.getString(R.string.august)}"
+        "09" -> return "$day ${context.getString(R.string.september)}"
+        "10" -> return "$day ${context.getString(R.string.october)}"
+        "11" -> return "$day ${context.getString(R.string.november)}"
+        "12" -> return "$day ${context.getString(R.string.december)}"
+        else -> "wrong"
+    }
+}
+
 fun dateConverterSecond(date: String, context: Context): String {
     var (year, month, day) = date.split("-")
     if (day[0].toString() == "0"){

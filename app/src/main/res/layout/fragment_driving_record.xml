@@ -8,6 +8,52 @@
     tools:context=".view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/driving_record_calendar_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="?attr/colorOnBackground"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/driving_record_card_view"
+        app:layout_constraintStart_toStartOf="@+id/driving_record_card_view"
+        app:layout_constraintTop_toTopOf="@+id/driving_record_card_view"
+        tools:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/driving_record_calendar_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_driving_record_calendar_select"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/ic_main_button"
+                android:fontFamily="@font/ubuntu_b"
+                android:text="@string/select"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="92dp"
@@ -66,25 +112,27 @@
                     android:textColor="?attr/colorOnSecondary"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/driving_record_pointer_icon"
-                    app:layout_constraintStart_toEndOf="@+id/driving_record_ic_calendar"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_driving_record_next_day"
+                    app:layout_constraintStart_toEndOf="@+id/bt_driving_record_ic_calendar"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/driving_record_ic_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_driving_record_ic_calendar"
+                    android:layout_width="44dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="24dp"
+                    android:padding="8dp"
                     android:src="@drawable/ic_calendar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/driving_record_pointer_icon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:id="@+id/bt_driving_record_next_day"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_marginEnd="24dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic__arrow_forward"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
