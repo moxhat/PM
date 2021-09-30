@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.InstructorDatesRecyclerAdapter
@@ -15,6 +16,7 @@ import com.madcrew.pravamobil.databinding.FragmentDrivingRecordBinding
 import com.madcrew.pravamobil.models.InstructorDateData
 import com.madcrew.pravamobil.models.InstructorSpinnerItem
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
 import java.util.*
 
 
@@ -243,6 +245,14 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             Log.i("dayOfMonth", day.toString())
             today.set(year, month, day)
 
+        }
+
+        binding.btDrivingRecordLessonHistory.setOnClickListener {
+            val mainManager = parentFragmentManager
+            val transaction: FragmentTransaction = mainManager.beginTransaction()
+            transaction.replace(R.id.practice_options_fragment_container, LessonHistoryFragment(0))
+            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            transaction.commit()
         }
     }
 

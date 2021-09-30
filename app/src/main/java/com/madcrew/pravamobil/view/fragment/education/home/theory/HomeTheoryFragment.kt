@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentHomeTheoryBinding
+import com.madcrew.pravamobil.view.activity.education.EducationActivity
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
 
 
 class HomeTheoryFragment : Fragment() {
@@ -33,5 +36,10 @@ class HomeTheoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Glide.with(requireContext()).load(R.drawable.ic_woman).circleCrop().into(binding.homeTheoryTeacherAvatar)
+
+        binding.btHomeTheoryLessonsHistory.setOnClickListener {
+            val parent = this.context as EducationActivity
+            parent.starPracticeOptionsActivity("history")
+        }
     }
 }

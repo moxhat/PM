@@ -21,7 +21,7 @@ class PracticeOptionsActivity : AppCompatActivity() {
 
         val currentFragment = when (intent.extras?.getString("option")) {
             "record" -> DrivingRecordFragment()
-            "history" -> LessonHistoryFragment()
+            "history" -> LessonHistoryFragment(1)
             else -> DrivingRecordFragment()
         }
 

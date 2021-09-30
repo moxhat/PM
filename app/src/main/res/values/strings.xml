@@ -170,4 +170,7 @@
     <string name="friday">Пятница</string>
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
+    <string name="for_lesson_cancel">Для отмены нажмите на занятие\nОтмена доступна за 24 часа</string>
+    <string name="date">Дата</string>
+    <string name="status">Статус</string>
 </resources>

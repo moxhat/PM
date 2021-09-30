@@ -17,9 +17,11 @@
         android:theme="@style/Theme.PravaMobil">
         <activity
             android:name=".view.activity.practiceoptions.PracticeOptionsActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.activity.education.EducationActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.activity.enter.EnterActivity"

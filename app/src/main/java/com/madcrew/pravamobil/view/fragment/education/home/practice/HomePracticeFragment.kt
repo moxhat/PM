@@ -21,11 +21,6 @@ class HomePracticeFragment : Fragment() {
     private var _binding: FragmentHomePracticeBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +53,11 @@ class HomePracticeFragment : Fragment() {
         binding.btHomePracticeMenuSignupToPractice.setOnClickListener {
             hideMenu(binding.homePracticeMenuConstraint)
             parent.starPracticeOptionsActivity("record")
+        }
+
+        binding.btHomePracticeMenuLessonsHistory.setOnClickListener {
+            hideMenu(binding.homePracticeMenuConstraint)
+            parent.starPracticeOptionsActivity("history")
         }
     }
 
