@@ -250,7 +250,7 @@
                 app:layout_constraintStart_toStartOf="@+id/bt_home_practice_change_instructor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
+                android:id="@+id/constraintLayout22"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginStart="24dp"
@@ -273,8 +273,8 @@
                 android:text="@string/instructor"
                 android:textColor="@color/gray_text"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout22"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout22" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/home_practice_instructor_name"

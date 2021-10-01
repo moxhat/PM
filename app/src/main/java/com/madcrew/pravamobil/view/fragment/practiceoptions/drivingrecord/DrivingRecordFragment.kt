@@ -15,8 +15,11 @@ import com.madcrew.pravamobil.adapter.SpinnerInstructorAdapter
 import com.madcrew.pravamobil.databinding.FragmentDrivingRecordBinding
 import com.madcrew.pravamobil.models.InstructorDateData
 import com.madcrew.pravamobil.models.InstructorSpinnerItem
+import com.madcrew.pravamobil.models.LessonsData
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.dialog.ConfirmRecordDialogFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
+import java.text.FieldPosition
 import java.util.*
 
 
@@ -30,6 +33,8 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
     lateinit var selectedDayOfWeek: String
     lateinit var selectedTime: String
     lateinit var requestDate: String
+    lateinit var mDateList: MutableList<InstructorDateData>
+    lateinit var instructors: MutableList<InstructorSpinnerItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,7 +138,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         val spinnerInstructors = binding.drivingRecordInstructorSpinner
         val timesRecycler = binding.fragmentDrivingRecordInstructorTimeRecycler
 
-        val instructors = mutableListOf(
+        instructors = mutableListOf(
             InstructorSpinnerItem("Анджелина Джоли", R.drawable.ic_woman),
             InstructorSpinnerItem("Бред Питт", R.drawable.ic_man)
         )
@@ -144,7 +149,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         spinnerInstructors.onItemSelectedListener = this
 
-        val mDateList = mutableListOf(
+        mDateList = mutableListOf(
             InstructorDateData("10:00 - 11:00"),
             InstructorDateData("11:00 - 12:00"),
         )
@@ -265,8 +270,12 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     }
 
-    override fun onDateClick(v: Button?) {
-
+    override fun onDateClick(v: Button?, position: Int) {
+        val position = position
+        val date = "${dateConverter(selectedDate, requireContext())} ${mDateList[position].date}"
+        val name = instructors[binding.drivingRecordInstructorSpinner.selectedItemPosition].instructorName
+        val confirmDialog = ConfirmRecordDialogFragment(date, name)
+        confirmDialog.show(childFragmentManager, "ConfirmRecordDialogFragment")
     }
 
 

@@ -50,7 +50,7 @@ class LessonHistoryRecyclerAdapter(
         }
 
         override fun onClick(itemView: View?) {
-            listenerStatus.onStatusClick(itemView, adapterPosition)
+            listenerStatus.onStatusClick(itemView, absoluteAdapterPosition)
         }
     }
 

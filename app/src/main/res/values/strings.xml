@@ -173,4 +173,10 @@
     <string name="for_lesson_cancel">Для отмены нажмите на занятие\nОтмена доступна за 24 часа</string>
     <string name="date">Дата</string>
     <string name="status">Статус</string>
+    <string name="confirm_q">Подтвердить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="record_added">Запись добавлена</string>
+    <string name="more_about_lesson">Подробнее о занятии</string>
+    <string name="cancel_q">Отменить?</string>
 </resources>

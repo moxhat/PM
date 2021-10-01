@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,39 +117,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine2" />
 
                 <FrameLayout
-                    android:id="@+id/education_more_brakeLine3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:alpha="0.2"
-                    android:background="?attr/colorOnSecondary"
-                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_about">
-
-                </FrameLayout>
-
-                <Button
-                    android:id="@+id/bt_education_more_menu_faq"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:autoSizeTextType="none"
-                    android:background="@drawable/ic_menu_button"
-                    android:fontFamily="@font/ubuntu_r"
-                    android:letterSpacing="0.03"
-                    android:text="@string/faq"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/colorOnSecondary"
-                    android:textIsSelectable="false"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/education_more_brakeLine3" />
-
-                <FrameLayout
                     android:id="@+id/education_more_brakeLine4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:alpha="0.2"
                     android:background="?attr/colorOnSecondary"
-                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_faq">
+                    app:layout_constraintTop_toBottomOf="@+id/bt_education_more_menu_about">
 
                 </FrameLayout>
 

@@ -15,7 +15,7 @@ class InstructorDatesRecyclerAdapter (
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         interface OnDateClickListener {
-            fun onDateClick(v: Button?)
+            fun onDateClick(v: Button?, position: Int)
         }
 
         private inner class ViewHolderDate internal constructor(itemView: View) :
@@ -35,7 +35,7 @@ class InstructorDatesRecyclerAdapter (
             }
 
             override fun onClick(v: View) {
-                listenerDate.onDateClick(buttonDate)
+                listenerDate.onDateClick(buttonDate, absoluteAdapterPosition)
             }
         }
 
