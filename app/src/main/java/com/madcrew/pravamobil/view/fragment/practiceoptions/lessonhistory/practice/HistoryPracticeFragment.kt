@@ -8,13 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHistoryPracticeBinding
 import com.madcrew.pravamobil.models.LessonsData
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.ConfirmCancelDialogFragment
 import com.madcrew.pravamobil.view.dialog.HistoryItemPropertiesDialogFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openlesson.OpenLessonFragment
 
 
 class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusClickListener {
@@ -43,12 +47,12 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
         super.onViewCreated(view, savedInstanceState)
 
         mLessonsList = mutableListOf(
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено"),
-
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 3),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка",0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена",0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
         )
 
         mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
@@ -61,10 +65,28 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
     }
 
     override fun onStatusClick(itemView: View?, position: Int) {
+        //            0 -> setCancel()
+        //            1 -> setUnrated()
+        //            else -> setRated()
+        var status = when (mLessonsList[position].status){
+            "Назначено" -> 0
+            "Пройдено" -> {
+                if (mLessonsList[position].rating == 0){
+                    1
+                } else {
+                    mLessonsList[position].rating
+                }
+            }
+            else -> 1
+        }
         if (mLessonsList[position].status == "Назначено"){
+            status = 0
             val date = mLessonsList[position].date.toString()
-            val propertiesDialog = HistoryItemPropertiesDialogFragment(date)
+            val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status)
             propertiesDialog.show(childFragmentManager, "HistoryItemPropertiesDialogFragment")
+        } else {
+            val parent = this.context as PracticeOptionsActivity
+            parent.addOpenLesson(status)
         }
     }
 

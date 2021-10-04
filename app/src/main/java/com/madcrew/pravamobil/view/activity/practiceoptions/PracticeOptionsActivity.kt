@@ -8,6 +8,7 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityPracticeOptionsBinding
 import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openlesson.OpenLessonFragment
 import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordFragment
 
 class PracticeOptionsActivity : AppCompatActivity() {
@@ -33,6 +34,15 @@ class PracticeOptionsActivity : AppCompatActivity() {
         val mainManager = supportFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
         transaction.replace(R.id.practice_options_fragment_container, fragment)
+        transaction.commit()
+    }
+
+    fun addOpenLesson(status: Int){
+        val mainManager = supportFragmentManager
+        val transaction: FragmentTransaction = mainManager.beginTransaction()
+        transaction.addToBackStack("history")
+        transaction.add(R.id.practice_options_fragment_container, OpenLessonFragment(status))
+        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.commit()
     }
 }

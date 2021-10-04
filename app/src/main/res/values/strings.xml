@@ -179,4 +179,9 @@
     <string name="record_added">Запись добавлена</string>
     <string name="more_about_lesson">Подробнее о занятии</string>
     <string name="cancel_q">Отменить?</string>
+    <string name="rate_lesson">Оценить\nзанятие</string>
+    <string name="lesson_cancel">Отменить\nзанятие</string>
+    <string name="your_rate">Ваша оценка</string>
+    <string name="your_comment">Комментарий</string>
+    <string name="missed">Отсутствует</string>
 </resources>

@@ -127,9 +127,16 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable-v24/ic_rectangle_white.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic__arrow_forward.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_arrow_forward_gray.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_calendar.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_call.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_call_white.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_info_circle.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_star.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/ic_triangle_down.xml" value="0.20729166666666668" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/rating_custom.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/rating_custom_empty.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/drawable/rating_custom_filled.xml" value="0.33489583333333334" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_education.xml" value="0.5" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_enter.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_practice_options.xml" value="0.321875" />
@@ -139,6 +146,7 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_address.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_category.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_confirm_cancel_dialog.xml" value="0.22" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_confirm_contract.xml" value="0.3145833333333333" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_confirm_record_dialog.xml" value="0.33" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_driving_record.xml" value="0.5" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_email.xml" value="0.49728260869565216" />
@@ -150,6 +158,7 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_home_practice.xml" value="0.30117753623188404" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_home_theory.xml" value="0.2740036231884058" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_lesson_history.xml" value="0.29739583333333336" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_open_lesson.xml" value="0.25" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_parent_phone_number.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_passport.xml" value="0.49094202898550726" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_pyment_options.xml" value="0.33" />

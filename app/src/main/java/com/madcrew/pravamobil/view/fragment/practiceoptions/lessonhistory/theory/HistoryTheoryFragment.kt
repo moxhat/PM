@@ -38,11 +38,11 @@ class HistoryTheoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusC
         super.onViewCreated(view, savedInstanceState)
 
         val mLessonsList = mutableListOf(
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка"),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено"),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
 
             )
 

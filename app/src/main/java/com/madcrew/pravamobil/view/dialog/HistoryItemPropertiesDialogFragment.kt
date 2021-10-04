@@ -8,11 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
+import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentHistoryItemPropertiesDialogBinding
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
+import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openlesson.OpenLessonFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practice.HistoryPracticeFragment
 
 
-class HistoryItemPropertiesDialogFragment(var date: String) : DialogFragment() {
+class HistoryItemPropertiesDialogFragment(var date: String, var status: Int, var rating: Int = 0) : DialogFragment() {
 
     private var _binding: FragmentHistoryItemPropertiesDialogBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +45,8 @@ class HistoryItemPropertiesDialogFragment(var date: String) : DialogFragment() {
         binding.historyItemPropertiesDate.text = date
 
         binding.btHistoryItemPropertiesMoreAbout.setOnClickListener {
+            val parent = this.context as PracticeOptionsActivity
+            parent.addOpenLesson(status)
             this.dialog?.dismiss()
         }
 
