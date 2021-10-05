@@ -184,4 +184,16 @@
     <string name="your_rate">Ваша оценка</string>
     <string name="your_comment">Комментарий</string>
     <string name="missed">Отсутствует</string>
+    <string name="rate_lesson_title">Оценить занятие</string>
+    <string name="dirty_car">Грязная машина</string>
+    <string name="rude_instructor">Грубый инструктор</string>
+    <string name="late">Опоздание</string>
+    <string name="no_comment"> Не обьясняет</string>
+    <string name="add_callback">Оставить отзыв</string>
+    <string name="politeness">Вежливость</string>
+    <string name="lesson_quality">Качество обучения</string>
+    <string name="clear_car">Чистота машины</string>
+    <string name="punctuality">Пунктуальность</string>
+    <string name="callback">Отзыв</string>
+    <string name="about_practice">о практическом занятиии</string>
 </resources>

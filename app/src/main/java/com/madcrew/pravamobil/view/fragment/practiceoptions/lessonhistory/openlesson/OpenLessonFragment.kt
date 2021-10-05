@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar.OnRatingBarChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentOpenLessonBinding
+import com.madcrew.pravamobil.utils.alphaDown
+import com.madcrew.pravamobil.utils.alphaUp
+import com.madcrew.pravamobil.utils.setGone
+import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
 
 
-class OpenLessonFragment(var status:Int = 0) : Fragment() {
+class OpenLessonFragment(var status: Int = 0) : Fragment() {
 
     private var _binding: FragmentOpenLessonBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +34,22 @@ class OpenLessonFragment(var status:Int = 0) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop().into(binding.openLessonInstructorAvatar)
+        val rateSheet = binding.openLessonRatingSheet
+        val btRateClose = binding.btOpenLessonCloseRating
+        val ratingSheetBar = binding.openLessonRatingSheetRatingBar
+        btRateClose.setGone()
+        val mBottomRateSheet = BottomSheetBehavior.from(rateSheet)
 
-        if (status > 1){
+
+        mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        mBottomRateSheet.isHideable = true
+
+        hideAll()
+
+        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop()
+            .into(binding.openLessonInstructorAvatar)
+
+        if (status > 1) {
             binding.openLessonRatingBar.rating = status.toFloat()
             binding.openLessonRateComment.text = "Вот такой вот Питт водитель!"
         }
@@ -55,9 +71,49 @@ class OpenLessonFragment(var status:Int = 0) : Fragment() {
         binding.openLessonMainConstraint.setOnClickListener {
 
         }
+
+        binding.btOpenLessonRateLesson.setOnClickListener {
+            btRateClose.alphaUp(100)
+            btRateClose.setVisible()
+            mBottomRateSheet.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        btRateClose.setOnClickListener {
+            btRateClose.alphaDown(100)
+            btRateClose.setGone()
+            mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+
+
+        binding.openLessonRatingContentConstraint.setOnClickListener {
+
+        }
+
+        ratingSheetBar.onRatingBarChangeListener =
+            OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+                when (rating) {
+                    0f -> hideAll()
+                    5f -> showGood()
+                    else -> showBad()
+                }
+            }
+
+        binding.btRateSheetDone.setOnClickListener {
+            btRateClose.alphaDown(100)
+            btRateClose.setGone()
+            setRated()
+            binding.openLessonRatingBar.rating = binding.openLessonRatingSheetRatingBar.rating
+            mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.btRateSheetAddCallback.setOnClickListener {
+            val callBackDialog = InstructorCancelDialogFragment("callback")
+            callBackDialog.show(childFragmentManager, "InstructorCancelDialogFragment")
+        }
     }
 
-    private fun setCancel(){
+    private fun setCancel() {
         binding.openLessonLessonCancelTitle.setVisible()
         binding.btOpenLessonLessonCancel.setVisible()
         binding.openLessonRateTitle.setGone()
@@ -69,7 +125,7 @@ class OpenLessonFragment(var status:Int = 0) : Fragment() {
         binding.openLessonRateComment.setGone()
     }
 
-    private fun setUnrated(){
+    private fun setUnrated() {
         binding.openLessonLessonCancelTitle.setGone()
         binding.btOpenLessonLessonCancel.setGone()
         binding.openLessonRateTitle.setVisible()
@@ -83,7 +139,7 @@ class OpenLessonFragment(var status:Int = 0) : Fragment() {
         binding.openLessonRateComment.setVisible()
     }
 
-    private fun setRated(){
+    private fun setRated() {
         binding.openLessonLessonCancelTitle.setGone()
         binding.btOpenLessonLessonCancel.setGone()
         binding.openLessonRateTitle.setVisible()
@@ -95,6 +151,25 @@ class OpenLessonFragment(var status:Int = 0) : Fragment() {
         binding.openLessonRatingBar.setVisible()
         binding.openLessonRateCommentTitle.setVisible()
         binding.openLessonRateComment.setVisible()
+    }
+
+    private fun showGood() {
+        binding.rateSheetRatingGood.setVisible()
+        binding.rateSheetRatingBad.setGone()
+    }
+
+    private fun showBad() {
+        binding.rateSheetRatingGood.setGone()
+        binding.rateSheetRatingBad.setVisible()
+    }
+
+    private fun hideAll() {
+        binding.rateSheetRatingGood.setGone()
+        binding.rateSheetRatingBad.setGone()
+    }
+
+    fun setCommentText(text: String){
+        binding.openLessonRateComment.text = text
     }
 
 }

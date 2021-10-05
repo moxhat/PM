@@ -76,7 +76,5 @@ class LessonHistoryFragment(var trigger: Int) : Fragment() {
                 transaction.commit()
             }
         }
-
     }
-
 }

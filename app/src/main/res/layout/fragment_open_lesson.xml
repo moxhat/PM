@@ -1,13 +1,391 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/open_lesson_main_constraint"
+    android:id="@+id/open_lesson_main_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
     android:background="?attr/colorPrimaryDark"
     tools:context=".view.fragment.practiceoptions.lessonhistory.openlesson.OpenLessonFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/open_lesson_rating_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:elevation="15dp"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/open_lesson_rating_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="?attr/colorOnBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/open_lesson_rating_content_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_rate_sheet_done"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/ic_main_button"
+                    android:fontFamily="@font/ubuntu_b"
+                    android:text="@string/done"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_rate_sheet_add_callback" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_rate_sheet_add_callback"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="270dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/ic_transparent_button"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/add_callback"
+                    android:textAllCaps="false"
+                    android:textColor="@color/main"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_sheet_break"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/open_lesson_rate_sheet_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/rate_lesson_title"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/open_lesson_rating_sheet_rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/open_lesson_rate_sheet_title"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rate_sheet_rating_good"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_sheet_break">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_politeness"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="24dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_like"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline18"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/rude_politeness_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/politeness"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_politeness"
+                        app:layout_constraintStart_toStartOf="@+id/bt_politeness"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_politeness" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/lesson_quality_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/lesson_quality"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_lesson_quality"
+                        app:layout_constraintStart_toStartOf="@+id/bt_lesson_quality"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_lesson_quality" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_lesson_quality"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="48dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_like"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline18"
+                        app:layout_constraintTop_toBottomOf="@+id/rude_politeness_title"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_clear_car"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="24dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_like"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/clear_car_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/clear_car"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_clear_car"
+                        app:layout_constraintStart_toStartOf="@+id/bt_clear_car"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_politeness" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_punctuality"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="48dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_like"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/clear_car_title"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/punctuality_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/punctuality"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_punctuality"
+                        app:layout_constraintStart_toStartOf="@+id/bt_punctuality"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_punctuality" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rate_sheet_rating_bad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_sheet_break">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_rude_instructor"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="24dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_dislike"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline17"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/rude_instructor_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/rude_instructor"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_rude_instructor"
+                        app:layout_constraintStart_toStartOf="@+id/bt_rude_instructor"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_rude_instructor" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/no_comment_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/rude_instructor"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_no_comment"
+                        app:layout_constraintStart_toStartOf="@+id/bt_no_comment"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_no_comment" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_no_comment"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="48dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_dislike"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline17"
+                        app:layout_constraintTop_toBottomOf="@+id/rude_instructor_title"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_dirty_car"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="24dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_dislike"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/dirty_car_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/dirty_car"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_dirty_car"
+                        app:layout_constraintStart_toStartOf="@+id/bt_dirty_car"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_rude_instructor" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/bt_late"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="48dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_dislike"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dirty_car_title"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/late_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/ubuntu_r"
+                        android:text="@string/late"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/bt_late"
+                        app:layout_constraintStart_toStartOf="@+id/bt_late"
+                        app:layout_constraintTop_toBottomOf="@+id/bt_late" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rating_sheet_break"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:alpha="0.1"
+                    android:background="?attr/colorOnSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/open_lesson_rating_sheet_rating_bar">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bt_open_lesson_close_rating"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="3dp"
+        android:alpha="0.3"
+        android:background="@color/black">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/open_lesson_main_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimaryDark">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_open_lesson_back"
@@ -358,4 +736,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
