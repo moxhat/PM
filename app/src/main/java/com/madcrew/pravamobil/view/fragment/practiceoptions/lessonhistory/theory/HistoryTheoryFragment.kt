@@ -43,6 +43,11 @@ class HistoryTheoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusC
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена", 0),
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0)
 
             )
 

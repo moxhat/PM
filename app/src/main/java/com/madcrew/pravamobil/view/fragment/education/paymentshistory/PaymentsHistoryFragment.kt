@@ -43,6 +43,11 @@ class PaymentsHistoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
             LessonsData("12.10.21 (вт)", "5 000 руб.", "Наличные", 0),
             LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 0),
             LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 0),
+            LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 0),
+            LessonsData("12.10.21 (вт)", "5 000 руб.", "Наличные", 0),
+            LessonsData("12.10.21 (вт)", "5 000 руб.", "Наличные", 0),
+            LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 0),
+            LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 0)
 
             )
 

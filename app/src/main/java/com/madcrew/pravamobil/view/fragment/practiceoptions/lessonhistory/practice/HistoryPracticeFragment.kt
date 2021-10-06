@@ -53,6 +53,12 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено", 0),
             LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 3),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка",0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена",0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено", 0),
+            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0)
         )
 
         mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)

@@ -1,11 +1,11 @@
 package com.madcrew.pravamobil.view.fragment.education.payments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPaymentsBinding
@@ -15,7 +15,6 @@ import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.fragment.education.paymentshistory.PaymentsHistoryFragment
-import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
 
 
 class PaymentsFragment : Fragment() {
