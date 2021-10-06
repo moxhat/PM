@@ -196,4 +196,13 @@
     <string name="punctuality">Пунктуальность</string>
     <string name="callback">Отзыв</string>
     <string name="about_practice">о практическом занятиии</string>
+    <string name="contract_price">Стоимость договора</string>
+    <string name="payed">Оплачено</string>
+    <string name="additional_services">Дополнительные услуги</string>
+    <string name="pay">Оплатить</string>
+    <string name="nearest_payment">Ближайший платеж</string>
+    <string name="early_payment">Досрочное погашение</string>
+    <string name="indebtedness">У вас появилась задолженность</string>
+    <string name="way">Способ</string>
+    <string name="service">Услуга</string>
 </resources>

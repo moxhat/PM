@@ -1,10 +1,17 @@
 package com.madcrew.pravamobil.adapter
 
+import android.app.Application
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat.getColorStateList
 import androidx.recyclerview.widget.RecyclerView
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.models.LessonsData
@@ -42,10 +49,12 @@ class LessonHistoryRecyclerAdapter(
             statusString?.text = lessons.status
 
             when (lessons.status){
-                "Отмена" -> statusString?.setTextColor(Color.GRAY)
-                "Неявка" -> statusString?.setTextColor(Color.RED)
-                "Запланировано" -> statusString?.setTextColor(Color.GREEN)
-                "Завершено" -> statusString?.setTextColor(Color.GRAY)
+                "Отмена" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.help_gray))
+                "Неявка" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.red_alert))
+                "Назначено" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.light_green))
+                "Пройдено" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.gray_text))
+                "Карта" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.light_green))
+                "Наличные" -> statusString?.setTextColor(ContextCompat.getColorStateList(statusString?.context!!, R.color.main))
             }
         }
 
