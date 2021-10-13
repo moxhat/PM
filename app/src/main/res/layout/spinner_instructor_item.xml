@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorOnBackground">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/spinner_item_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/spinner_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toEndOf="@+id/spinner_item_image"
         app:layout_constraintTop_toTopOf="@+id/spinner_item_image" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

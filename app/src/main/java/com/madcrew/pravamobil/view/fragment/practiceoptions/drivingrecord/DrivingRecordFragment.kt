@@ -15,11 +15,9 @@ import com.madcrew.pravamobil.adapter.SpinnerInstructorAdapter
 import com.madcrew.pravamobil.databinding.FragmentDrivingRecordBinding
 import com.madcrew.pravamobil.models.InstructorDateData
 import com.madcrew.pravamobil.models.InstructorSpinnerItem
-import com.madcrew.pravamobil.models.LessonsData
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.dialog.ConfirmRecordDialogFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
-import java.text.FieldPosition
 import java.util.*
 
 
@@ -31,8 +29,6 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
     private lateinit var mAdapter: InstructorDatesRecyclerAdapter
     lateinit var selectedDate: String
     lateinit var selectedDayOfWeek: String
-    lateinit var selectedTime: String
-    lateinit var requestDate: String
     lateinit var mDateList: MutableList<InstructorDateData>
     lateinit var instructors: MutableList<InstructorSpinnerItem>
 
@@ -57,17 +53,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         val today = Calendar.getInstance()
 
         val dayOfWeek = today.get(Calendar.DAY_OF_WEEK)
-        selectedDayOfWeek =
-            when (dayOfWeek) {
-                Calendar.MONDAY -> resources.getString(R.string.monday)
-                Calendar.TUESDAY -> resources.getString(R.string.tuesday)
-                Calendar.WEDNESDAY -> resources.getString(R.string.wednesday)
-                Calendar.THURSDAY -> resources.getString(R.string.thursday)
-                Calendar.FRIDAY -> resources.getString(R.string.friday)
-                Calendar.SATURDAY -> resources.getString(R.string.saturday)
-                Calendar.SUNDAY -> resources.getString(R.string.saturday)
-                else -> "wrong"
-            }
+        selectedDofW(dayOfWeek)
 
         val daysMax = when (dayOfWeek) {
             Calendar.MONDAY -> 6 + 21
@@ -118,17 +104,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         Log.i("selectedDate", selectedDate)
 
         val selectedDayWeek = today.get(Calendar.DAY_OF_WEEK)
-        selectedDayOfWeek =
-            when (selectedDayWeek) {
-                Calendar.MONDAY -> resources.getString(R.string.monday)
-                Calendar.TUESDAY -> resources.getString(R.string.tuesday)
-                Calendar.WEDNESDAY -> resources.getString(R.string.wednesday)
-                Calendar.THURSDAY -> resources.getString(R.string.thursday)
-                Calendar.FRIDAY -> resources.getString(R.string.friday)
-                Calendar.SATURDAY -> resources.getString(R.string.saturday)
-                Calendar.SUNDAY -> resources.getString(R.string.sunday)
-                else -> "wrong"
-            }
+        selectedDofW(selectedDayWeek)
         binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
 
 
@@ -179,24 +155,12 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             calendarView.alphaDown(300)
             calendarView.setGone()
             val selectedDayWeek = today.get(Calendar.DAY_OF_WEEK)
-            selectedDayOfWeek =
-                when (selectedDayWeek) {
-                    Calendar.MONDAY -> resources.getString(R.string.monday)
-                    Calendar.TUESDAY -> resources.getString(R.string.tuesday)
-                    Calendar.WEDNESDAY -> resources.getString(R.string.wednesday)
-                    Calendar.THURSDAY -> resources.getString(R.string.thursday)
-                    Calendar.FRIDAY -> resources.getString(R.string.friday)
-                    Calendar.SATURDAY -> resources.getString(R.string.saturday)
-                    Calendar.SUNDAY -> resources.getString(R.string.sunday)
-                    else -> "wrong"
-                }
-            binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
+            selectedDofW(selectedDayWeek)
+            binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
         }
 
         binding.btDrivingRecordNextDay.setOnClickListener {
             today.add(Calendar.DAY_OF_MONTH, 1)
-            val incCal = today.time
-            Log.i("incremented", incCal.toString())
             val curDay = if (today.get(Calendar.DAY_OF_MONTH).toString().length < 2) {
                 "0${today.get(Calendar.DAY_OF_MONTH)}"
             } else {
@@ -210,17 +174,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
                 }
 
             val selectedDayWeek = today.get(Calendar.DAY_OF_WEEK)
-            selectedDayOfWeek =
-                when (selectedDayWeek) {
-                    Calendar.MONDAY -> resources.getString(R.string.monday)
-                    Calendar.TUESDAY -> resources.getString(R.string.tuesday)
-                    Calendar.WEDNESDAY -> resources.getString(R.string.wednesday)
-                    Calendar.THURSDAY -> resources.getString(R.string.thursday)
-                    Calendar.FRIDAY -> resources.getString(R.string.friday)
-                    Calendar.SATURDAY -> resources.getString(R.string.saturday)
-                    Calendar.SUNDAY -> resources.getString(R.string.sunday)
-                    else -> "wrong"
-                }
+            selectedDofW(selectedDayWeek)
 
             selectedDate = "$curDay.$curMonth.${today.get(Calendar.YEAR)}"
             if (selectedDate == maxSelectedDate){
@@ -228,7 +182,6 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             } else {
                 binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
             }
-            Log.i("daysSelect", "$selectedDate , $maxSelectedDate")
         }
 
         calendar.setOnDateChangeListener { view, year, month, day ->
@@ -259,6 +212,20 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             transaction.commit()
         }
+    }
+
+    private fun selectedDofW(selectedDayWeek: Int) {
+        selectedDayOfWeek =
+            when (selectedDayWeek) {
+                Calendar.MONDAY -> resources.getString(R.string.monday)
+                Calendar.TUESDAY -> resources.getString(R.string.tuesday)
+                Calendar.WEDNESDAY -> resources.getString(R.string.wednesday)
+                Calendar.THURSDAY -> resources.getString(R.string.thursday)
+                Calendar.FRIDAY -> resources.getString(R.string.friday)
+                Calendar.SATURDAY -> resources.getString(R.string.saturday)
+                Calendar.SUNDAY -> resources.getString(R.string.sunday)
+                else -> "wrong"
+            }
     }
 
 
