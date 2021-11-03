@@ -12,7 +12,7 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEnterBinding
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
-import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
+import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 
 class EnterActivity : AppCompatActivity() {
 

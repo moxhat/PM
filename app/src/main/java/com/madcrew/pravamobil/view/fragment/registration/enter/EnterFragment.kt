@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.registration
+package com.madcrew.pravamobil.view.fragment.registration.enter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,17 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentEnterBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.TokenOnly
+import com.madcrew.pravamobil.models.responsemodels.School
+import com.madcrew.pravamobil.models.responsemodels.SchoolListResponse
+import com.madcrew.pravamobil.utils.isOnline
+import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
 import com.madcrew.pravamobil.view.fragment.registration.signin.SignInFragment
-import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpFragment
 
 
 class EnterFragment : Fragment() {
 
     private var _binding: FragmentEnterBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var schoolList: MutableList<School>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,15 +39,30 @@ class EnterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val parent = this.context as EnterActivity
+        val repository = Repository()
+        val viewModelFactory = EnterViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(EnterViewModel::class.java)
+
+        if (isOnline(requireContext())){
+            mViewModel.getSchoolList(TokenOnly(TOKEN))
+        } else {
+            noInternet(requireContext())
+        }
+
+        mViewModel.schoolListResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    schoolList = response.body()!!.schoolList
+                }
+            }
+        })
 
         binding.btEnterSignIn.setOnClickListener {
             replaceFragment(SignInFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
         }
 
         binding.btEnterSignUp.setOnClickListener {
-//            replaceFragment(SignUpFragment(), R.anim.slide_left_in, R.anim.slide_left_out)
-            parent.starEducationActivity()
+            replaceFragment(SchoolFragment(schoolList), R.anim.slide_left_in, R.anim.slide_left_out)
         }
     }
 

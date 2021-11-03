@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignInBinding
 import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
+import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.greetings.GreetingsFragment
 
 

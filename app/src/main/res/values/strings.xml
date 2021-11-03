@@ -126,7 +126,7 @@
     <string name="call_instructor">Звонок\nинструктору</string>
     <string name="change_instructor">Сменить\nинструктора</string>
     <string name="instructor">Инструктор</string>
-    <string name="car">Автомобиль</string>
+    <string name="car">Автомобиль</string>ф
     <string name="menu">Меню</string>
     <string name="education_starts">Обучение началось!</string>
     <string name="education_starts_text">Для записи на вождение вам необходимо получить шоферскую комиссию и заполнить данные  во вкладке “Практика”</string>
@@ -205,4 +205,5 @@
     <string name="indebtedness">У вас появилась задолженность</string>
     <string name="way">Способ</string>
     <string name="service">Услуга</string>
+    <string name="choose_school">Выберите автошколу</string>
 </resources>

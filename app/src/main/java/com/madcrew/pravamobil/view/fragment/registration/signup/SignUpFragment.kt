@@ -10,7 +10,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignUpBinding
-import com.madcrew.pravamobil.view.fragment.registration.EnterFragment
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.smscode.SmsCodeFragment
 
 
@@ -47,7 +48,9 @@ class SignUpFragment : Fragment() {
 
         btGetCode.setOnClickListener {
             if (nameText.length() > 1 && phoneText.length() == 16){
-                replaceFragment(SmsCodeFragment(), R.anim.fade_in, R.anim.fade_out)
+                Preferences.setPrefsString("firstName", nameText.text.toString(), requireContext())
+                Preferences.setPrefsString("phoneNumber", phoneText.text.toString(), requireContext())
+                replaceFragment(SmsCodeFragment(phoneText.text.toString()), R.anim.fade_in, R.anim.fade_out)
             } else {
                 if (phoneText.length() < 16) phoneField.setErrorOn()
                 if (nameText.length() < 2) nameField.setErrorOn()

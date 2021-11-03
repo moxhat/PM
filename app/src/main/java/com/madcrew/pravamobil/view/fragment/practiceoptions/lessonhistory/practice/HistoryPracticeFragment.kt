@@ -88,7 +88,7 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
         if (mLessonsList[position].status == "Назначено"){
             status = 0
             val date = mLessonsList[position].date.toString()
-            val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status)
+            val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status, position)
             propertiesDialog.show(childFragmentManager, "HistoryItemPropertiesDialogFragment")
         } else {
             val parent = this.context as PracticeOptionsActivity
@@ -101,6 +101,10 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
             val cancelConfirm = ConfirmCancelDialogFragment(date)
             cancelConfirm.show(childFragmentManager, "ConfirmCancelDialogFragment")
         }, 50)
+    }
+
+    fun removePosition(position: Int){
+        binding.historyPracticeRecycler.removeViewAt(position)
     }
 
 }

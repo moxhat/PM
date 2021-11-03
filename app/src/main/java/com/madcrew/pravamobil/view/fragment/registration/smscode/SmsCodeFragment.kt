@@ -2,25 +2,33 @@ package com.madcrew.pravamobil.view.fragment.registration.smscode
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSmsCodeBinding
-import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.registration.enter.EnterViewModel
+import com.madcrew.pravamobil.view.fragment.registration.enter.EnterViewModelFactory
 
 
-class SmsCodeFragment : Fragment() {
+class SmsCodeFragment(var phoneNumber: String) : Fragment() {
 
     private var _binding: FragmentSmsCodeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var smsCode: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +38,28 @@ class SmsCodeFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val repository = Repository()
+        val viewModelFactory = SmsCodeViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(SmsCodeViewModel::class.java)
+
+        if (isOnline(requireContext())){
+            mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, TOKEN))
+        } else {
+            noInternet(requireContext())
+        }
+
+        mViewModel.smsCodeResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    smsCode = response.body()!!.code
+                }
+            }
+        })
 
         val codeChar1 = binding.smsCode1EditText
         val codeChar2 = binding.smsCode2EditText
@@ -116,13 +144,13 @@ class SmsCodeFragment : Fragment() {
                 clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
             val codeValid =
-                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == "0000"
+                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == smsCode
 
             if (codeChar1.length() > 0 && codeChar2.length() > 0 && codeChar3.length() > 0 && codeChar4.length() > 0) {
                 if (codeValid) {
                     starProgressActivity()
                 } else {
-                    errorOn(code1, code2, code3, code4)
+                    errorOn(code1, code2, code3, code4, codeChar1, codeChar2, codeChar3,codeChar4)
                 }
             }
         }
@@ -132,7 +160,7 @@ class SmsCodeFragment : Fragment() {
         code1: TextInputLayout,
         code2: TextInputLayout,
         code3: TextInputLayout,
-        code4: TextInputLayout
+        code4: TextInputLayout,
     ) {
         code1.error = null
         code2.error = null
@@ -149,7 +177,11 @@ class SmsCodeFragment : Fragment() {
         code1: TextInputLayout,
         code2: TextInputLayout,
         code3: TextInputLayout,
-        code4: TextInputLayout
+        code4: TextInputLayout,
+        codeChar1: EditText,
+        codeChar2: EditText,
+        codeChar3: EditText,
+        codeChar4: EditText
     ) {
         code1.isErrorEnabled = true
         code2.isErrorEnabled = true
@@ -159,7 +191,15 @@ class SmsCodeFragment : Fragment() {
         code2.error = " "
         code3.error = " "
         code4.error = " "
+        Handler(Looper.getMainLooper()).postDelayed({
+            codeChar1.text?.clear()
+            codeChar2.text?.clear()
+            codeChar3.text?.clear()
+            codeChar4.text?.clear()
+        }, 1500)
+
         binding.invalidCodeAlert.setVisible()
+
     }
 
     private fun starProgressActivity() {

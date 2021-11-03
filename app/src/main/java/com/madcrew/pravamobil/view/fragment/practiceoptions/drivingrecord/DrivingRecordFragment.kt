@@ -34,7 +34,6 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -130,7 +129,6 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             InstructorDateData("11:00 - 12:00"),
         )
 
-
         mAdapter = InstructorDatesRecyclerAdapter(mDateList, this)
         mAdapter.notifyDataSetChanged()
 
@@ -180,7 +178,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             if (selectedDate == maxSelectedDate){
                 today.add(Calendar.DAY_OF_MONTH, -1)
             } else {
-                binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
+                binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
             }
         }
 
@@ -199,10 +197,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
                 }
             val date = "$selectedDay.$selectedMonth.$year"
             selectedDate = date
-            Log.i("selectedDate", selectedDate)
-            Log.i("dayOfMonth", day.toString())
             today.set(year, month, day)
-
         }
 
         binding.btDrivingRecordLessonHistory.setOnClickListener {
@@ -228,17 +223,13 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             }
     }
 
-
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-
     }
 
     override fun onDateClick(v: Button?, position: Int) {
-        val position = position
         val date = "${dateConverter(selectedDate, requireContext())} ${mDateList[position].date}"
         val name = instructors[binding.drivingRecordInstructorSpinner.selectedItemPosition].instructorName
         val confirmDialog = ConfirmRecordDialogFragment(date, name)

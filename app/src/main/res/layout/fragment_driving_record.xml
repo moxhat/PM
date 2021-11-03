@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="@+id/driving_record_card_view"
         app:layout_constraintStart_toStartOf="@+id/driving_record_card_view"
         app:layout_constraintTop_toTopOf="@+id/driving_record_card_view"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/driving_record_calendar_constraint"

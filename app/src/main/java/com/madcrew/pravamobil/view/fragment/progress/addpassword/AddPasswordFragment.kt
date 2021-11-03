@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentAddPasswordBinding
-import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.AddPasswordRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.fragment.progress.email.EmailFragment
 
 
@@ -33,11 +35,22 @@ class AddPasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mainManager = parentFragmentManager
+        val repository = Repository()
+        val viewModelFactory = AddPasswordViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(AddPasswordViewModel::class.java)
 
         val firstPassword = binding.addPasswordPassword2
         val secondPassword = binding.addPasswordPassword1
         val firstPasswordText = binding.addPasswordEditText2
         val secondPasswordText = binding.addPasswordEditText1
+
+        mViewModel.firstRegistrationResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    nextFragmentInProgress(mainManager, EmailFragment())
+                }
+            }
+        })
 
         firstPasswordText.doOnTextChanged { _, _, _, _ ->
             if (firstPasswordText.length() == 8) {
@@ -65,10 +78,8 @@ class AddPasswordFragment : Fragment() {
                 secondPasswordText,
                 secondPassword,
                 firstPassword,
-                mainManager,
-                EmailFragment()
+                mViewModel
             )
-//            nextFragmentInProgress(mainManager, EmailFragment())
         }
     }
 
@@ -77,12 +88,18 @@ class AddPasswordFragment : Fragment() {
         secondPasswordText: TextInputEditText,
         secondPassword: TextInputLayout,
         firstPassword: TextInputLayout,
-        fragmentManager: FragmentManager,
-        fragment: Fragment
+        viewModel: AddPasswordViewModel
     ) {
         if (firstPasswordText.length() == 8 && secondPasswordText.length() == 8) {
             if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
-                nextFragmentInProgress(fragmentManager, fragment)
+                if (isOnline(requireContext())){
+                    val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+                    val firstName = Preferences.getPrefsString("firstName", requireContext()).toString()
+                    val phoneNumber = Preferences.getPrefsString("phoneNumber", requireContext()).toString()
+                    viewModel.addPassword(AddPasswordRequest(TOKEN, schoolId, firstName, phoneNumber, firstPasswordText.text.toString()))
+                } else {
+                    noInternet(requireContext())
+                }
             } else {
                 secondPassword.apply {
                     isErrorEnabled = true

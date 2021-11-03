@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityProgressBinding
 import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordFragment
+import java.util.prefs.Preferences
 
 class ProgressActivity : AppCompatActivity() {
 
@@ -27,8 +28,8 @@ class ProgressActivity : AppCompatActivity() {
 
         val mainManager = supportFragmentManager
         val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.replace(R.id.progress_activity_fragment_container, AddPasswordFragment())
+        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.commit()
     }
 }

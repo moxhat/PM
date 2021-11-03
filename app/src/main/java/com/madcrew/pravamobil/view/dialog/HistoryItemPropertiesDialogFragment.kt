@@ -17,7 +17,7 @@ import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openle
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practice.HistoryPracticeFragment
 
 
-class HistoryItemPropertiesDialogFragment(var date: String, var status: Int, var rating: Int = 0) : DialogFragment() {
+class HistoryItemPropertiesDialogFragment(var date: String, var status: Int, val position: Int, var rating: Int = 0) : DialogFragment() {
 
     private var _binding: FragmentHistoryItemPropertiesDialogBinding? = null
     private val binding get() = _binding!!
