@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -20,11 +20,9 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
-import com.madcrew.pravamobil.view.fragment.registration.enter.EnterViewModel
-import com.madcrew.pravamobil.view.fragment.registration.enter.EnterViewModelFactory
 
 
-class SmsCodeFragment(var phoneNumber: String) : Fragment() {
+class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
 
     private var _binding: FragmentSmsCodeBinding? = null
     private val binding get() = _binding!!

@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.progress.filial
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,8 +57,12 @@ class FilialFragment : Fragment() {
             minValue = 0
             maxValue = data.size - 1
             displayedValues = data
-            typeface = resources.getFont(R.font.ubuntu_m)
-            setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                typeface = resources.getFont(R.font.ubuntu_m)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
+            }
             wrapSelectorWheel = true
         }
     }

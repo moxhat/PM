@@ -1,10 +1,10 @@
 package com.madcrew.pravamobil.view.fragment.registration.enter
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
@@ -13,10 +13,8 @@ import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.TokenOnly
 import com.madcrew.pravamobil.models.responsemodels.School
-import com.madcrew.pravamobil.models.responsemodels.SchoolListResponse
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
-import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
 import com.madcrew.pravamobil.view.fragment.registration.signin.SignInFragment
 
@@ -26,7 +24,7 @@ class EnterFragment : Fragment() {
     private var _binding: FragmentEnterBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var schoolList: MutableList<School>
+    private lateinit var schoolList: MutableList<School>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
