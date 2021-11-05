@@ -13,7 +13,7 @@ import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.confirmcontract.ConfirmContractFragment
 
 
-class CheckDataFragment(var type: String) : Fragment() {
+class CheckDataFragment(var type: String = "student") : Fragment() {
 
     private var _binding: FragmentCheckDataBinding? = null
     private val binding get() = _binding!!

@@ -14,7 +14,7 @@ import com.madcrew.pravamobil.view.dialog.InfoFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 
 
-class TransmissionFragment(private var selectedCategory: String) : Fragment() {
+class TransmissionFragment : Fragment() {
 
     private var _binging:FragmentTransmissionBinding? = null
     private val binding get() = _binging!!
@@ -31,8 +31,6 @@ class TransmissionFragment(private var selectedCategory: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mainManager = parentFragmentManager
-
-        binding.transmissionTitle.text = selectedCategory
 
         binding.btTransmissionMechanic.setOnClickListener {
             Preferences.setPrefsString("transmission", resources.getString(R.string.mechanic), requireContext())

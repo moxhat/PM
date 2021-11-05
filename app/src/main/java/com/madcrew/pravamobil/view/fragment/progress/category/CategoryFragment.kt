@@ -46,7 +46,7 @@ class CategoryFragment : Fragment() {
 
         binding.btCategoryNext.setOnClickListener {
             val selectedCategory = data[picker.value]
-            nextFragmentInProgress(mainManager, TransmissionFragment(selectedCategory))
+            nextFragmentInProgress(mainManager, TransmissionFragment())
         }
     }
 

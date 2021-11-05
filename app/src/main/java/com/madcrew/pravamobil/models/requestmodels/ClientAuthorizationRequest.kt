@@ -8,7 +8,8 @@ data class ClientAuthorizationRequest(
     var schoolId: String,
     @SerializedName("phone")
     var phoneNumber: String,
-    var password: String
+    var password: String,
+    var adult: String? = null
 )
 
 

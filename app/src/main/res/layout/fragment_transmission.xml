@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/ubuntu_b"
+        android:text="@string/transmission"
         android:textAlignment="center"
         android:textColor="?attr/colorOnSecondary"
         android:textSize="24sp"
