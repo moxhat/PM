@@ -4,12 +4,23 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityProgressBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.isOnline
+import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordFragment
+import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModel
+import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
@@ -33,11 +44,16 @@ class ProgressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProgressBinding
     private var status = "AddPassword"
     private var isAdult = true
+    lateinit var mViewModel: ProgressViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val repository = Repository()
+        val viewModelFactory = ProgressViewModelFactory(repository)
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(ProgressViewModel::class.java)
 
         val owner = if (isAdult) {
             "student"
@@ -102,5 +118,23 @@ class ProgressActivity : AppCompatActivity() {
         transaction.replace(R.id.progress_activity_fragment_container, fragment)
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.commit()
+    }
+
+    fun updateProgress(status: String){
+        val schoolId = Preferences.getPrefsString("schoolId", this).toString()
+        val clientId = Preferences.getPrefsString("clientId", this).toString()
+        if (isOnline(this)) {
+            mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, status))
+        } else {
+            noInternet(this)
+        }
+    }
+
+    fun updateClientData(data:FullRegistrationRequest){
+        if (isOnline(this)) {
+            mViewModel.updateClientData(data)
+        } else {
+            noInternet(this)
+        }
     }
 }

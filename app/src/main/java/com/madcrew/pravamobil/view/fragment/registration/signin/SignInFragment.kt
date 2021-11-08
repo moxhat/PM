@@ -8,10 +8,19 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignInBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.ClientAuthorizationRequest
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.hideKeyboard
+import com.madcrew.pravamobil.utils.isOnline
+import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
+import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
 import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.greetings.GreetingsFragment
 
@@ -32,6 +41,10 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val repository = Repository()
+        val viewModelFactory = SignInViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(SignInViewModel::class.java)
+
         val mainManager = parentFragmentManager
         val loginText = binding.signinLoginEditText
         val loginField = binding.signinLogin
@@ -39,6 +52,25 @@ class SignInFragment : Fragment() {
         val passwordField = binding.signinPassword
 
         val tempPassword = "00000000"
+
+        mViewModel.signResponse.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                when (response.body()!!.status) {
+                    "done" -> {
+                        Preferences.setPrefsString("clientID", response.body()!!.client.id, requireContext())
+                        nextFragment(mainManager, GreetingsFragment())
+                    }
+                    "password" -> {
+                        passwordField.isErrorEnabled = true
+                        passwordField.error = resources.getString(R.string.wrong_password)
+                    }
+                    "notexist" -> {
+                        passwordField.isErrorEnabled = true
+                        passwordField.error = resources.getString(R.string.accaunt_not_found)
+                    }
+                }
+            }
+        })
 
         loginText.doOnTextChanged { _, _, _, _ ->
             if (loginText.length() > 1) loginField.setErrorOff()
@@ -55,42 +87,51 @@ class SignInFragment : Fragment() {
         }
 
         binding.btSigninEnter.setOnClickListener {
-            if (loginText.length() < 16) loginField.setErrorOn()
-            if (passwordText.text.toString() == tempPassword){
-                nextFragment(mainManager, GreetingsFragment())
+            if (loginText.length() == 16 || passwordText.length() == 8) {
+                if (isOnline(requireContext())){
+                    mViewModel.clientAuthorization(
+                        ClientAuthorizationRequest(
+                            TOKEN,
+                            loginText.text.toString(),
+                            passwordText.text.toString()
+                        )
+                    )
+                } else {
+                    noInternet(requireContext())
+                }
             } else {
-                passwordField.isErrorEnabled = true
-                passwordField.error = resources.getString(R.string.wrong_password)
+                if (loginText.length() < 16) loginField.setErrorOn()
+                if (passwordText.length() < 8)passwordField.setErrorOn()
             }
         }
     }
+}
 
-    private fun previousFragment(mainManager: FragmentManager, fragment: Fragment) {
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.apply {
-            setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-            replace(R.id.enter_activity_fragment_container, fragment)
-            commit()
-        }
-
+private fun previousFragment(mainManager: FragmentManager, fragment: Fragment) {
+    val transaction: FragmentTransaction = mainManager.beginTransaction()
+    transaction.apply {
+        setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+        replace(R.id.enter_activity_fragment_container, fragment)
+        commit()
     }
 
-    private fun nextFragment(mainManager: FragmentManager, fragment: Fragment) {
-        val transaction: FragmentTransaction = mainManager.beginTransaction()
-        transaction.apply {
-            setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            replace(R.id.enter_activity_fragment_container, fragment)
-            commit()
-        }
-    }
+}
 
-    private fun TextInputLayout.setErrorOff() {
-        this.error = null
-        this.isErrorEnabled = false
+private fun nextFragment(mainManager: FragmentManager, fragment: Fragment) {
+    val transaction: FragmentTransaction = mainManager.beginTransaction()
+    transaction.apply {
+        setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+        replace(R.id.enter_activity_fragment_container, fragment)
+        commit()
     }
+}
 
-    private fun TextInputLayout.setErrorOn() {
-        this.isErrorEnabled = true
-        this.error = resources.getString(R.string.name_alert)
-    }
+private fun TextInputLayout.setErrorOff() {
+    this.error = null
+    this.isErrorEnabled = false
+}
+
+private fun TextInputLayout.setErrorOn() {
+    this.isErrorEnabled = true
+    this.error = resources.getString(R.string.name_alert)
 }

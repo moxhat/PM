@@ -47,6 +47,7 @@ class AddPasswordFragment : Fragment() {
         mViewModel.firstRegistrationResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
                 if (response.body()!!.status == "done"){
+                    Preferences.setPrefsString("clientId", response.body()!!.clientId, requireContext())
                     nextFragmentInProgress(mainManager, EmailFragment())
                 }
             }
@@ -73,13 +74,22 @@ class AddPasswordFragment : Fragment() {
         }
 
         binding.btAddPasswordNext.setOnClickListener {
-            chekPassword(
+           if ( chekPassword(
                 firstPasswordText,
                 secondPasswordText,
                 secondPassword,
                 firstPassword,
                 mViewModel
-            )
+            )) {
+               if (isOnline(requireContext())){
+                   val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+                   val firstName = Preferences.getPrefsString("firstName", requireContext()).toString()
+                   val phoneNumber = Preferences.getPrefsString("phoneNumber", requireContext()).toString()
+                   mViewModel.addPassword(AddPasswordRequest(TOKEN, schoolId, firstName, phoneNumber, firstPasswordText.text.toString()))
+               } else {
+                   noInternet(requireContext())
+               }
+           }
         }
     }
 
@@ -89,17 +99,10 @@ class AddPasswordFragment : Fragment() {
         secondPassword: TextInputLayout,
         firstPassword: TextInputLayout,
         viewModel: AddPasswordViewModel
-    ) {
+    ): Boolean {
         if (firstPasswordText.length() == 8 && secondPasswordText.length() == 8) {
-            if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
-                if (isOnline(requireContext())){
-                    val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
-                    val firstName = Preferences.getPrefsString("firstName", requireContext()).toString()
-                    val phoneNumber = Preferences.getPrefsString("phoneNumber", requireContext()).toString()
-                    viewModel.addPassword(AddPasswordRequest(TOKEN, schoolId, firstName, phoneNumber, firstPasswordText.text.toString()))
-                } else {
-                    noInternet(requireContext())
-                }
+            return if (firstPasswordText.text.toString() == secondPasswordText.text.toString()) {
+                true
             } else {
                 secondPassword.apply {
                     isErrorEnabled = true
@@ -109,6 +112,7 @@ class AddPasswordFragment : Fragment() {
                     isErrorEnabled = true
                     error = ""
                 }
+                false
             }
         } else {
             secondPassword.apply {
@@ -119,6 +123,7 @@ class AddPasswordFragment : Fragment() {
                 isErrorEnabled = true
                 error = ""
             }
+            return false
         }
     }
 }

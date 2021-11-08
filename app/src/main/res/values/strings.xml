@@ -206,4 +206,5 @@
     <string name="way">Способ</string>
     <string name="service">Услуга</string>
     <string name="choose_school">Выберите автошколу</string>
+    <string name="accaunt_not_found">Аккаунт не найден</string>
 </resources>
