@@ -5,13 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentCategoryBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.CategoryRequest
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
+import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
-import com.shawnlin.numberpicker.NumberPicker
 
 
 class CategoryFragment : Fragment() {
@@ -30,38 +39,50 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val categoryList = mutableListOf<String>()
+
+        val parent = this.context as ProgressActivity
+        val repository = Repository()
+        val viewModelFactory = CategoryViewModelFactory(repository)
+        val mViewModel =
+            ViewModelProvider(this, viewModelFactory).get(CategoryViewModel::class.java)
+
         val mainManager = parentFragmentManager
-
         val picker = binding.categoryPicker
-        val a = "\"A\""
-        val b = "\"B\""
-        val c = "\"C\""
-        val d = "\"D\""
-        val m = "\"M\""
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
 
-        val data =
-            arrayOf("Категория $a", "Категория $b", "Категория $c", "Категория $d", "Категория $m")
+        parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "SelectCategotyPage"))
 
-        setUpPicker(picker, data)
+        if (isOnline(requireContext())) {
+            mViewModel.getCategoryList(CategoryRequest(TOKEN, schoolId))
+        } else {
+            noInternet(requireContext())
+        }
+
+        mViewModel.categoryResponse.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                for (i in response.body()!!.categories) {
+                    categoryList.add(resources.getString(R.string.category) + " " + i.title)
+                }
+                mViewModel.setUpPicker(picker, categoryList.toTypedArray())
+            }
+        })
 
         binding.btCategoryNext.setOnClickListener {
-            val selectedCategory = data[picker.value]
-            nextFragmentInProgress(mainManager, TransmissionFragment())
+            val selectedCategory =
+                mViewModel.categoryResponse.value?.body()!!.categories[picker.value].id
+            parent.updateClientData(
+                FullRegistrationRequest(
+                    TOKEN,
+                    clientId,
+                    schoolId,
+                    category = selectedCategory
+                )
+            )
+            nextFragmentInProgress(mainManager, SelectTheoryFragment())
         }
     }
 
-    private fun setUpPicker(
-        picker: NumberPicker,
-        data: Array<String>
-    ) {
-        picker.apply {
-            minValue = 0
-            maxValue = data.size - 1
-            displayedValues = data
-            typeface = resources.getFont(R.font.ubuntu_m)
-            setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
-            wrapSelectorWheel = true
-        }
 
-    }
 }

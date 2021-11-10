@@ -18,6 +18,7 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.TariffSliderAdapter
 import com.madcrew.pravamobil.databinding.FragmentTarifBinding
 import com.madcrew.pravamobil.models.TariffSliderData
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.previousFragmentInProgress
 import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
@@ -121,7 +122,8 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
         binding.btTariffBack.setOnClickListener {
             val mainManager = parentFragmentManager
-            previousFragmentInProgress(mainManager, TheoryGroupFragment())
+            val filialId = Preferences.getPrefsString("filialId", requireContext()).toString()
+            previousFragmentInProgress(mainManager, TheoryGroupFragment(filialId))
         }
 
     }

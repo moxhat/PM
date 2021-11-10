@@ -68,7 +68,7 @@ class ProgressActivity : AppCompatActivity() {
             when (status) {
                 "RegisterEmailPage" -> EmailFragment()
                 "SelectCategotyPage" -> CategoryFragment()
-                "RegisterTransmissionPage" -> TransmissionFragment()
+//                "RegisterTransmissionPage" -> TransmissionFragment()
                 "RegisterFormatEducationPage" -> SelectTheoryFragment()
                 "SelectFilialAndGroup" -> FilialFragment()
                 "SelectTariffPage" -> TariffFragment()

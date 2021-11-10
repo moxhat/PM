@@ -70,4 +70,18 @@ interface PMApi {
         @Body
         transmissionInfoRequest: TransmissionInfoRequest
     ): Response<TransmissionInfoResponse>
+
+    //Получение списка филиалов
+    @POST("/api/school/centre/list")
+    suspend fun getFilialList(
+        @Body
+        filialRequest: FilialRequest
+    ): Response<FilialResponse>
+
+    //Получение списка групп филиала
+    @POST("/api/school/group/list")
+    suspend fun getGroupList(
+        @Body
+        groupsRequest: GroupsRequest
+    ): Response<GroupsResponse>
 }

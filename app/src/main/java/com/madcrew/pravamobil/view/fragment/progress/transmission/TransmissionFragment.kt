@@ -14,7 +14,7 @@ import com.madcrew.pravamobil.view.dialog.InfoFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 
 
-class TransmissionFragment : Fragment() {
+class TransmissionFragment(private val category: String) : Fragment() {
 
     private var _binging:FragmentTransmissionBinding? = null
     private val binding get() = _binging!!

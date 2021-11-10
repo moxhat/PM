@@ -5,10 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentFilialBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.FilialRequest
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModel
+import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import com.shawnlin.numberpicker.NumberPicker
 
@@ -35,36 +48,50 @@ class FilialFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mainManager = parentFragmentManager
+        val parent = this.context as ProgressActivity
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
         val picker = binding.filialPicker
 
-        val data =
-            arrayOf("Центр", "Фрунзе", "Заволга", "Брагино", "Московский")
+        parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "SelectFilialAndGroup"))
 
-        setUpPicker(picker, data)
+        val repository = Repository()
+        val viewModelFactory = FilialViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(FilialViewModel::class.java)
+
+        val filialList = mutableListOf<String>()
+
+        if(isOnline(requireContext())){
+            mViewModel.getFilialList(FilialRequest(TOKEN, schoolId))
+        } else {
+            noInternet(requireContext())
+        }
+
+        mViewModel.filialResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    for (i in response.body()!!.centres!!){
+                        if(i.full == "true"){
+                            filialList.add("${i.title} - ${resources.getString(R.string.no_places)}")
+                        } else {
+                            filialList.add(i.title)
+                        }
+                    }
+                    mViewModel.setUpPicker(picker, filialList.toTypedArray())
+                }
+            }
+        })
 
         binding.btFilialNext.setOnClickListener {
-            val selectedCategory = data[picker.value]
-            nextFragmentInProgress(mainManager, TheoryGroupFragment())
+            if (mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].full == "true"){
+                Toast.makeText(requireContext(), resources.getString(R.string.no_places), Toast.LENGTH_SHORT).show()
+            } else {
+                val selectedFilial = mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].id
+                Preferences.setPrefsString("filialId", selectedFilial, requireContext())
+                parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, centre = selectedFilial))
+                nextFragmentInProgress(mainManager, TheoryGroupFragment(selectedFilial))
+            }
         }
     }
-
-    private fun setUpPicker(
-        picker: NumberPicker,
-        data: Array<String>
-    ) {
-        picker.apply {
-            minValue = 0
-            maxValue = data.size - 1
-            displayedValues = data
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                typeface = resources.getFont(R.font.ubuntu_m)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                setSelectedTypeface(resources.getFont(R.font.ubuntu_m))
-            }
-            wrapSelectorWheel = true
-        }
-    }
-
 }

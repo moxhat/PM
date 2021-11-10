@@ -40,4 +40,12 @@ class Repository {
     suspend fun clientAuthorization(clientAuthorizationRequest: ClientAuthorizationRequest): Response<ClientAuthorizationResponse>{
         return RetrofitInstance.api.clientAuthorization(clientAuthorizationRequest)
     }
+
+    suspend fun getFilialList(filialRequest: FilialRequest): Response<FilialResponse>{
+        return RetrofitInstance.api.getFilialList(filialRequest)
+    }
+
+    suspend fun getGroupList(groupsRequest: GroupsRequest): Response<GroupsResponse>{
+        return RetrofitInstance.api.getGroupList(groupsRequest)
+    }
 }

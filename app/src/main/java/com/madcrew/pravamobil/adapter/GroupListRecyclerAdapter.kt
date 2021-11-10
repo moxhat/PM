@@ -9,9 +9,10 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.models.GroupTimes
+import com.madcrew.pravamobil.models.responsemodels.FilialGroup
 
 class GroupListRecyclerAdapter(
-    private var list: MutableList<GroupTimes>,
+    private var list: MutableList<FilialGroup>,
     private val listenerGroup: OnGroupClickListener,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,7 +22,7 @@ class GroupListRecyclerAdapter(
         fun onGroupClick(itemView: View?, position: Int)
     }
 
-    fun setGroupList(list: List<GroupTimes>) {
+    fun setGroupList(list: List<FilialGroup>) {
         this.list = list.toMutableList()
         notifyDataSetChanged()
     }
@@ -45,9 +46,9 @@ class GroupListRecyclerAdapter(
             brakeLine = itemView.findViewById(R.id.holder_break_line)
         }
 
-        internal fun bind(group: GroupTimes) {
-            dateString?.text = group.date
-            dayTimeString?.text = group.dayTimes
+        internal fun bind(group: FilialGroup) {
+            dateString?.text = group.start
+            dayTimeString?.text = group.time
             itemView.setOnClickListener(this)
         }
 

@@ -24,7 +24,7 @@ class EnterFragment : Fragment() {
     private var _binding: FragmentEnterBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var schoolList: MutableList<School>
+    private var schoolList = mutableListOf<School>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
