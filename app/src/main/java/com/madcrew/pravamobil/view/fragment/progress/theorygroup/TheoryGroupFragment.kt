@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.GroupListRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentTheoryGroupBinding
 import com.madcrew.pravamobil.domain.BaseUrl
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.GroupTimes
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.GroupsRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.responsemodels.FilialGroup
@@ -35,6 +37,7 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
     private var mGroupTimeList: MutableList<FilialGroup> = mutableListOf()
 
     private lateinit var mAdapter: GroupListRecyclerAdapter
+    private var selectedGroup = "null"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,13 +86,17 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
 
 
         binding.btTheoryGroupNext.setOnClickListener {
-            nextFragmentInProgress(mainManager, TariffFragment())
+//            if (selectedGroup == "null"){
+//                Toast.makeText(requireContext(), R.string.choose_theory_group, Toast.LENGTH_SHORT).show()
+//            } else {
+//                parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId,group_id = selectedGroup))
+                nextFragmentInProgress(mainManager, TariffFragment())
+//            }
         }
     }
 
     override fun onGroupClick(itemView: View?, position: Int) {
-        val selectedGroup = mGroupTimeList[position].id
-        Toast.makeText(requireContext(), id, Toast.LENGTH_SHORT).show()
+        selectedGroup = mGroupTimeList[position].id
     }
 
 }

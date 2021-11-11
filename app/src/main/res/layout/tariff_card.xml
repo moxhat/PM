@@ -69,19 +69,32 @@
             app:layout_constraintTop_toBottomOf="@+id/tariff_name" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/in_contract_text_1"
+            android:id="@+id/in_contract_text_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
-            android:text="Курс по теории"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_in_contract_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/in_contract_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/ubuntu_r"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/in_contract_text_0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/in_contract_text_2"
@@ -91,7 +104,6 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
-            android:text="Практика 56 часов (механика)"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,27 +118,11 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
-            android:text="Топливо"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_contract_text_2" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/in_contract_text_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="24dp"
-            android:fontFamily="@font/ubuntu_r"
-            android:text="Внутренний экзамен"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/in_contract_text_3" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tariff_brake_line"
@@ -138,7 +134,7 @@
             android:src="@drawable/ic_break_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/in_contract_text_4"
+            app:layout_constraintTop_toBottomOf="@+id/in_contract_text_3"
             app:tint="@color/hint" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -155,14 +151,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tariff_brake_line" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tariff_additional_payment_1"
+            android:id="@+id/tariff_additional_payment_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
-            android:text="Шоферская комиссия"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,19 +165,18 @@
             app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payments_tatle" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tariff_additional_payment_2"
+            android:id="@+id/tariff_additional_payment_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/ubuntu_r"
-            android:text="Госпошила за в/у"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_1" />
+            app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tariff_card_price"
@@ -195,7 +189,7 @@
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_2" />
+            app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tariff_card_payment_by_instalments"
@@ -215,7 +209,7 @@
             android:layout_width="0dp"
             android:layout_height="34dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="44dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/ic_main_button"
@@ -228,7 +222,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tariff_card_payment_by_instalments" />
+            app:layout_constraintTop_toBottomOf="@+id/tariff_card_price"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

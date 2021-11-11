@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.models.TariffSliderData
+import com.madcrew.pravamobil.models.responsemodels.Tariff
 
 
-class TariffSliderAdapter(private var slides: List<TariffSliderData>, private val listenerTariff: OnSelectClickListener)
+class TariffSliderAdapter(private var slides: List<Tariff>, private val listenerTariff: OnSelectClickListener)
     : RecyclerView.Adapter<TariffSliderAdapter.SliderAdapterViewHolder>(){
 
     interface OnSelectClickListener {
@@ -23,12 +21,44 @@ class TariffSliderAdapter(private var slides: List<TariffSliderData>, private va
         View.OnClickListener {
         private val tariffName = view.findViewById<TextView>(R.id.tariff_name)
         private val tariffPrice = view.findViewById<TextView>(R.id.tariff_card_price)
+        private val tariffInclude0 = view.findViewById<TextView>(R.id.in_contract_text_0)
+        private val tariffInclude1 = view.findViewById<TextView>(R.id.in_contract_text_1)
+        private val tariffInclude2 = view.findViewById<TextView>(R.id.in_contract_text_2)
+        private val tariffInclude3 = view.findViewById<TextView>(R.id.in_contract_text_3)
+        private val tariffAdditional0 = view.findViewById<TextView>(R.id.tariff_additional_payment_0)
+        private val tariffAdditional1 = view.findViewById<TextView>(R.id.tariff_additional_payment_1)
         private val btTariffSelect = view.findViewById<AppCompatButton>(R.id.bt_tariff_card_select)
 
 
-        fun bind(tariffSliderData: TariffSliderData) {
-            tariffName.text = tariffSliderData.tariffName
-            tariffPrice.text = tariffSliderData.tariffPrice
+        fun bind(tariff: Tariff) {
+            tariffName.text = tariff.title
+            tariffPrice.text = tariff.price + " " + "руб."
+            when(tariff.include.size){
+                1 ->  tariffInclude0.text = tariff.include[0]
+                2 -> {
+                    tariffInclude0.text = tariff.include[0]
+                    tariffInclude1.text = tariff.include[1]
+                }
+                3 -> {
+                    tariffInclude0.text = tariff.include[0]
+                    tariffInclude1.text = tariff.include[1]
+                    tariffInclude2.text = tariff.include[2]
+                }
+                4 -> {
+                    tariffInclude0.text = tariff.include[0]
+                    tariffInclude1.text = tariff.include[1]
+                    tariffInclude2.text = tariff.include[2]
+                    tariffInclude3.text = tariff.include[3]
+                }
+            }
+            when(tariff.extra.size){
+                1 -> tariffAdditional0.text = tariff.extra[0]
+                2 -> {
+                    tariffAdditional0.text = tariff.extra[0]
+                    tariffAdditional1.text = tariff.extra[1]
+                }
+            }
+
             btTariffSelect.setOnClickListener(this)
         }
 

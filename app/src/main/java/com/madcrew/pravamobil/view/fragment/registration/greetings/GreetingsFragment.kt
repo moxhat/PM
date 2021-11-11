@@ -15,7 +15,7 @@ import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import java.util.*
 
-class GreetingsFragment : Fragment() {
+class GreetingsFragment(private var name: String = "Оксана") : Fragment() {
 
     private var _binding: FragmentGreetingsBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +36,8 @@ class GreetingsFragment : Fragment() {
         val greetingTitle = binding.greetingsTitle1
 
         val parent = this.context as EnterActivity
+
+        binding.greetingsTitle2.text = name
 
         val cal = Calendar.getInstance()
         when (cal.get(Calendar.HOUR_OF_DAY)) {

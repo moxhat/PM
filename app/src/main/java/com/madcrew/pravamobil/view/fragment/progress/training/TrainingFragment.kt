@@ -2,7 +2,6 @@ package com.madcrew.pravamobil.view.fragment.progress.training
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,13 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.adapter.TariffSliderAdapter
 import com.madcrew.pravamobil.adapter.TrainingSliderAdapter
-import com.madcrew.pravamobil.databinding.FragmentTarifBinding
 import com.madcrew.pravamobil.databinding.FragmentTrainingBinding
-import com.madcrew.pravamobil.models.TariffSliderData
 import com.madcrew.pravamobil.models.TrainingSliderData
-import com.madcrew.pravamobil.view.fragment.progress.tariff.tariffSlides
 
 lateinit var trainingSliderAdapter: TrainingSliderAdapter
 lateinit var trainingSlides:MutableList<TrainingSliderData>

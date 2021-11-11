@@ -9,6 +9,7 @@ data class Tariff(
     var id: String,
     var title: String,
     var include: List<String>,
+    var extra: List<String>,
     var price: String,
     var installment: String
 )

@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.progress.paymnetoptions
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +18,7 @@ import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.skydoves.powerspinner.IconSpinnerItem
 
 
-class PaymentOptionsFragment : Fragment() {
+class PaymentOptionsFragment(private val summ: Int = 30000) : Fragment() {
 
     private var _binding: FragmentPymentOptionsBinding? = null
     private val binding get() = _binding!!
@@ -70,21 +71,11 @@ class PaymentOptionsFragment : Fragment() {
         }
 
 
-        spinnerPayment.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
-            if (newIndex == 0) {
-                paymentSeekCard.setGone()
-                paymentDatesCard.setGone()
-            } else {
-                paymentSeekCard.setVisible()
-                paymentDatesCard.setVisible()
-            }
-        }
-
-        val tempPrice = 30000
-
         val seekBar = binding.paymentsOptionsSeekBar
-        seekBar.min = 5
-        seekBar.max = tempPrice / 1000 - 1
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            seekBar.min = 5
+        }
+        seekBar.max = summ / 1000 - 1
 
         binding.paymentValue.text = (seekBar.progress * 1000).toString()
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -94,7 +85,7 @@ class PaymentOptionsFragment : Fragment() {
                 if (fromUser) {
                     if (progress >= 0 && progress <= seekBar.max) {
                         val firstPayment = progress * 1000
-                        val nextPayment = tempPrice - firstPayment
+                        val nextPayment = summ - firstPayment
                         val progressString = "${(progress * 1000)} руб."
                         binding.paymentValue.text = progressString
                         binding.paymentSum1.text = "$firstPayment руб."
@@ -104,6 +95,22 @@ class PaymentOptionsFragment : Fragment() {
                 }
             }
         })
+
+        spinnerPayment.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
+            if (newIndex == 0) {
+                paymentSeekCard.setGone()
+                paymentDatesCard.setGone()
+            } else {
+                paymentSeekCard.setVisible()
+                paymentDatesCard.setVisible()
+                val firstPayment = seekBar.progress * 1000
+                val nextPayment = summ - firstPayment
+                val progressString = "${(seekBar.progress * 1000)} руб."
+                binding.paymentValue.text = progressString
+                binding.paymentSum1.text = "$firstPayment руб."
+                binding.paymentSum2.text = "$nextPayment руб."
+            }
+        }
 
         binding.btPaymentOptionsNext.setOnClickListener {
             nextFragmentInProgress(mainManager, DocumentTypeFragment())

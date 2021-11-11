@@ -72,7 +72,7 @@ class FilialFragment : Fragment() {
             if (response.isSuccessful){
                 if (response.body()!!.status == "done"){
                     for (i in response.body()!!.centres!!){
-                        if(i.full == "true"){
+                        if(i.full == "false"){
                             filialList.add("${i.title} - ${resources.getString(R.string.no_places)}")
                         } else {
                             filialList.add(i.title)
@@ -84,7 +84,7 @@ class FilialFragment : Fragment() {
         })
 
         binding.btFilialNext.setOnClickListener {
-            if (mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].full == "true"){
+            if (mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].full == "false"){
                 Toast.makeText(requireContext(), resources.getString(R.string.no_places), Toast.LENGTH_SHORT).show()
             } else {
                 val selectedFilial = mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].id

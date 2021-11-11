@@ -58,7 +58,9 @@ class SignInFragment : Fragment() {
                 when (response.body()!!.status) {
                     "done" -> {
                         Preferences.setPrefsString("clientID", response.body()!!.client.id, requireContext())
-                        nextFragment(mainManager, GreetingsFragment())
+                        Preferences.setPrefsString("progressStatus", response.body()!!.client.progress, requireContext())
+                        val name = response.body()!!.client.firstName
+                        nextFragment(mainManager, GreetingsFragment(name))
                     }
                     "password" -> {
                         passwordField.isErrorEnabled = true

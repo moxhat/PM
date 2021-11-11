@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -17,16 +18,26 @@ import androidx.viewpager2.widget.ViewPager2
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.TariffSliderAdapter
 import com.madcrew.pravamobil.databinding.FragmentTarifBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.TariffSliderData
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.TariffListRequest
+import com.madcrew.pravamobil.models.responsemodels.Tariff
 import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.previousFragmentInProgress
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.progress.category.CategoryViewModel
+import com.madcrew.pravamobil.view.fragment.progress.category.CategoryViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import kotlin.math.abs
 
-lateinit var sliderAdapter: TariffSliderAdapter
-lateinit var tariffSlides:MutableList<TariffSliderData>
+private lateinit var sliderAdapter: TariffSliderAdapter
+private var tariffSlides = mutableListOf<Tariff>()
+private var selectedPage = 0
 
 class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
@@ -51,64 +62,86 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tariffSlides = mutableListOf(
-            TariffSliderData("Стандарт", "23 000 руб."),
-            TariffSliderData("Продвинутый", "28 500 руб."),
-            TariffSliderData("VIP", "32 000 руб.")
-        )
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
 
-        sliderAdapter = TariffSliderAdapter(tariffSlides, this)
+        val parent = this.context as ProgressActivity
+        val repository = Repository()
+        val viewModelFactory = TariffViewModelFactory(repository)
+        val mViewModel =
+            ViewModelProvider(this, viewModelFactory).get(TariffViewModel::class.java)
+
+        parent.updateProgress("SelectTariffPage")
+
+        if (isOnline(requireContext())){
+            mViewModel.getTariffList(TariffListRequest(TOKEN, schoolId, clientId))
+        }
 
         val viewPager = binding.tariffViewPager
+        sliderAdapter = TariffSliderAdapter(tariffSlides, this)
 
-        viewPager.apply {
-            adapter = sliderAdapter
-            getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-            clipToPadding = false
-            clipChildren = false
-            offscreenPageLimit = 3
-        }
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer(20))
-        compositePageTransformer.addTransformer { page, position ->
-            val r: Float = 1 - abs(position)
-            page.scaleY = 0.85f + r * 0.15f
-        }
-        viewPager.setPageTransformer(compositePageTransformer)
-        sliderAdapter.notifyDataSetChanged()
-        (viewPager.adapter as TariffSliderAdapter).notifyDataSetChanged()
+        mViewModel.tariffResponse.observe(viewLifecycleOwner, {respone ->
+            if (respone.isSuccessful){
+                if(respone.body()!!.status == "done"){
+                    tariffSlides.clear()
+                    for (i in respone.body()!!.tariffs){
+                        tariffSlides.add(i)
+                    }
+                    sliderAdapter.notifyDataSetChanged()
+                    viewPager.apply {
+                        adapter = sliderAdapter
+                        getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        clipToPadding = false
+                        clipChildren = false
+                        offscreenPageLimit = 3
+                    }
+
+                    val compositePageTransformer = CompositePageTransformer()
+                    compositePageTransformer.addTransformer(MarginPageTransformer(20))
+                    compositePageTransformer.addTransformer { page, position ->
+                        val r: Float = 1 - abs(position)
+                        page.scaleY = 0.85f + r * 0.15f
+                    }
+                    viewPager.setPageTransformer(compositePageTransformer)
+                    sliderAdapter.notifyDataSetChanged()
+                    (viewPager.adapter as TariffSliderAdapter).notifyDataSetChanged()
 //        setupIndicators()
 
-        val indicatorsContainer = binding.tariffIndicators
-        val indicators = arrayOfNulls<ImageView>(sliderAdapter.itemCount)
-        val layoutParams: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        layoutParams.setMargins(10, 0, 10, 0)
-        sliderAdapter.notifyDataSetChanged()
-        for (i in indicators.indices) {
-            indicators[i] = ImageView(requireContext())
-            indicators[i].apply {
-                this?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_indicator_inactive
-                    )
-                )
-                this?.layoutParams = layoutParams
-            }
-            indicatorsContainer.addView(indicators[i])
-        }
-        sliderAdapter.notifyDataSetChanged()
+                    val indicatorsContainer = binding.tariffIndicators
+                    val indicators = arrayOfNulls<ImageView>(sliderAdapter.itemCount)
+                    val layoutParams: LinearLayout.LayoutParams =
+                        LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                    layoutParams.setMargins(10, 0, 10, 0)
+                    sliderAdapter.notifyDataSetChanged()
+                    for (i in indicators.indices) {
+                        indicators[i] = ImageView(requireContext())
+                        indicators[i].apply {
+                            this?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_indicator_inactive
+                                )
+                            )
+                            this?.layoutParams = layoutParams
+                        }
+                        indicatorsContainer.addView(indicators[i])
+                    }
+                    sliderAdapter.notifyDataSetChanged()
 
-        setupCurrentIndicator(0)
+                    setupCurrentIndicator(0)
+                }
+            }
+        })
+
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 setupCurrentIndicator(position)
+                selectedPage = position
             }
         })
 
@@ -130,7 +163,11 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
 
     override fun onSelectClick(itemView: View?, position: Int) {
         val mainManager = parentFragmentManager
-        nextFragmentInProgress(mainManager, PaymentOptionsFragment())
+        val parent = this.context as ProgressActivity
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, tariffId = tariffSlides[position].id))
+        nextFragmentInProgress(mainManager, PaymentOptionsFragment(tariffSlides[position].price.toInt()))
     }
 
     private fun setupCurrentIndicator(index: Int) {

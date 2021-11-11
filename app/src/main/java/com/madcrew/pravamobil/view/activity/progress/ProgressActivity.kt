@@ -42,7 +42,6 @@ import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFr
 class ProgressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProgressBinding
-    private var status = "AddPassword"
     private var isAdult = true
     lateinit var mViewModel: ProgressViewModel
 
@@ -61,6 +60,8 @@ class ProgressActivity : AppCompatActivity() {
             "parent"
         }
 
+        val status = Preferences.getPrefsString("progressStatus", this)
+
         val window: Window = this.window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.main)
@@ -73,7 +74,7 @@ class ProgressActivity : AppCompatActivity() {
                 "SelectFilialAndGroup" -> FilialFragment()
                 "SelectTariffPage" -> TariffFragment()
 //            "SelectPayer" ->
-                "SelectPayment" -> PaymentOptionsFragment()
+//                "SelectPayment" -> PaymentOptionsFragment()
                 "SelectTypeDocument" -> DocumentTypeFragment(type = "student")
                 "RegisterPersonalDataPage" -> StudentNameFragment(type = "student")
                 "RegisterPassportPage" -> PassportFragment("student")
