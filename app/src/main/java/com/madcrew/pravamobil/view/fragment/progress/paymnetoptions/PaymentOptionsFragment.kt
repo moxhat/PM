@@ -10,9 +10,13 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPymentOptionsBinding
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.skydoves.powerspinner.IconSpinnerItem

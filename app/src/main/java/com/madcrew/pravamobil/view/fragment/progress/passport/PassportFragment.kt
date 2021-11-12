@@ -7,7 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import com.madcrew.pravamobil.databinding.FragmentPassportBinding
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.models.submodels.ParentModel
+import com.madcrew.pravamobil.models.submodels.PassportModel
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.parentphone.ParentPhoneNumberFragment
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
 
@@ -39,6 +46,17 @@ class PassportFragment(var type: String = "student") : Fragment() {
         val departmentText = binding.passportDepartmentCodeText
         val departmentField = binding.passportDepartmentCode
 
+        val parent = this.context as ProgressActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        if (type == "student"){
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterPassportPage"))
+        } else {
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterParentPassportPage"))
+        }
+
         seriesText.doOnTextChanged{_,_,_,_ ->
             if(seriesText.length() > 1) seriesField.setErrorOff()
             if (seriesText.length() == 4) numberText.requestFocus()
@@ -65,18 +83,20 @@ class PassportFragment(var type: String = "student") : Fragment() {
 
         binding.btPassportNext.setOnClickListener {
             if (seriesText.length() == 4 && numberText.length() == 6 && giverText.length() > 2 && dateText.length() == 10 && departmentText.length() == 7){
+                val passportSeries = binding.passportSeriesText.text.toString()
+                val passportNumber = binding.passportNumberText.text.toString()
+                val passportGiver = binding.passportGiverText.text.toString()
+                val passportDate = dateConverter(binding.passportGivenDateText.text.toString(), requireContext())
+                val passportDepartmentCode = binding.passportDepartmentCodeText.text.toString()
                 when (type){
                     "student" -> {
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, passport = PassportModel(passportSeries, passportNumber, passportGiver,passportDate, passportDepartmentCode)))
                         nextFragmentInProgress(parentFragmentManager, PassportScanFragment())
-                        Preferences.apply {
-                            setPrefsString("passportSeries", binding.passportSeriesText.text.toString(), requireContext())
-                            setPrefsString("passportNumber", binding.passportNumberText.text.toString(), requireContext())
-                            setPrefsString("passportGiver", binding.passportGiverText.text.toString(), requireContext())
-                            setPrefsString("passportDate", dateConverter(binding.passportGivenDateText.text.toString(), requireContext()), requireContext())
-                            setPrefsString("passportDepartmentCode", binding.passportDepartmentCodeText.text.toString(), requireContext())
-                        }
                     }
-                    "parent" -> nextFragmentInProgress(parentFragmentManager, ParentPhoneNumberFragment())
+                    "parent" -> {
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(passport = PassportModel(passportSeries, passportNumber, passportGiver,passportDate, passportDepartmentCode))))
+                        nextFragmentInProgress(parentFragmentManager, ParentPhoneNumberFragment())
+                    }
                 }
             } else {
                 if (seriesText.length() < 4) seriesField.setErrorOn()

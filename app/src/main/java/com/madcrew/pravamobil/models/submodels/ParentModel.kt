@@ -3,14 +3,14 @@ package com.madcrew.pravamobil.models.submodels
 import com.google.gson.annotations.SerializedName
 
 data class ParentModel(
-    var lastName: String?,
-    var name: String?,
+    var lastName: String? = null,
+    var name: String? = null,
     @SerializedName("patronymic")
-    var thirdName: String?,
+    var thirdName: String? = null,
     @SerializedName("dateBirthday")
-    var dateBirthday: String?,
-    var phoneNumber: String?,
-    var passport: PassportModel?,
+    var dateBirthday: String? = null,
+    var phoneNumber: String? = null,
+    var passport: PassportModel? = null,
     @SerializedName("place")
-    var address: AddressModel?
+    var address: AddressModel? = null
 )

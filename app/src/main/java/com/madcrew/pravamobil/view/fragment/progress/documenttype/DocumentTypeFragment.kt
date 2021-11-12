@@ -1,6 +1,7 @@
 package com.madcrew.pravamobil.view.fragment.progress.documenttype
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,15 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentDocumentTypeBinding
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
 import com.skydoves.powerspinner.IconSpinnerAdapter
@@ -40,8 +47,20 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
         super.onViewCreated(view, savedInstanceState)
 
         val spinnerDocument = binding.documentTypeSpinner
+        var documentType = 0
 
         val mainManager = parentFragmentManager
+
+        val parent = this.context as ProgressActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        if (type == "student"){
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "SelectTypeDocument"))
+        } else {
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "SelectTypeParentDocument"))
+        }
 
         binding.documentTypeTitle2.setText(title2)
 
@@ -51,8 +70,8 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
                 arrayListOf(
                     IconSpinnerItem(text = "Паспорт РФ", iconRes = null),
                     IconSpinnerItem(text = "Иностранный паспорт", iconRes = null),
-                    IconSpinnerItem(text = "РВП", iconRes = null),
-                    IconSpinnerItem(text = "Вид на жительсво", iconRes = null)
+                    IconSpinnerItem(text = "Вид на жительсво", iconRes = null),
+                    IconSpinnerItem(text = "РВП", iconRes = null)
                 )
             )
             getSpinnerRecyclerView().layoutManager = GridLayoutManager(context, 1)
@@ -71,13 +90,7 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
 
 
         spinnerDocument.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
-//            if (newIndex == 0) {
-//                paymentSeekCard.setGone()
-//                paymentDatesCard.setGone()
-//            } else {
-//                paymentSeekCard.setVisible()
-//                paymentDatesCard.setVisible()
-//            }
+            documentType = newIndex + 1
         }
 
         binding.btDocumentTypeNext.setOnClickListener {
@@ -85,7 +98,7 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
                 "student" -> nextFragmentInProgress(mainManager, StudentNameFragment())
                 "parent" -> nextFragmentInProgress(mainManager, PassportFragment("parent"))
             }
-
+            parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, documentType = documentType.toString()))
         }
     }
 }

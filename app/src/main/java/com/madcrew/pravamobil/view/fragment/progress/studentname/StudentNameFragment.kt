@@ -8,7 +8,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentStudentNameBinding
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.models.submodels.ParentModel
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 
@@ -30,8 +36,8 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
 
         binding.studentNameTitle.setText(title)
 
-        val nameText = binding.studentNameSecondNameText
-        val nameField = binding.studentNameSecondName
+        val secondNameText = binding.studentNameSecondNameText
+        val secondNameField = binding.studentNameSecondName
         val firstNameText = binding.studentNameFirstText
         val firstNameField = binding.studentNameFirstName
         val thirdNameText = binding.studentNameThirdText
@@ -39,8 +45,19 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         val birthDateText = binding.studentNameBirthDateText
         val birthDateField = binding.studentNameBirthDate
 
-        nameText.doOnTextChanged{_,_,_,_ ->
-            if(nameText.length() > 1) nameField.setErrorOff()
+        val parent = this.context as ProgressActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        if (type == "student"){
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterPersonalDataPage"))
+        } else {
+            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterParentDataPage"))
+        }
+
+        secondNameText.doOnTextChanged{_,_,_,_ ->
+            if(secondNameText.length() > 1) secondNameField.setErrorOff()
         }
 
         firstNameText.doOnTextChanged{_,_,_,_ ->
@@ -57,16 +74,27 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         }
 
         binding.btStudentNameNext.setOnClickListener {
-            if (nameText.length() > 2 && firstNameText.length() > 2 && thirdNameText.length() > 2 && birthDateText.length() == 10){
+            if (secondNameText.length() > 2 && firstNameText.length() > 2 && thirdNameText.length() > 2 && birthDateText.length() == 10){
+                val lastname = secondNameText.text.toString().replaceFirstChar { it.uppercase() }
+                val name = firstNameText.text.toString().replaceFirstChar { it.uppercase() }
+                val thirdName = thirdNameText.text.toString().replaceFirstChar { it.uppercase() }
+                val birthDate = birthDateText.text.toString()
                 when(type){
                     "student" -> {
-                        nextFragmentInProgress(parentFragmentManager, PassportFragment())
                         Preferences.setPrefsString("birthDate", dateConverter(binding.studentNameBirthDateText.text.toString(), requireContext()), requireContext())
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, lastName = lastname, name = name, patronymic = thirdName, dateBirthday = birthDate))
+                        nextFragmentInProgress(parentFragmentManager, PassportFragment())
                     }
-                    "parent" ->  nextFragmentInProgress(parentFragmentManager, DocumentTypeFragment(R.string.representatives, "parent"))
+                    "parent" -> {
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(lastName = lastname, name = name, thirdName = thirdName, dateBirthday = birthDate)))
+                        nextFragmentInProgress(
+                            parentFragmentManager,
+                            DocumentTypeFragment(R.string.representatives, "parent")
+                        )
+                    }
                 }
             } else {
-                if (nameText.length() < 2) nameField.setErrorOn()
+                if (secondNameText.length() < 2) secondNameField.setErrorOn()
                 if (firstNameText.length() < 2) firstNameField.setErrorOn()
                 if (thirdNameText.length() < 2) thirdNameField.setErrorOn()
                 if (birthDateText.length() < 10) birthDateField.setErrorOn()
