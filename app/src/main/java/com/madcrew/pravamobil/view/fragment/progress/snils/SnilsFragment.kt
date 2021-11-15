@@ -1,16 +1,32 @@
 package com.madcrew.pravamobil.view.fragment.progress.snils
 
+import android.Manifest
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.madcrew.pravamobil.BuildConfig
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.submodels.DocumentsPhotosModel
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
+import com.tbruyelle.rxpermissions2.RxPermissions
+import java.io.File
+import java.io.InputStream
 
 
 class SnilsFragment : Fragment() {
@@ -18,9 +34,37 @@ class SnilsFragment : Fragment() {
     private var _binding: FragmentSnilsBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var takenImageBase64: String
+    private var imageIsTaken = false
+
+    private val takeImageResult =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+            if (isSuccess) {
+                latestTmpUri?.let { uri ->
+                    binding.imageView3.setGone()
+                    binding.textView2.setGone()
+                    val imageStream: InputStream? =
+                        requireActivity().contentResolver.openInputStream(uri)
+                    val selectedImage = BitmapFactory.decodeStream(imageStream)
+                    val encodedImage = encodeImage(selectedImage)
+                    Glide.with(requireContext()).asBitmap().centerCrop().load(uri)
+                        .into(previewImage)
+                    takenImageBase64 = encodedImage.toString()
+                    imageIsTaken = true
+                }
+            }
+        }
+
+    //    private val selectImageFromGalleryResult = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+//        uri?.let { previewImage.setImageURI(uri) }
+//    }
+
+    private var latestTmpUri: Uri? = null
+
+    private val previewImage by lazy { binding.snilsScanImage }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -28,29 +72,95 @@ class SnilsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSnilsBinding.inflate(inflater, container, false)
-        return  binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as ProgressActivity
+        val rxPermissions = RxPermissions(this)
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
         val snilsText = binding.snilsNumberText
         val snilsField = binding.snilsNumber
 
-        snilsText.doOnTextChanged{_,_,_,_ ->
-            if(snilsText.length() > 1) snilsField.setErrorOff()
-            if(snilsText.length() == 14) snilsField.hideKeyboard()
+        parent.updateProgress("RegistrationSnilsPage")
+
+        snilsText.doOnTextChanged { _, _, _, _ ->
+            if (snilsText.length() > 1) snilsField.setErrorOff()
+            if (snilsText.length() == 14) snilsField.hideKeyboard()
         }
 
         binding.btSnilsNext.setOnClickListener {
             if (snilsText.length() < 14) {
                 snilsField.setErrorOn()
             } else {
-                Preferences.setPrefsString("snils", binding.snilsNumberText.text.toString(), requireContext())
-                nextFragmentInProgress(parentFragmentManager, AddressFragment())
+                if (imageIsTaken) {
+                    val snils = snilsText.text.toString()
+                    if (isOnline(requireContext())) {
+                        parent.updateClientData(
+                            FullRegistrationRequest(
+                                TOKEN,
+                                clientId,
+                                schoolId,
+                                snils = snils,
+                                images = DocumentsPhotosModel(snils = takenImageBase64)
+                            )
+                        )
+                        Preferences.setPrefsString(
+                            "snils",
+                            binding.snilsNumberText.text.toString(),
+                            requireContext()
+                        )
+                        nextFragmentInProgress(parentFragmentManager, AddressFragment())
+                    } else {
+                        noInternet(requireContext())
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Загрузите фото СНИЛС", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+
+        binding.snilsScanImage.setOnClickListener {
+            rxPermissions
+                .request(
+                    Manifest.permission.CAMERA,
+                )
+                .subscribe { granted: Boolean ->
+                    if (granted) {
+                        takeImage()
+                    } else {
+                        Toast.makeText(requireContext(), "Нет доступа к камере", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+        }
+    }
+
+    private fun takeImage() {
+        lifecycleScope.launchWhenStarted {
+            getTmpFileUri().let { uri ->
+                latestTmpUri = uri
+                takeImageResult.launch(uri)
             }
         }
     }
 
+    private fun getTmpFileUri(): Uri {
+        val tmpFile = File.createTempFile("tmp_image_file", ".png").apply {
+            createNewFile()
+            deleteOnExit()
+        }
+        return FileProvider.getUriForFile(
+            requireContext(),
+            "${BuildConfig.APPLICATION_ID}.provider",
+            tmpFile
+        )
+    }
 
 }

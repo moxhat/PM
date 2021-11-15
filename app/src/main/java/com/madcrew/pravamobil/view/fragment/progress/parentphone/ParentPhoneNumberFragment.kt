@@ -9,10 +9,11 @@ import androidx.core.widget.doOnTextChanged
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentParentPhoneNumberBinding
 import com.madcrew.pravamobil.databinding.FragmentPassportBinding
-import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.setErrorOff
-import com.madcrew.pravamobil.utils.setErrorOn
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.submodels.ParentModel
+import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 
 
@@ -37,8 +38,14 @@ class ParentPhoneNumberFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as ProgressActivity
         val phoneText = binding.parentPhoneEditText
         val phoneField = binding.parentPhonePhone
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        parent.updateProgress("RegisterParentPhonePage")
 
         phoneText.doOnTextChanged{_,_,_,_ ->
             if(phoneText.length() > 1) phoneField.setErrorOff()
@@ -47,7 +54,13 @@ class ParentPhoneNumberFragment : Fragment() {
 
         binding.btParentPhoneNext.setOnClickListener {
             if (phoneText.length() == 16){
-                nextFragmentInProgress(parentFragmentManager, CheckDataFragment("parent"))
+                val parentPhone = phoneText.text.toString()
+                if (isOnline(requireContext())){
+                    parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(phoneNumber = parentPhone)))
+                    nextFragmentInProgress(parentFragmentManager, CheckDataFragment("parent"))
+                } else {
+                    noInternet(requireContext())
+                }
             } else {
                 phoneField.setErrorOn()
             }

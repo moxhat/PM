@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportBinding
 import com.madcrew.pravamobil.domain.BaseUrl
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
@@ -19,7 +20,7 @@ import com.madcrew.pravamobil.view.fragment.progress.parentphone.ParentPhoneNumb
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
 
 
-class PassportFragment(var type: String = "student") : Fragment() {
+class PassportFragment(var type: String = "student", var title: Int  = R.string.of_student) : Fragment() {
 
     private var _binding: FragmentPassportBinding? = null
     private val binding get() = _binding!!
@@ -46,15 +47,19 @@ class PassportFragment(var type: String = "student") : Fragment() {
         val departmentText = binding.passportDepartmentCodeText
         val departmentField = binding.passportDepartmentCode
 
+        binding.passportOf.setText(title)
+
         val parent = this.context as ProgressActivity
 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
+        parent.updateProgress("RegisterPassportPage")
+
         if (type == "student"){
-            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterPassportPage"))
+            parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "RegisterPassportPage"))
         } else {
-            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterParentPassportPage"))
+            parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "RegisterParentPassportPage"))
         }
 
         seriesText.doOnTextChanged{_,_,_,_ ->

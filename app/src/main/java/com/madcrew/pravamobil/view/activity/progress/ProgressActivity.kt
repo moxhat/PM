@@ -99,7 +99,7 @@ class ProgressActivity : AppCompatActivity() {
                     title2 = R.string.representatives,
                     type = "parent"
                 )
-                "RegisterParentPassportPage" -> PassportFragment(type = "parent")
+                "RegisterParentPassportPage" -> PassportFragment(type = "parent",title = R.string.representatives)
                 "RegisterParentPhonePage" -> ParentPhoneNumberFragment()
                 "CheckDataPage" -> CheckDataFragment(owner)
                 "ConfirmContractPage" -> ConfirmContractFragment(owner)

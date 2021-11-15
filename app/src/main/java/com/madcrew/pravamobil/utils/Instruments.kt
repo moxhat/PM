@@ -1,8 +1,10 @@
 package com.madcrew.pravamobil.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 
 fun dateConverter(date: String, context: Context): String {
@@ -338,6 +341,13 @@ fun View.alphaDown(duration: Int = 500) {
     val animate = AlphaAnimation(1f, 0f)
     animate.duration = duration.toLong()
     this.startAnimation(animate)
+}
+
+fun encodeImage(bm: Bitmap): String? {
+    val baos = ByteArrayOutputStream()
+    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+    val b: ByteArray = baos.toByteArray()
+    return Base64.encodeToString(b, Base64.DEFAULT)
 }
 
 

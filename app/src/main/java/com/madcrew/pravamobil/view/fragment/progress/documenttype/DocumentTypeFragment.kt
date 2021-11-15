@@ -96,7 +96,7 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
         binding.btDocumentTypeNext.setOnClickListener {
             when(type){
                 "student" -> nextFragmentInProgress(mainManager, StudentNameFragment())
-                "parent" -> nextFragmentInProgress(mainManager, PassportFragment("parent"))
+                "parent" -> nextFragmentInProgress(mainManager, PassportFragment("parent", title = R.string.representatives))
             }
             parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, documentType = documentType.toString()))
         }

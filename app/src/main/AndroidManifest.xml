@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,15 @@
         android:roundIcon="@drawable/ic_launcher_rounded"
         android:supportsRtl="true"
         android:theme="@style/Theme.PravaMobil">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path" />
+        </provider>
         <activity
             android:name=".view.activity.practiceoptions.PracticeOptionsActivity"
             android:screenOrientation="portrait"
@@ -43,7 +53,9 @@
             android:name=".view.activity.progress.ProgressActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
+
+
 
 </manifest>

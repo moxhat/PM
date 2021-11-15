@@ -17,6 +17,12 @@ import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
+import android.graphics.Bitmap
+
+import android.graphics.BitmapFactory
+
+
+
 
 class StudentNameFragment(var title: Int = R.string.student, var type: String = "student") : Fragment() {
 
@@ -89,7 +95,7 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
                         parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(lastName = lastname, name = name, thirdName = thirdName, dateBirthday = birthDate)))
                         nextFragmentInProgress(
                             parentFragmentManager,
-                            DocumentTypeFragment(R.string.representatives, "parent")
+                            DocumentTypeFragment(title2 = R.string.representatives, "parent")
                         )
                     }
                 }

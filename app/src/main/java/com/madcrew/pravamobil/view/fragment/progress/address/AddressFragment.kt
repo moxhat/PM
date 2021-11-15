@@ -8,7 +8,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentAddressBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.submodels.AddressModel
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
 
 
@@ -17,6 +21,12 @@ class AddressFragment : Fragment() {
     private var _binding: FragmentAddressBinding? = null
     private val binding get() = _binding!!
     private var checkAddress = false
+    private var region = ""
+    private var city = ""
+    private var street = ""
+    private var house = ""
+    private var housing = ""
+    private var apartment = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +39,16 @@ class AddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as ProgressActivity
+
+        parent.updateProgress("RegisterAddressPage")
+
         binding.addressCheck.setOnCheckedChangeListener { _, isChecked ->
             checkAddress = isChecked
         }
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
         val regionText = binding.addressRegionText
         val regionField = binding.addressRegion
@@ -65,29 +82,49 @@ class AddressFragment : Fragment() {
         }
 
         binding.btAddressNext.setOnClickListener {
-            if (binding.addressTitle.text == resources.getString(R.string.registration_address)) {
-                Preferences.setPrefsString(
-                    "registrationAddress",
-                    "${binding.addressRegionText.text}, " +
-                            "${binding.addressCityText.text}, " +
-                            "${binding.addressStreetText.text}, " +
-                            "${binding.addressHouseText.text}, " +
-                            "${binding.addressHousingText.text}, " +
-                            "${binding.addressApartmentText.text}",
-                    requireContext()
-                )
-            }
             if (regionText.length() > 2 && cityText.length() > 2 && streetText.length() > 2 && houseText.length() != 0 && apartmentText.length() != 0) {
+                if (binding.addressTitle.text == resources.getString(R.string.registration_address)) {
                 if (checkAddress) {
-                    nextFragmentInProgress(
-                        parentFragmentManager,
-                        PassportScanFragment(
-                            R.string.registration_scan_title,
-                            "registrationAddress"
+                    region = binding.addressRegionText.text.toString()
+                    city = binding.addressCityText.text.toString()
+                    street = binding.addressStreetText.text.toString()
+                    house = binding.addressHouseText.text.toString()
+                    housing = binding.addressHousingText.text.toString()
+                    apartment = binding.addressApartmentText.text.toString()
+                    if (isOnline(requireContext())){
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, address = AddressModel(region, city, street, house, housing, apartment), livingAddress = AddressModel(region, city, street, house, housing, apartment)))
+                        nextFragmentInProgress(
+                            parentFragmentManager,
+                            PassportScanFragment(
+                                R.string.registration_scan_title,
+                                "registrationAddress"
+                            )
                         )
-                    )
+                    } else {
+                        noInternet(requireContext())
+                    }
                 } else {
                     livingAddress()
+                }
+                } else {
+                    val lRegion = binding.addressRegionText.text.toString()
+                    val lCity = binding.addressCityText.text.toString()
+                    val lStreet = binding.addressStreetText.text.toString()
+                    val lHouse = binding.addressHouseText.text.toString()
+                    val lHousing = binding.addressHousingText.text.toString()
+                    val lApartment = binding.addressApartmentText.text.toString()
+                    if (isOnline(requireContext())){
+                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, address = AddressModel(region, city, street, house, housing, apartment), livingAddress = AddressModel(lRegion, lCity, lStreet, lHouse, lHousing, lApartment)))
+                        nextFragmentInProgress(
+                            parentFragmentManager,
+                            PassportScanFragment(
+                                R.string.registration_scan_title,
+                                "registrationAddress"
+                            )
+                        )
+                    } else {
+                        noInternet(requireContext())
+                    }
                 }
             } else {
                 if (regionText.length() < 2) regionField.setErrorOn()
@@ -100,6 +137,12 @@ class AddressFragment : Fragment() {
     }
 
     private fun livingAddress() {
+        region = binding.addressRegionText.text.toString()
+        city = binding.addressCityText.text.toString()
+        street = binding.addressStreetText.text.toString()
+        house = binding.addressHouseText.text.toString()
+        housing = binding.addressHousingText.text.toString()
+        apartment = binding.addressApartmentText.text.toString()
         binding.addressRegionText.text?.clear()
         binding.addressCityText.text?.clear()
         binding.addressStreetText.text?.clear()
