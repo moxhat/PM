@@ -86,12 +86,12 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
 
 
         binding.btTheoryGroupNext.setOnClickListener {
-//            if (selectedGroup == "null"){
-//                Toast.makeText(requireContext(), R.string.choose_theory_group, Toast.LENGTH_SHORT).show()
-//            } else {
-//                parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId,group_id = selectedGroup))
+            if (selectedGroup == "null"){
+                Toast.makeText(requireContext(), R.string.choose_theory_group, Toast.LENGTH_SHORT).show()
+            } else {
+                parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId,group_id = selectedGroup))
                 nextFragmentInProgress(mainManager, TariffFragment())
-//            }
+            }
         }
     }
 

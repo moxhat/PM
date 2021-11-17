@@ -84,4 +84,18 @@ interface PMApi {
         @Body
         groupsRequest: GroupsRequest
     ): Response<GroupsResponse>
+
+    //Получение информации о клиенте
+    @POST("/api/client/info")
+    suspend fun getClientInfo(
+        @Body
+        gClientInfoRequest: ClientInfoRequest
+    ): Response<ClientInfoResponse>
+
+    //Проверка наличия онлайн группы
+    @POST("/api/school/group/online/exist")
+    suspend fun getOnlineExist(
+        @Body
+        onlineExistRequest: OnlineExistRequest
+    ): Response<OnlineExistResponse>
 }

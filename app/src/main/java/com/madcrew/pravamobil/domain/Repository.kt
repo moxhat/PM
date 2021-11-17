@@ -48,4 +48,12 @@ class Repository {
     suspend fun getGroupList(groupsRequest: GroupsRequest): Response<GroupsResponse>{
         return RetrofitInstance.api.getGroupList(groupsRequest)
     }
+
+    suspend fun getClientInfo(clientInfoRequest: ClientInfoRequest): Response<ClientInfoResponse>{
+        return RetrofitInstance.api.getClientInfo(clientInfoRequest)
+    }
+
+    suspend fun getCOnlineExist(onlineExistRequest: OnlineExistRequest): Response<OnlineExistResponse>{
+        return RetrofitInstance.api.getOnlineExist(onlineExistRequest)
+    }
 }

@@ -20,8 +20,8 @@ import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import android.graphics.Bitmap
 
 import android.graphics.BitmapFactory
-
-
+import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 
 
 class StudentNameFragment(var title: Int = R.string.student, var type: String = "student") : Fragment() {
@@ -56,11 +56,43 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        if (type == "student"){
-            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterPersonalDataPage"))
+        val checkData = Preferences.getPrefsString("checkData",  requireContext()) == "true"
+
+        if (checkData){
+            parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("lastName", "name", "patronymic", "dateBirthday", "passport", "snils", "kpp", "format", "place")))
+            parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->
+                if (response.isSuccessful){
+                    if (response.body()!!.status == "done" && response.body()!!.client.name != null){
+                        val name = response.body()!!.client.name.toString()
+                        val secondName = response.body()!!.client.lastName.toString()
+                        val thirdName = response.body()!!.client.patronymic.toString()
+                        val date = response.body()!!.client.dateBirthday.toString()
+                        setData(name, secondName, thirdName, date)
+                    }
+                }
+            })
         } else {
-            parent.mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "RegisterParentDataPage"))
+            if (type == "student") {
+                parent.mViewModel.updateProgress(
+                    ProgressRequest(
+                        BaseUrl.TOKEN,
+                        schoolId,
+                        clientId,
+                        "RegisterPersonalDataPage"
+                    )
+                )
+            } else {
+                parent.mViewModel.updateProgress(
+                    ProgressRequest(
+                        BaseUrl.TOKEN,
+                        schoolId,
+                        clientId,
+                        "RegisterParentDataPage"
+                    )
+                )
+            }
         }
+
 
         secondNameText.doOnTextChanged{_,_,_,_ ->
             if(secondNameText.length() > 1) secondNameField.setErrorOff()
@@ -89,7 +121,11 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
                     "student" -> {
                         Preferences.setPrefsString("birthDate", dateConverter(binding.studentNameBirthDateText.text.toString(), requireContext()), requireContext())
                         parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, lastName = lastname, name = name, patronymic = thirdName, dateBirthday = birthDate))
-                        nextFragmentInProgress(parentFragmentManager, PassportFragment())
+                        if (checkData){
+                            nextFragmentInProgress(parentFragmentManager, CheckDataFragment("student"))
+                        } else {
+                            nextFragmentInProgress(parentFragmentManager, PassportFragment())
+                        }
                     }
                     "parent" -> {
                         parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(lastName = lastname, name = name, thirdName = thirdName, dateBirthday = birthDate)))
@@ -106,5 +142,11 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
                 if (birthDateText.length() < 10) birthDateField.setErrorOn()
             }
         }
+    }
+    private fun setData(firstName: String, secondName: String, thirdName: String, date: String){
+        binding.studentNameFirstText.setText(firstName)
+        binding.studentNameSecondNameText.setText(secondName)
+        binding.studentNameThirdText.setText(thirdName)
+        binding.studentNameBirthDateText.setText(date)
     }
 }

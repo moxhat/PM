@@ -39,6 +39,7 @@ class SignUpFragment : Fragment() {
         val phoneField = binding.signupPhone
 
         Preferences.setPrefsString("progressStatus", "AddPassword", requireContext())
+        Preferences.setPrefsString("checkData", "false", requireContext())
 
         phoneText.doOnTextChanged { _, _, _, _ ->
             if (phoneText.length() > 3) phoneField.setErrorOff()

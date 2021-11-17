@@ -350,4 +350,16 @@ fun encodeImage(bm: Bitmap): String? {
     return Base64.encodeToString(b, Base64.DEFAULT)
 }
 
+fun View.setDisable() {
+    this.alpha = 0.5f
+    this.isEnabled = false
+    this.isClickable = false
+}
+
+fun View.setEnable() {
+    this.alpha = 1f
+    this.isEnabled = true
+    this.isClickable = true
+}
+
 

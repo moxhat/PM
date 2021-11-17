@@ -4,26 +4,30 @@ import android.Manifest
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.madcrew.pravamobil.BuildConfig
-import com.madcrew.pravamobil.R
-import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
 import com.madcrew.pravamobil.databinding.FragmentSnilsBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.submodels.DocumentsPhotosModel
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
+import com.skydoves.powerspinner.createPowerSpinnerView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import java.io.File
 import java.io.InputStream
@@ -34,7 +38,7 @@ class SnilsFragment : Fragment() {
     private var _binding: FragmentSnilsBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var takenImageBase64: String
+    private lateinit var takenImageBase64: String
     private var imageIsTaken = false
 
     private val takeImageResult =
@@ -63,10 +67,6 @@ class SnilsFragment : Fragment() {
 
     private val previewImage by lazy { binding.snilsScanImage }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,11 +83,36 @@ class SnilsFragment : Fragment() {
 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        val checkData = Preferences.getPrefsString("checkData", requireContext()) == "true"
 
         val snilsText = binding.snilsNumberText
         val snilsField = binding.snilsNumber
 
-        parent.updateProgress("RegistrationSnilsPage")
+        if (checkData) {
+            parent.getClientInfo(
+                ClientInfoRequest(
+                    TOKEN,
+                    schoolId,
+                    clientId,
+                    listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
+                )
+            )
+            binding.snilsScanImage.setDisable()
+            binding.snilsCard.setDisable()
+            parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
+                if (response.isSuccessful) {
+                    if (response.body()!!.status == "done" && response.body()!!.client.snils != null) {
+                        val snils = response.body()!!.client.snils.toString().replace("-", "")
+                        snilsText.setText(snils)
+                    }
+                }
+            })
+        } else {
+            parent.updateProgress("RegistrationSnilsPage")
+            binding.snilsScanImage.setEnable()
+            binding.snilsCard.setEnable()
+        }
+
 
         snilsText.doOnTextChanged { _, _, _, _ ->
             if (snilsText.length() > 1) snilsField.setErrorOff()
@@ -98,30 +123,41 @@ class SnilsFragment : Fragment() {
             if (snilsText.length() < 14) {
                 snilsField.setErrorOn()
             } else {
-                if (imageIsTaken) {
+                if (checkData) {
                     val snils = snilsText.text.toString()
-                    if (isOnline(requireContext())) {
-                        parent.updateClientData(
-                            FullRegistrationRequest(
-                                TOKEN,
-                                clientId,
-                                schoolId,
-                                snils = snils,
-                                images = DocumentsPhotosModel(snils = takenImageBase64)
-                            )
+                    parent.updateClientData(
+                        FullRegistrationRequest(
+                            TOKEN,
+                            clientId,
+                            schoolId,
+                            snils = snils
                         )
-                        Preferences.setPrefsString(
-                            "snils",
-                            binding.snilsNumberText.text.toString(),
-                            requireContext()
-                        )
-                        nextFragmentInProgress(parentFragmentManager, AddressFragment())
-                    } else {
-                        noInternet(requireContext())
-                    }
+                    )
+                    nextFragmentInProgress(
+                        parentFragmentManager,
+                        CheckDataFragment("student")
+                    )
                 } else {
-                    Toast.makeText(requireContext(), "Загрузите фото СНИЛС", Toast.LENGTH_SHORT)
-                        .show()
+                    if (imageIsTaken) {
+                        val snils = snilsText.text.toString()
+                        if (isOnline(requireContext())) {
+                            parent.updateClientData(
+                                FullRegistrationRequest(
+                                    TOKEN,
+                                    clientId,
+                                    schoolId,
+                                    snils = snils,
+                                    images = DocumentsPhotosModel(snils = takenImageBase64)
+                                )
+                            )
+                            nextFragmentInProgress(parentFragmentManager, AddressFragment())
+                        } else {
+                            noInternet(requireContext())
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Загрузите фото СНИЛС", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }
         }

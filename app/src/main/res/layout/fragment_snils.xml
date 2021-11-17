@@ -69,7 +69,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
+            android:id="@+id/snils_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="76dp"
@@ -123,7 +123,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toBottomOf="@+id/snils_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

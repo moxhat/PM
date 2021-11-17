@@ -146,6 +146,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:src="@drawable/ic_edit"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/check_data_transmission_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/check_data_transmission_title"

@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSelectTheoryBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.OnlineExistRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
+import com.madcrew.pravamobil.utils.setDisable
+import com.madcrew.pravamobil.utils.setEnable
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 import com.madcrew.pravamobil.view.fragment.progress.filial.FilialFragment
 
 class SelectTheoryFragment : Fragment() {
@@ -38,18 +43,50 @@ class SelectTheoryFragment : Fragment() {
 
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val checkData = Preferences.getPrefsString("checkData",  requireContext()) == "true"
 
+        if (checkData){
+            parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
+        } else {
         parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "RegisterFormatEducationPage"))
+        }
+
+        parent.mViewModel.getOnlineExist(OnlineExistRequest(TOKEN, schoolId))
+
+        parent.mViewModel.onlineExist.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    when(response.body()!!.online){
+                        "true" -> binding.btSelectTheoryOnline.setEnable()
+                        "false" -> binding.btSelectTheoryOnline.setDisable()
+                    }
+                }
+            }
+        })
 
         binding.btSelectTheoryOffline.setOnClickListener {
-            parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, format = "FullTime"))
+            parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, format = "FullTime"))
             Preferences.setPrefsString("theory", resources.getString(R.string.theory_offline), requireContext())
+            if (checkData) {
+                nextFragmentInProgress(
+                    parentFragmentManager,
+                    CheckDataFragment("student")
+                )
+            } else {
             nextFragmentInProgress(mainManager, FilialFragment())
+            }
         }
         binding.btSelectTheoryOnline.setOnClickListener {
-            parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, format = "Online"))
+            parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, format = "Online"))
             Preferences.setPrefsString("theory", resources.getString(R.string.theory_online), requireContext())
-            nextFragmentInProgress(mainManager, FilialFragment())
+            if (checkData) {
+                nextFragmentInProgress(
+                    parentFragmentManager,
+                    CheckDataFragment("student")
+                )
+            } else {
+                nextFragmentInProgress(mainManager, FilialFragment())
+            }
         }
     }
 

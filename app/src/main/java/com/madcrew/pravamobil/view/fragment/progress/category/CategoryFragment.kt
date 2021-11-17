@@ -52,7 +52,7 @@ class CategoryFragment : Fragment() {
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
 
-        parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "SelectCategotyPage"))
+        parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "SelectCategoryPage"))
 
         if (isOnline(requireContext())) {
             mViewModel.getCategoryList(CategoryRequest(TOKEN, schoolId))

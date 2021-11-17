@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -13,14 +12,13 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityProgressBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordFragment
-import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModel
-import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
@@ -32,33 +30,42 @@ import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFr
 import com.madcrew.pravamobil.view.fragment.progress.parentphone.ParentPhoneNumberFragment
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
-import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
 import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
-import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
 
 class ProgressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProgressBinding
-    private var isAdult = true
     lateinit var mViewModel: ProgressViewModel
+    private var owner = "true"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val clientId = Preferences.getPrefsString("clientId", this).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", this).toString()
+
         val repository = Repository()
         val viewModelFactory = ProgressViewModelFactory(repository)
         mViewModel = ViewModelProvider(this, viewModelFactory).get(ProgressViewModel::class.java)
 
-        val owner = if (isAdult) {
-            "student"
-        } else {
-            "parent"
-        }
+        mViewModel.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
+
+        mViewModel.clientInfo.observe(this, {response ->
+            if (response.isSuccessful){
+                if(response.body()!!.status == "done"){
+                    owner = if (response.body()!!.client.adult == "true"){
+                        "student"
+                    } else {
+                        "parent"
+                    }
+                }
+            }
+        })
 
         val status = Preferences.getPrefsString("progressStatus", this)
 
@@ -68,7 +75,7 @@ class ProgressActivity : AppCompatActivity() {
         val currentFragment: Fragment =
             when (status) {
                 "RegisterEmailPage" -> EmailFragment()
-                "SelectCategotyPage" -> CategoryFragment()
+                "SelectCategoryPage" -> CategoryFragment()
 //                "RegisterTransmissionPage" -> TransmissionFragment()
                 "RegisterFormatEducationPage" -> SelectTheoryFragment()
                 "SelectFilialAndGroup" -> FilialFragment()
@@ -134,6 +141,14 @@ class ProgressActivity : AppCompatActivity() {
     fun updateClientData(data:FullRegistrationRequest){
         if (isOnline(this)) {
             mViewModel.updateClientData(data)
+        } else {
+            noInternet(this)
+        }
+    }
+
+    fun getClientInfo(clientInfoRequest: ClientInfoRequest){
+        if (isOnline(this)){
+            mViewModel.getClientInfo(clientInfoRequest)
         } else {
             noInternet(this)
         }
