@@ -7,20 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.HomePagerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHomeBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.dialog.SpravkaConfirmedDialogFragment
-import com.madcrew.pravamobil.view.dialog.SpravkaImageDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.exam.HomeExamFragment
 import com.madcrew.pravamobil.view.fragment.education.home.practice.HomePracticeFragment
 import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.ConfirmationSpravkaFragment
 import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.NoSpravkaFragment
 import com.madcrew.pravamobil.view.fragment.education.home.theory.HomeTheoryFragment
-import okhttp3.internal.notifyAll
 
 class HomeFragment : Fragment() {
 
@@ -46,31 +47,57 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as EducationActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        parent.mViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
+                    when (Preferences.getPrefsString("spravkaStatus", requireContext())) {
+                        "empty" -> setSpravkaAdd()
+                        "confirm" -> setSpravkaConfirmed()
+                        "noconfirm" -> setSpravkaConfirmation()
+                        "deactivate" -> {
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val confirmedDialog = SpravkaConfirmedDialogFragment("bad")
+                                confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+                            }, 3000)
+                            setSpravkaAdd()
+                            Preferences.setPrefsString("spravkaStatus", "empty", requireContext())
+                            parent.mViewModel.deleteSpravka(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                        }
+                    }
+                    homePagerAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+
+        when (Preferences.getPrefsString("spravkaStatus", requireContext())) {
+            "empty" -> setSpravkaAdd()
+            "confirm" -> setSpravkaConfirmed()
+            "noconfirm" -> setSpravkaConfirmation()
+            "deactivate" -> {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val confirmedDialog = SpravkaConfirmedDialogFragment("bad")
+                    confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+                }, 5000)
+                setSpravkaAdd()
+                Preferences.setPrefsString("spravkaStatus", "empty", requireContext())
+            }
+        }
+
         homeViewPager = binding.homeViewPager
 
-
-        setSpravkaAdd()
         homeViewPager.adapter = homePagerAdapter
         homeViewPager.currentItem = 0
 
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            setSpravkaConfirmation()
-//            val item = homeViewPager.currentItem
-//            homeViewPager.adapter = homePagerAdapter
-//            homeViewPager.currentItem = item
-//
-//        }, 5000)
-//
-//        Handler(Looper.getMainLooper()).postDelayed({
-//
-//
-//        }, 10000)
-
-        setSpravkaConfirmed()
         val item = homeViewPager.currentItem
         homeViewPager.adapter = homePagerAdapter
         homeViewPager.currentItem = item
-
+        homePagerAdapter.notifyDataSetChanged()
 
 
         val tabLayout = binding.homeTabs
@@ -84,18 +111,21 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun setSpravkaConfirmed() {
-        val fragmentsWithSpravkaList = mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
+    private fun setSpravkaConfirmed() {
+        val fragmentsWithSpravkaList =
+            mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsWithSpravkaList)
     }
 
     fun setSpravkaConfirmation() {
-        val fragmentsConfirmationSpravkaList = mutableListOf(HomeTheoryFragment(), ConfirmationSpravkaFragment(), HomeExamFragment())
+        val fragmentsConfirmationSpravkaList =
+            mutableListOf(HomeTheoryFragment(), ConfirmationSpravkaFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsConfirmationSpravkaList)
     }
 
-    fun setSpravkaAdd() {
-        val fragmentsNoSpravkaList = mutableListOf(HomeTheoryFragment(), NoSpravkaFragment(), HomeExamFragment())
+    private fun setSpravkaAdd() {
+        val fragmentsNoSpravkaList =
+            mutableListOf(HomeTheoryFragment(), NoSpravkaFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsNoSpravkaList)
     }
 

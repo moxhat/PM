@@ -37,9 +37,5 @@ class ConfirmationSpravkaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val confirmedDialog = SpravkaConfirmedDialogFragment()
-            confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
-        }, 5000)
     }
 }

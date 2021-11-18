@@ -56,4 +56,12 @@ class Repository {
     suspend fun getCOnlineExist(onlineExistRequest: OnlineExistRequest): Response<OnlineExistResponse>{
         return RetrofitInstance.api.getOnlineExist(onlineExistRequest)
     }
+
+    suspend fun getSpravkaStatus(spravkaStatusRequest: SpravkaStatusRequest): Response<SpravkaStatusResponse>{
+        return RetrofitInstance.api.getSpravkaStatus(spravkaStatusRequest)
+    }
+
+    suspend fun deleteSpravka(spravkaStatusRequest: SpravkaStatusRequest): Response<StatusOnlyResponse>{
+        return RetrofitInstance.api.deleteSpravka(spravkaStatusRequest)
+    }
 }

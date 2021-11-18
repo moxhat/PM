@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.activity.progress
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
@@ -18,6 +19,9 @@ import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.view.activity.education.EducationActivity
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import com.madcrew.pravamobil.view.fragment.progress.ContractConfirmedFragment
 import com.madcrew.pravamobil.view.fragment.progress.addpassword.AddPasswordFragment
 import com.madcrew.pravamobil.view.fragment.progress.address.AddressFragment
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryFragment
@@ -34,6 +38,7 @@ import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
+import com.madcrew.pravamobil.view.fragment.progress.training.TrainingFragment
 
 class ProgressActivity : AppCompatActivity() {
 
@@ -112,8 +117,8 @@ class ProgressActivity : AppCompatActivity() {
                 "ConfirmContractPage" -> ConfirmContractFragment(owner)
 //            "PaymentPage" ->
 //            "ContractFail" ->
-//            "ContractComplete" ->
-//            "InstructionPage" ->
+            "ContractComplete" -> ContractConfirmedFragment()
+            "InstructionPage" -> TrainingFragment()
                 else -> AddPasswordFragment()
             }
 
@@ -152,5 +157,12 @@ class ProgressActivity : AppCompatActivity() {
         } else {
             noInternet(this)
         }
+    }
+
+    fun starEducationActivity() {
+        val intent = Intent(this, EducationActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 }

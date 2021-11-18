@@ -1,6 +1,8 @@
 package com.madcrew.pravamobil.view.fragment.education.home.practice
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
+import com.madcrew.pravamobil.view.dialog.SpravkaConfirmedDialogFragment
 
 
 class HomePracticeFragment : Fragment() {
@@ -37,6 +40,11 @@ class HomePracticeFragment : Fragment() {
         val parent = this.context as EducationActivity
 
         Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop().into(binding.homePracticeInstructorAvatar)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val confirmedDialog = SpravkaConfirmedDialogFragment("good")
+            confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+        }, 1000)
 
         binding.btHomePracticeChangeInstructor.setOnClickListener {
             val changeDialog = InstructorCancelDialogFragment()

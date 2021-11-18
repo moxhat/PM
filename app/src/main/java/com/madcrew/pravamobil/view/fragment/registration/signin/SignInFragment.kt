@@ -51,16 +51,14 @@ class SignInFragment : Fragment() {
         val passwordText = binding.signinPasswordEditText
         val passwordField = binding.signinPassword
 
-        val tempPassword = "00000000"
-
         mViewModel.signResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 when (response.body()!!.status) {
                     "done" -> {
-                        Preferences.setPrefsString("clientID", response.body()!!.client.id, requireContext())
-                        Preferences.setPrefsString("progressStatus", response.body()!!.client.progress, requireContext())
+                        Preferences.setPrefsString("clientId", response.body()!!.client.id, requireContext())
+                        val progressStatus = response.body()!!.client.progress
                         val name = response.body()!!.client.firstName
-                        nextFragment(mainManager, GreetingsFragment(name))
+                        nextFragment(mainManager, GreetingsFragment(name, progressStatus))
                     }
                     "password" -> {
                         passwordField.isErrorEnabled = true

@@ -7,15 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentGreetingsBinding
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import java.util.*
 
-class GreetingsFragment(private var name: String = "Оксана") : Fragment() {
+class GreetingsFragment(private var name: String = "Оксана", val progressStatus: String) : Fragment() {
 
     private var _binding: FragmentGreetingsBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +41,23 @@ class GreetingsFragment(private var name: String = "Оксана") : Fragment() 
         val greetingTitle = binding.greetingsTitle1
 
         val parent = this.context as EnterActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        val repository = Repository()
+        val viewModelFactory = GreetingsViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(GreetingsViewModel::class.java)
+
+        mViewModel.getSpravkaStatus(SpravkaStatusRequest(BaseUrl.TOKEN, schoolId, clientId))
+
+        mViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
+                }
+            }
+        })
 
         binding.greetingsTitle2.text = name
 
@@ -69,8 +91,15 @@ class GreetingsFragment(private var name: String = "Оксана") : Fragment() 
             bgImage.setVisible()
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            parent.starProgressActivity()
-        }, 3300)
+        if(progressStatus == "AppHome")
+        {
+            Handler(Looper.getMainLooper()).postDelayed({
+                parent.starEducationActivity()
+            }, 3300)
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                parent.starProgressActivity()
+            }, 3300)
+        }
     }
 }

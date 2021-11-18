@@ -27,6 +27,7 @@ import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.submodels.DocumentsPhotosModel
 import com.madcrew.pravamobil.utils.*
@@ -112,7 +113,17 @@ class PassportScanFragment(
         when (typeOfPage) {
             "passport" -> parent.updateProgress("RegistrationImagePassportPage")
             "registrationAddress" -> parent.updateProgress("RegisterAddressImagePage")
-            "avatar" -> parent.updateProgress("RegisterIPhotoPage")
+            "avatar" -> {
+                parent.updateProgress("RegisterIPhotoPage")
+                parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
+                parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->
+                    if (response.isSuccessful){
+                        if (response.body()!!.status == "done"){
+                            clientIsAdult = response.body()!!.client.adult == "true"
+                        }
+                    }
+                })
+            }
         }
 
         binding.btPassportScanNext.setOnClickListener {

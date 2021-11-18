@@ -10,6 +10,7 @@ import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.nextFragmentInProgress
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.ContractConfirmedFragment
 
 
@@ -35,6 +36,10 @@ class ConfirmContractFragment(var type: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.contractClientEmail.text = Preferences.getPrefsString("email", requireContext())
 
+        val parent = this.context as ProgressActivity
+
+        parent.updateProgress("ConfirmContractPage")
+
         val studentCheck = binding.contractStudentChek
         val parentCheck1 = binding.contractParentChek1
         val parentCheck2 = binding.contractParentChek2
@@ -57,13 +62,13 @@ class ConfirmContractFragment(var type: String) : Fragment() {
             parent2 = isChecked
         }
 
-        when (type){
-            "student" -> {
+        when (parent.mViewModel.clientInfo.value?.body()?.client?.adult){
+            "true" -> {
                 binding.contractStudentChek.setVisible()
                 binding.contractParentChek1.setGone()
                 binding.contractParentChek2.setGone()
             }
-            "parent" -> {
+            "false" -> {
                 binding.contractStudentChek.setGone()
                 binding.contractParentChek1.setVisible()
                 binding.contractParentChek2.setVisible()

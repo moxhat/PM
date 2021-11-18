@@ -98,4 +98,18 @@ interface PMApi {
         @Body
         onlineExistRequest: OnlineExistRequest
     ): Response<OnlineExistResponse>
+
+    //Проверка статуса справки
+    @POST("/api/client/medical/status")
+    suspend fun getSpravkaStatus(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<SpravkaStatusResponse>
+
+    //Удаление справки
+    @POST("/api/client/medical/delete")
+    suspend fun deleteSpravka(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<StatusOnlyResponse>
 }

@@ -12,13 +12,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEducationBinding
-import com.madcrew.pravamobil.utils.alphaDown
-import com.madcrew.pravamobil.utils.alphaUp
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
+import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
+import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
 import com.madcrew.pravamobil.view.dialog.EducationStartsDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
 import com.madcrew.pravamobil.view.fragment.education.payments.PaymentsFragment
@@ -27,6 +32,7 @@ import com.madcrew.pravamobil.view.fragment.education.payments.PaymentsFragment
 class EducationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEducationBinding
+    lateinit var mViewModel: EducationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +43,10 @@ class EducationActivity : AppCompatActivity() {
 
         val bottomMenu = binding.educationBottomNavigation
         var lastSelected = 0
+
+        val repository = Repository()
+        val viewModelFactory = EducationViewModelFactory(repository)
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(EducationViewModel::class.java)
 
         bottomMenu.menu.getItem(2).isCheckable = false
 //        bottomMenu.menu.getItem(1).isEnabled = false
@@ -71,7 +81,13 @@ class EducationActivity : AppCompatActivity() {
             val lastItem = bottomMenu.menu.getItem(lastSelected)
             lastItem.setChecked(true)
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        val clientId = Preferences.getPrefsString("clientId", this).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", this).toString()
+        mViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
     }
 
     private fun changeFragment(

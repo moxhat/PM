@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSpravkaConfirmedDialogBinding
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
 
 
-class SpravkaConfirmedDialogFragment : DialogFragment() {
+class SpravkaConfirmedDialogFragment(var type: String) : DialogFragment() {
 
     private var _binding: FragmentSpravkaConfirmedDialogBinding? = null
     private val binding get() = _binding!!
@@ -36,9 +37,21 @@ class SpravkaConfirmedDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        when (type){
+            "good" -> {
+                binding.spravkaConfirmedTitleImage.setImageResource(R.drawable.ic_shield)
+                binding.spravkaConfirmedTitle.text = resources.getString(R.string.spravka_confirmed)
+                binding.spravkaConfirmedText.text = resources.getString(R.string.spravka_confirmed_text)
+            }
+            "bad" -> {
+                binding.spravkaConfirmedTitleImage.setImageResource(R.drawable.ic_spravka_bad)
+                binding.spravkaConfirmedTitle.text = resources.getString(R.string.spravka_noconfirmed)
+                binding.spravkaConfirmedText.text = resources.getString(R.string.spravka_noconfirmed_text)
+            }
+        }
 
         binding.btSpravkaConfirmedClose.setOnClickListener {
-            (parentFragment as HomeFragment).setSpravkaConfirmed()
+
             this.dialog?.dismiss()
         }
 

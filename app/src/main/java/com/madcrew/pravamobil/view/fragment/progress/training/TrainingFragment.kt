@@ -17,6 +17,7 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.TrainingSliderAdapter
 import com.madcrew.pravamobil.databinding.FragmentTrainingBinding
 import com.madcrew.pravamobil.models.TrainingSliderData
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 
 lateinit var trainingSliderAdapter: TrainingSliderAdapter
 lateinit var trainingSlides:MutableList<TrainingSliderData>
@@ -42,6 +43,8 @@ class TrainingFragment : Fragment(), TrainingSliderAdapter.OnOkClickListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (this.context as ProgressActivity).updateProgress("InstructionPage")
 
         trainingSlides = mutableListOf(
             TrainingSliderData(R.drawable.ic_woman_with_book, "Обучение начинается с теории", "После запуска группы приложение подскажет дальнейшие действия", null),
@@ -114,7 +117,7 @@ class TrainingFragment : Fragment(), TrainingSliderAdapter.OnOkClickListener {
     }
 
     override fun onOkClick(itemView: View?, position: Int) {
-        Toast.makeText(requireContext(), "Next!", Toast.LENGTH_SHORT).show()
+        (this.context as ProgressActivity).starEducationActivity()
     }
 
 

@@ -24,7 +24,8 @@ import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 
 
-class StudentNameFragment(var title: Int = R.string.student, var type: String = "student") : Fragment() {
+class StudentNameFragment(var title: Int = R.string.student, var type: String = "student") :
+    Fragment() {
 
     private var _binding: FragmentStudentNameBinding? = null
     private val binding get() = _binding!!
@@ -56,21 +57,40 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        val checkData = Preferences.getPrefsString("checkData",  requireContext()) == "true"
+        val checkData = Preferences.getPrefsString("checkData", requireContext()) == "true"
 
-        if (checkData){
-            parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("lastName", "name", "patronymic", "dateBirthday", "passport", "snils", "kpp", "format", "place")))
-            parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->
-                if (response.isSuccessful){
-                    if (response.body()!!.status == "done" && response.body()!!.client.name != null){
-                        val name = response.body()!!.client.name.toString()
-                        val secondName = response.body()!!.client.lastName.toString()
-                        val thirdName = response.body()!!.client.patronymic.toString()
-                        val date = response.body()!!.client.dateBirthday.toString()
-                        setData(name, secondName, thirdName, date)
+        if (checkData) {
+            if (type == "sudent") {
+                parent.getClientInfo(
+                    ClientInfoRequest(
+                        TOKEN,
+                        schoolId,
+                        clientId,
+                        listOf(
+                            "lastName",
+                            "name",
+                            "patronymic",
+                            "dateBirthday",
+                            "passport",
+                            "snils",
+                            "kpp",
+                            "format",
+                            "place"
+                        )
+                    )
+                )
+                parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == "done" && response.body()!!.client.name != null) {
+                            val name = response.body()!!.client.name.toString()
+                            val secondName = response.body()!!.client.lastName.toString()
+                            val thirdName = response.body()!!.client.patronymic.toString()
+                            val date = response.body()!!.client.dateBirthday.toString()
+                            setData(name, secondName, thirdName, date)
+                        }
                     }
-                }
-            })
+                })
+            }
         } else {
             if (type == "student") {
                 parent.mViewModel.updateProgress(
@@ -94,41 +114,73 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         }
 
 
-        secondNameText.doOnTextChanged{_,_,_,_ ->
-            if(secondNameText.length() > 1) secondNameField.setErrorOff()
+        secondNameText.doOnTextChanged { _, _, _, _ ->
+            if (secondNameText.length() > 1) secondNameField.setErrorOff()
         }
 
-        firstNameText.doOnTextChanged{_,_,_,_ ->
-            if(firstNameText.length() > 1) firstNameField.setErrorOff()
+        firstNameText.doOnTextChanged { _, _, _, _ ->
+            if (firstNameText.length() > 1) firstNameField.setErrorOff()
         }
 
-        thirdNameText.doOnTextChanged{_,_,_,_ ->
-            if(thirdNameText.length() > 1) thirdNameField.setErrorOff()
+        thirdNameText.doOnTextChanged { _, _, _, _ ->
+            if (thirdNameText.length() > 1) thirdNameField.setErrorOff()
         }
 
-        birthDateText.doOnTextChanged{_,_,_,_ ->
-            if(birthDateText.length() > 1) birthDateField.setErrorOff()
+        birthDateText.doOnTextChanged { _, _, _, _ ->
+            if (birthDateText.length() > 1) birthDateField.setErrorOff()
             if (birthDateText.length() == 10) this.view?.hideKeyboard()
         }
 
         binding.btStudentNameNext.setOnClickListener {
-            if (secondNameText.length() > 2 && firstNameText.length() > 2 && thirdNameText.length() > 2 && birthDateText.length() == 10){
+            if (secondNameText.length() > 2 && firstNameText.length() > 2 && thirdNameText.length() > 2 && birthDateText.length() == 10) {
                 val lastname = secondNameText.text.toString().replaceFirstChar { it.uppercase() }
                 val name = firstNameText.text.toString().replaceFirstChar { it.uppercase() }
                 val thirdName = thirdNameText.text.toString().replaceFirstChar { it.uppercase() }
                 val birthDate = birthDateText.text.toString()
-                when(type){
+                when (type) {
                     "student" -> {
-                        Preferences.setPrefsString("birthDate", dateConverter(binding.studentNameBirthDateText.text.toString(), requireContext()), requireContext())
-                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, lastName = lastname, name = name, patronymic = thirdName, dateBirthday = birthDate))
-                        if (checkData){
-                            nextFragmentInProgress(parentFragmentManager, CheckDataFragment("student"))
+                        Preferences.setPrefsString(
+                            "birthDate",
+                            dateConverter(
+                                binding.studentNameBirthDateText.text.toString(),
+                                requireContext()
+                            ),
+                            requireContext()
+                        )
+                        parent.updateClientData(
+                            FullRegistrationRequest(
+                                TOKEN,
+                                clientId,
+                                schoolId,
+                                lastName = lastname,
+                                name = name,
+                                patronymic = thirdName,
+                                dateBirthday = birthDate
+                            )
+                        )
+                        if (checkData) {
+                            nextFragmentInProgress(
+                                parentFragmentManager,
+                                CheckDataFragment("student")
+                            )
                         } else {
                             nextFragmentInProgress(parentFragmentManager, PassportFragment())
                         }
                     }
                     "parent" -> {
-                        parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, parent = ParentModel(lastName = lastname, name = name, thirdName = thirdName, dateBirthday = birthDate)))
+                        parent.updateClientData(
+                            FullRegistrationRequest(
+                                TOKEN,
+                                clientId,
+                                schoolId,
+                                parent = ParentModel(
+                                    lastName = lastname,
+                                    name = name,
+                                    thirdName = thirdName,
+                                    dateBirthday = birthDate
+                                )
+                            )
+                        )
                         nextFragmentInProgress(
                             parentFragmentManager,
                             DocumentTypeFragment(title2 = R.string.representatives, "parent")
@@ -143,7 +195,8 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
             }
         }
     }
-    private fun setData(firstName: String, secondName: String, thirdName: String, date: String){
+
+    private fun setData(firstName: String, secondName: String, thirdName: String, date: String) {
         binding.studentNameFirstText.setText(firstName)
         binding.studentNameSecondNameText.setText(secondName)
         binding.studentNameThirdText.setText(thirdName)

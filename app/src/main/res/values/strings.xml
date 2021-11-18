@@ -136,7 +136,9 @@
     <string name="waiting">Ожидайте!</string>
     <string name="confirm_may">Проверка шоферской комиссии\nзанимает до 24 часов</string>
     <string name="spravka_confirmed">Справка прошла проверку!</string>
+    <string name="spravka_noconfirmed">Справка не прошла проверку!</string>
     <string name="spravka_confirmed_text">Запишитесь на вождение с помощью Меню во вкладке Практика</string>
+    <string name="spravka_noconfirmed_text">Заполните актуальные данные во вкладке Практика</string>
     <string name="spravka_data_title">Шоферская комиссия</string>
     <string name="spravka_data_text">Заполнение полей должно быть строго в соответсвии с данными по медсправке!</string>
     <string name="done">Готово</string>

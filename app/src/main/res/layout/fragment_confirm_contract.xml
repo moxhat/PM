@@ -119,7 +119,7 @@
             android:id="@+id/bt_contract_next"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="170dp"
             android:background="@drawable/ic_main_button"
             android:fontFamily="@font/ubuntu_b"
             android:singleLine="true"
@@ -130,7 +130,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contract_parent_chek2" />
+            app:layout_constraintTop_toTopOf="@+id/read_contract_alert" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

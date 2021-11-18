@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.ClientAuthorizationRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.models.responsemodels.ClientAuthorizationResponse
+import com.madcrew.pravamobil.models.responsemodels.SpravkaStatusResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
