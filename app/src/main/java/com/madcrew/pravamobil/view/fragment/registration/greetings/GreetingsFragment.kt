@@ -45,19 +45,19 @@ class GreetingsFragment(private var name: String = "Оксана", val progressS
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        val repository = Repository()
-        val viewModelFactory = GreetingsViewModelFactory(repository)
-        val mViewModel = ViewModelProvider(this, viewModelFactory).get(GreetingsViewModel::class.java)
-
-        mViewModel.getSpravkaStatus(SpravkaStatusRequest(BaseUrl.TOKEN, schoolId, clientId))
-
-        mViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
-            if (response.isSuccessful){
-                if (response.body()!!.status == "done"){
-                    Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
-                }
-            }
-        })
+//        val repository = Repository()
+//        val viewModelFactory = GreetingsViewModelFactory(repository)
+//        val mViewModel = ViewModelProvider(this, viewModelFactory).get(GreetingsViewModel::class.java)
+//
+//        mViewModel.getSpravkaStatus(SpravkaStatusRequest(BaseUrl.TOKEN, schoolId, clientId))
+//
+//        mViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
+//            if (response.isSuccessful){
+//                if (response.body()!!.status == "done"){
+//                    Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
+//                }
+//            }
+//        })
 
         binding.greetingsTitle2.text = name
 

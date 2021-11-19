@@ -6,5 +6,5 @@ data class MedInfoModel(
     var centre: String?,
     var license: String?,
     var date: String?,  // (YYYY-MM-DD)
-    var status: String?
+    var status: String? = null
 )

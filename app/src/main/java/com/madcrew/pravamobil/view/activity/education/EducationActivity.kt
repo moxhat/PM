@@ -19,6 +19,7 @@ import com.madcrew.pravamobil.databinding.ActivityEducationBinding
 import com.madcrew.pravamobil.domain.BaseUrl
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
@@ -83,13 +84,6 @@ class EducationActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        val clientId = Preferences.getPrefsString("clientId", this).toString()
-        val schoolId = Preferences.getPrefsString("schoolId", this).toString()
-        mViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
-    }
-
     private fun changeFragment(
         fragmentManager: FragmentManager,
         fragment: Fragment,
@@ -130,6 +124,14 @@ class EducationActivity : AppCompatActivity() {
         val window: Window = this.window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.red_alert)
+    }
+
+    fun updateClientData(data: FullRegistrationRequest){
+        if (isOnline(this)) {
+            mViewModel.updateClientData(data)
+        } else {
+            noInternet(this)
+        }
     }
 
 }

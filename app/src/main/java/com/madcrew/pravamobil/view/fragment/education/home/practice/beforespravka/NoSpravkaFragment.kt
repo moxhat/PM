@@ -1,6 +1,7 @@
 package com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka
 
 import android.os.Bundle
+import android.preference.Preference
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.dialog.SpravkaDataDialogFragment
 import com.madcrew.pravamobil.view.dialog.SpravkaImageDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
+import java.util.prefs.Preferences
 
 
 class NoSpravkaFragment : Fragment() {
@@ -41,6 +43,7 @@ class NoSpravkaFragment : Fragment() {
     }
 
     fun showSpravkaImageDialog(){
+        com.madcrew.pravamobil.utils.Preferences.setPrefsString("loadingSpravka","true", requireContext())
         val spravkaImageDialog = SpravkaImageDialogFragment()
         spravkaImageDialog.show(childFragmentManager, "SpravkaImageDialogFragment")
     }

@@ -112,4 +112,18 @@ interface PMApi {
         @Body
         spravkaStatusRequest: SpravkaStatusRequest
     ): Response<StatusOnlyResponse>
+
+    //Получение списка инструкторов назначенных клиенту
+    @POST("/api/client/instructor/list")
+    suspend fun getInstructorsList(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<InstructorsListResponse>
+
+    //Получение списка доступных занятий для записи
+    @POST("/api/instructor/available/times")
+    suspend fun getAvailableTimes(
+        @Body
+        availableTimesRequest: AvailableTimesRequest
+    ): Response<AvailableTimesResponse>
 }

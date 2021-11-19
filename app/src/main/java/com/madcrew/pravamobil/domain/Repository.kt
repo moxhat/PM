@@ -64,4 +64,12 @@ class Repository {
     suspend fun deleteSpravka(spravkaStatusRequest: SpravkaStatusRequest): Response<StatusOnlyResponse>{
         return RetrofitInstance.api.deleteSpravka(spravkaStatusRequest)
     }
+
+    suspend fun getInstructorsList(spravkaStatusRequest: SpravkaStatusRequest): Response<InstructorsListResponse>{
+        return RetrofitInstance.api.getInstructorsList(spravkaStatusRequest)
+    }
+
+    suspend fun getAvailableTimes(availableTimesRequest: AvailableTimesRequest): Response<AvailableTimesResponse>{
+        return RetrofitInstance.api.getAvailableTimes(availableTimesRequest)
+    }
 }

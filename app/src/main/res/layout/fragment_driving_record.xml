@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="@+id/driving_record_card_view"
         app:layout_constraintStart_toStartOf="@+id/driving_record_card_view"
         app:layout_constraintTop_toTopOf="@+id/driving_record_card_view"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/driving_record_calendar_constraint"
@@ -80,13 +80,15 @@
         android:id="@+id/driving_record_card_view"
         style="@android:style/Widget.Material.DropDownItem.Spinner"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         app:cardBackgroundColor="?attr/colorOnBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/bt_driving_record_lesson_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -165,12 +167,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bt_driving_record_choose_date" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/blur_top"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:background="@drawable/ic_rectangle_blurdown"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/fragment_driving_record_instructor_time_recycler">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/blur_bottom"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:background="@drawable/ic_rectangle_blurup"
+                android:elevation="1dp"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_driving_record_instructor_time_recycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragment_driving_record_instructor_time_recycler"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:isScrollContainer="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

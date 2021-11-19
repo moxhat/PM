@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,14 +9,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.InstructorDatesRecyclerAdapter
 import com.madcrew.pravamobil.adapter.SpinnerInstructorAdapter
 import com.madcrew.pravamobil.databinding.FragmentDrivingRecordBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.InstructorDateData
 import com.madcrew.pravamobil.models.InstructorSpinnerItem
+import com.madcrew.pravamobil.models.requestmodels.AvailableTimesRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.ConfirmRecordDialogFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
 import java.util.*
@@ -27,14 +35,13 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
     private var _binding: FragmentDrivingRecordBinding? = null
     private val binding get() = _binding!!
     private lateinit var mAdapter: InstructorDatesRecyclerAdapter
+    private lateinit var mViewModel: DrivingRecordViewModel
     lateinit var selectedDate: String
     lateinit var selectedDayOfWeek: String
     lateinit var mDateList: MutableList<InstructorDateData>
     lateinit var instructors: MutableList<InstructorSpinnerItem>
+    lateinit var instructorID: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +53,72 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val parent = this.context as PracticeOptionsActivity
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+
+        val repository = Repository()
+        val viewModelFactory = DrivingRecordViewModelFactory(repository)
+        mViewModel =
+            ViewModelProvider(this, viewModelFactory).get(DrivingRecordViewModel::class.java)
+
+        mViewModel.instructorsResponse.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                when (response.body()!!.status) {
+                    "done" -> {
+                        val tmpInstructors = mutableListOf<InstructorSpinnerItem>()
+                        for (i in response.body()?.instructors!!) {
+                            tmpInstructors.add(
+                                InstructorSpinnerItem(
+                                    "${i.secondName} ${i.name?.get(0)}. ${
+                                        i.patronymic?.get(
+                                            0
+                                        )
+                                    }.", i.photoUrl.toString()
+                                )
+                            )
+                        }
+                        if (response.body()!!.instructors?.size == 1) {
+                            instructorID = response.body()!!.instructors?.get(0)?.id!!
+                        }
+                        instructors = tmpInstructors
+                        setUpInstructorsSpinner()
+                        getAvailableTimesSelectedDay()
+                    }
+                    "error" -> Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.no_instructors),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    "fail" -> Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.no_client),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
+
+        mViewModel.availableTimes.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done") {
+                    if (response.body()!!.times?.size == 0) {
+                        binding.drivingRecordAvailableTimeTitle.setText(R.string.no_available_time)
+                        mDateList.clear()
+                    } else {
+                        binding.drivingRecordAvailableTimeTitle.setText(R.string.available_time)
+                        val tmpDateList = mutableListOf<InstructorDateData>()
+                        for (i in response.body()!!.times!!) {
+                            tmpDateList.add(InstructorDateData(i.title))
+                        }
+                        mDateList = tmpDateList
+                    }
+                    setupTimeRecycler()
+                }
+            }
+        })
 
         val calendar = binding.calendarView
 
@@ -104,41 +177,18 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         val selectedDayWeek = today.get(Calendar.DAY_OF_WEEK)
         selectedDofW(selectedDayWeek)
-        binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
+        binding.drivingRecordSelectedDate.text =
+            dateConverterForTitle(selectedDate, requireContext()) + " ($selectedDayOfWeek)"
+
+        if (isOnline(requireContext())) {
+            mViewModel.getInstructors(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+        } else {
+            noInternet(requireContext())
+        }
 
 
         val calendarView = binding.drivingRecordCalendarCard
         calendarView.setGone()
-
-        val spinnerInstructors = binding.drivingRecordInstructorSpinner
-        val timesRecycler = binding.fragmentDrivingRecordInstructorTimeRecycler
-
-        instructors = mutableListOf(
-            InstructorSpinnerItem("Анджелина Джоли", R.drawable.ic_woman),
-            InstructorSpinnerItem("Бред Питт", R.drawable.ic_man)
-        )
-
-        val customAdapter =
-            SpinnerInstructorAdapter(requireContext(), instructors)
-        spinnerInstructors.adapter = customAdapter
-
-        spinnerInstructors.onItemSelectedListener = this
-
-        mDateList = mutableListOf(
-            InstructorDateData("10:00 - 11:00"),
-            InstructorDateData("11:00 - 12:00"),
-        )
-
-        mAdapter = InstructorDatesRecyclerAdapter(mDateList, this)
-        mAdapter.notifyDataSetChanged()
-
-        timesRecycler.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = mAdapter
-        }
-        mAdapter.notifyDataSetChanged()
-
 
         binding.btDrivingRecordEndRecord.setOnClickListener {
             this.activity?.finish()
@@ -154,7 +204,9 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             calendarView.setGone()
             val selectedDayWeek = today.get(Calendar.DAY_OF_WEEK)
             selectedDofW(selectedDayWeek)
-            binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
+            binding.drivingRecordSelectedDate.text =
+                dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
+            getAvailableTimesSelectedDay()
         }
 
         binding.btDrivingRecordNextDay.setOnClickListener {
@@ -175,11 +227,13 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             selectedDofW(selectedDayWeek)
 
             selectedDate = "$curDay.$curMonth.${today.get(Calendar.YEAR)}"
-            if (selectedDate == maxSelectedDate){
+            if (selectedDate == maxSelectedDate) {
                 today.add(Calendar.DAY_OF_MONTH, -1)
             } else {
-                binding.drivingRecordSelectedDate.text = dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
+                binding.drivingRecordSelectedDate.text =
+                    dateConverterForTitle(selectedDate, requireContext()) + " " + selectedDayOfWeek
             }
+            getAvailableTimesSelectedDay()
         }
 
         calendar.setOnDateChangeListener { view, year, month, day ->
@@ -209,6 +263,26 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         }
     }
 
+    private fun setUpInstructorsSpinner() {
+        val spinnerInstructors = binding.drivingRecordInstructorSpinner
+        val customAdapter =
+            SpinnerInstructorAdapter(requireContext(), instructors)
+        spinnerInstructors.adapter = customAdapter
+        spinnerInstructors.isEnabled = instructors.size != 1
+        spinnerInstructors.onItemSelectedListener = this
+    }
+
+    private fun setupTimeRecycler() {
+        val timesRecycler = binding.fragmentDrivingRecordInstructorTimeRecycler
+        mAdapter = InstructorDatesRecyclerAdapter(mDateList, this)
+        timesRecycler.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = mAdapter
+        }
+        mAdapter.notifyDataSetChanged()
+    }
+
     private fun selectedDofW(selectedDayWeek: Int) {
         selectedDayOfWeek =
             when (selectedDayWeek) {
@@ -223,7 +297,21 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
             }
     }
 
+    fun getAvailableTimesSelectedDay() {
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        mViewModel.getAvailableTimes(
+            AvailableTimesRequest(
+                TOKEN,
+                schoolId,
+                instructorID,
+                selectedDate
+            )
+        )
+    }
+
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        instructorID =
+            mViewModel.instructorsResponse.value?.body()!!.instructors?.get(p2)?.id.toString()
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -231,7 +319,8 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     override fun onDateClick(v: Button?, position: Int) {
         val date = "${dateConverter(selectedDate, requireContext())} ${mDateList[position].date}"
-        val name = instructors[binding.drivingRecordInstructorSpinner.selectedItemPosition].instructorName
+        val name =
+            instructors[binding.drivingRecordInstructorSpinner.selectedItemPosition].instructorName
         val confirmDialog = ConfirmRecordDialogFragment(date, name)
         confirmDialog.show(childFragmentManager, "ConfirmRecordDialogFragment")
     }

@@ -125,7 +125,7 @@
         android:textColor="@color/main"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/signin_remember_chek"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/signin_password"
         app:layout_constraintTop_toTopOf="@+id/signin_remember_chek" />
 
     <androidx.appcompat.widget.AppCompatCheckBox

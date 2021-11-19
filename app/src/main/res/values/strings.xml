@@ -211,4 +211,7 @@
     <string name="accaunt_not_found">Аккаунт не найден</string>
     <string name="category">Категория</string>
     <string name="no_places">нет набора</string>
+    <string name="no_instructors">Инструктор не назначен</string>
+    <string name="no_client">Клиент не найден</string>
+    <string name="no_available_time">Нет свободного времени</string>
 </resources>

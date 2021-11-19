@@ -39,12 +39,11 @@ class HomePracticeFragment : Fragment() {
 
         val parent = this.context as EducationActivity
 
-        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop().into(binding.homePracticeInstructorAvatar)
+        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop()
+            .into(binding.homePracticeInstructorAvatar)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val confirmedDialog = SpravkaConfirmedDialogFragment("good")
-            confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
-        }, 1000)
+        val confirmedDialog = SpravkaConfirmedDialogFragment("good")
+        confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
 
         binding.btHomePracticeChangeInstructor.setOnClickListener {
             val changeDialog = InstructorCancelDialogFragment()
@@ -69,12 +68,12 @@ class HomePracticeFragment : Fragment() {
         }
     }
 
-    private fun showMenu(view: View){
+    private fun showMenu(view: View) {
         view.setVisible()
         view.alphaUp(100)
     }
 
-    private fun hideMenu(view: View){
+    private fun hideMenu(view: View) {
         view.setGone()
         view.alphaDown(100)
     }

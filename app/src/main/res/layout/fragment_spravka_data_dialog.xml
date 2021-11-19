@@ -71,7 +71,7 @@
                 android:textColorHint="?attr/colorOnSecondary"
                 app:allowed_chars="1234567890"
                 app:keep_hint="true"
-                app:mask="####"
+                app:mask="##-###"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +115,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/spravka_data_giver"
+            android:id="@+id/spravka_data_center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -132,7 +132,7 @@
             app:layout_constraintTop_toTopOf="@+id/spravka_data_series">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/spravka_data_giver_text"
+                android:id="@+id/spravka_data_center_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -151,7 +151,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/spravka_data_given_date"
+            android:id="@+id/spravka_data_license"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -165,10 +165,10 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spravka_data_giver">
+            app:layout_constraintTop_toTopOf="@+id/spravka_data_center">
 
             <br.com.sapereaude.maskedEditText.MaskedEditText
-                android:id="@+id/spravka_data_given_date_text"
+                android:id="@+id/spravka_data_license_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -189,7 +189,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/spravka_data_department_code"
+        android:id="@+id/spravka_data_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -203,10 +203,10 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spravka_data_given_date">
+        app:layout_constraintTop_toTopOf="@+id/spravka_data_license">
 
         <br.com.sapereaude.maskedEditText.MaskedEditText
-            android:id="@+id/spravka_data_department_code_text"
+            android:id="@+id/spravka_data_date_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -253,6 +253,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spravka_data_department_code" />
+        app:layout_constraintTop_toTopOf="@+id/spravka_data_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
