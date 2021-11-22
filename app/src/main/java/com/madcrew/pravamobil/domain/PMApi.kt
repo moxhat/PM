@@ -126,4 +126,25 @@ interface PMApi {
         @Body
         availableTimesRequest: AvailableTimesRequest
     ): Response<AvailableTimesResponse>
+
+    //Запись на практические занятия
+    @POST("/api/instructor/learn/write")
+    suspend fun writeToLesson(
+        @Body
+        writeToLessonRequest: WriteToLessonRequest
+    ): Response<StatusWithErrorResponse>
+
+    //История занятий практики
+    @POST("/api/instructor/learn/history")
+    suspend fun getPracticeLessonHistory(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<LessonHistoryResponse>
+
+    //Отмена занятия
+    @POST("/api/instructor/learn/cancel")
+    suspend fun setLessonCancel(
+        @Body
+        lessonCancelRequest: LessonCancelRequest
+    ): Response<StatusWithErrorResponse>
 }

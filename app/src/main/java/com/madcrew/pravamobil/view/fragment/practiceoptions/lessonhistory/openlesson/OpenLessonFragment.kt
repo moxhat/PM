@@ -1,5 +1,7 @@
 package com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openlesson
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +17,13 @@ import com.madcrew.pravamobil.utils.alphaDown
 import com.madcrew.pravamobil.utils.alphaUp
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
+import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
+import java.text.FieldPosition
 
 
-class OpenLessonFragment(var status: Int = 0) : Fragment() {
+class OpenLessonFragment(var status: String, var rating: Double, var position: Int) : Fragment() {
 
     private var _binding: FragmentOpenLessonBinding? = null
     private val binding get() = _binding!!
@@ -34,11 +39,27 @@ class OpenLessonFragment(var status: Int = 0) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as PracticeOptionsActivity
+        val currentLesson = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history?.get(position)!!
+
         val rateSheet = binding.openLessonRatingSheet
         val btRateClose = binding.btOpenLessonCloseRating
         val ratingSheetBar = binding.openLessonRatingSheetRatingBar
+        val instructorAvatar = binding.openLessonInstructorAvatar
+        val instructorRating = binding.openLessonInstructorRate
+        val instructorName = binding.openLessonInstructorName
+        val instructorCar = binding.openLessonInstructorCar
+
+        Glide.with(requireContext()).load(currentLesson.photoUrl).circleCrop()
+            .into(instructorAvatar)
+
+        instructorRating.text = currentLesson.instRating
+        instructorName.text = "${currentLesson.secondName} ${currentLesson.name} ${currentLesson.patronymic}"
+        instructorCar.text = currentLesson.car
+
         btRateClose.setGone()
         val mBottomRateSheet = BottomSheetBehavior.from(rateSheet)
+
 
 
         mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -46,17 +67,17 @@ class OpenLessonFragment(var status: Int = 0) : Fragment() {
 
         hideAll()
 
-        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop()
-            .into(binding.openLessonInstructorAvatar)
-
-        if (status > 1) {
-            binding.openLessonRatingBar.rating = status.toFloat()
+        if (rating > 0.1) {
+            binding.openLessonRatingBar.rating = rating.toFloat()
             binding.openLessonRateComment.text = "Вот такой вот Питт водитель!"
         }
 
         when (status) {
-            0 -> setCancel()
-            1 -> setUnrated()
+            "Назначено" -> setCancel()
+            "Пройдено" -> {
+                if (rating == 0.0)
+                    setUnrated()
+            }
             else -> setRated()
         }
 
@@ -84,7 +105,12 @@ class OpenLessonFragment(var status: Int = 0) : Fragment() {
             mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-
+        binding.btOpenLessonCallInstructor.setOnClickListener{
+            val callIntent = Intent(Intent.ACTION_DIAL)
+            callIntent.data =
+                Uri.parse("tel:" + "${currentLesson.phone}")
+            startActivity(callIntent)
+        }
 
         binding.openLessonRatingContentConstraint.setOnClickListener {
 

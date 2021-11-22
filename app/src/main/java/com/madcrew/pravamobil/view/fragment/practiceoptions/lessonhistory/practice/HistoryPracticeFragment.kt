@@ -13,11 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHistoryPracticeBinding
+import com.madcrew.pravamobil.domain.BaseUrl
 import com.madcrew.pravamobil.models.LessonsData
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.isOnline
+import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.ConfirmCancelDialogFragment
 import com.madcrew.pravamobil.view.dialog.HistoryItemPropertiesDialogFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openlesson.OpenLessonFragment
 
 
@@ -28,7 +34,6 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
     private lateinit var mLessonsList:MutableList<LessonsData>
 
     private lateinit var mAdapter: LessonHistoryRecyclerAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,53 +51,50 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mLessonsList = mutableListOf(
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 3),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка",0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена",0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено", 0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 3),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка",0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена",0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Назначено", 0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 0)
-        )
+        val parent = this.context as PracticeOptionsActivity
 
-        mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-
-        binding.historyPracticeRecycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = mAdapter
+        if (isOnline(requireContext())){
+            parent.mViewModel.getPracticeHistory(SpravkaStatusRequest(BaseUrl.TOKEN, schoolId, clientId))
+        } else {
+            noInternet(requireContext())
         }
+
+        parent.mViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                when (response.body()!!.status){
+                    "done" -> {
+                        val tmpLessonList = mutableListOf<LessonsData>()
+                        for (i in response.body()!!.history!!){
+                            tmpLessonList.add(LessonsData(i.date, "${i.secondName} ${i.name?.get(0)}. ${i.patronymic?.get(0)}.", i.status, i.rating!!.toDouble()))
+                        }
+                        mLessonsList = tmpLessonList
+                        mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
+                        binding.historyPracticeRecycler.apply {
+                            layoutManager = LinearLayoutManager(requireContext())
+                            adapter = mAdapter
+                        }
+                    }
+                    "fail" -> {
+                        Toast.makeText(requireContext(), resources.getText(R.string.error), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
     override fun onStatusClick(itemView: View?, position: Int) {
-        //            0 -> setCancel()
-        //            1 -> setUnrated()
-        //            else -> setRated()
-        var status = when (mLessonsList[position].status){
-            "Назначено" -> 0
-            "Пройдено" -> {
-                if (mLessonsList[position].rating == 0){
-                    1
-                } else {
-                    mLessonsList[position].rating
-                }
-            }
-            else -> 1
-        }
+        val status = mLessonsList[position].status.toString()
+        val rating = mLessonsList[position].rating!!
         if (mLessonsList[position].status == "Назначено"){
-            status = 0
             val date = mLessonsList[position].date.toString()
-            val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status, position)
+            val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status, position, rating)
             propertiesDialog.show(childFragmentManager, "HistoryItemPropertiesDialogFragment")
         } else {
             val parent = this.context as PracticeOptionsActivity
-            parent.addOpenLesson(status)
+            parent.addOpenLesson(status, rating, position)
         }
     }
 

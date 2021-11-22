@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.madcrew.pravamobil.databinding.FragmentConfirmRecordDialogBinding
+import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordViewModel
 
 
-class ConfirmRecordDialogFragment(var date: String, var name: String) : DialogFragment() {
+class ConfirmRecordDialogFragment(var date: String, var name: String, var timeId: String, var timeTitle: String) : DialogFragment() {
 
     private var _binding: FragmentConfirmRecordDialogBinding? = null
     private val binding get() = _binding!!
@@ -44,8 +46,7 @@ class ConfirmRecordDialogFragment(var date: String, var name: String) : DialogFr
         }
 
         binding.btConfirmRecordYes.setOnClickListener {
-            val confirmedDialog = RecordAddedDialogFragment()
-            confirmedDialog.show(parentFragmentManager, "RecordAddedDialogFragment")
+            (parentFragment as DrivingRecordFragment).confirmWriteToLesson(timeId, timeTitle)
             this.dialog?.dismiss()
 
         }

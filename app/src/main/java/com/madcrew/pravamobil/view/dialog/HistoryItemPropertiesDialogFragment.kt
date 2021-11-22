@@ -17,7 +17,7 @@ import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.openle
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practice.HistoryPracticeFragment
 
 
-class HistoryItemPropertiesDialogFragment(var date: String, var status: Int, val position: Int, var rating: Int = 0) : DialogFragment() {
+class HistoryItemPropertiesDialogFragment(var date: String, var status: String, val position: Int, var rating: Double) : DialogFragment() {
 
     private var _binding: FragmentHistoryItemPropertiesDialogBinding? = null
     private val binding get() = _binding!!
@@ -46,7 +46,7 @@ class HistoryItemPropertiesDialogFragment(var date: String, var status: Int, val
 
         binding.btHistoryItemPropertiesMoreAbout.setOnClickListener {
             val parent = this.context as PracticeOptionsActivity
-            parent.addOpenLesson(status)
+            parent.addOpenLesson(status, rating, position)
             this.dialog?.dismiss()
         }
 

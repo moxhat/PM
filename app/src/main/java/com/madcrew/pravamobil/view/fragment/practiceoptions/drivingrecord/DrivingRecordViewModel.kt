@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.AvailableTimesRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.models.requestmodels.WriteToLessonRequest
 import com.madcrew.pravamobil.models.responsemodels.AvailableTimesResponse
 import com.madcrew.pravamobil.models.responsemodels.InstructorsListResponse
+import com.madcrew.pravamobil.models.responsemodels.StatusWithErrorResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -28,6 +30,15 @@ class DrivingRecordViewModel (private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             val response = repository.getAvailableTimes(availableTimesRequest)
             availableTimes.value = response
+        }
+    }
+
+    var writingResponse = MutableLiveData<Response<StatusWithErrorResponse>>()
+
+    fun writeToLesson(writeToLessonRequest: WriteToLessonRequest) {
+        viewModelScope.launch {
+            val response = repository.writeToLesson(writeToLessonRequest)
+            writingResponse.value = response
         }
     }
 }

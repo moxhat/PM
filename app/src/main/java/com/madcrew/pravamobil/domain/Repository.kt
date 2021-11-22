@@ -72,4 +72,16 @@ class Repository {
     suspend fun getAvailableTimes(availableTimesRequest: AvailableTimesRequest): Response<AvailableTimesResponse>{
         return RetrofitInstance.api.getAvailableTimes(availableTimesRequest)
     }
+
+    suspend fun writeToLesson(writeToLessonRequest: WriteToLessonRequest): Response<StatusWithErrorResponse>{
+        return RetrofitInstance.api.writeToLesson(writeToLessonRequest)
+    }
+
+    suspend fun getPracticeLessonHistory(spravkaStatusRequest: SpravkaStatusRequest): Response<LessonHistoryResponse>{
+        return RetrofitInstance.api.getPracticeLessonHistory(spravkaStatusRequest)
+    }
+
+    suspend fun setLessonCancel(lessonCancelRequest: LessonCancelRequest): Response<StatusWithErrorResponse>{
+        return RetrofitInstance.api.setLessonCancel(lessonCancelRequest)
+    }
 }

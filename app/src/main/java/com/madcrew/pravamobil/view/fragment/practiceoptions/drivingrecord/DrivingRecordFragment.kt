@@ -21,10 +21,12 @@ import com.madcrew.pravamobil.models.InstructorDateData
 import com.madcrew.pravamobil.models.InstructorSpinnerItem
 import com.madcrew.pravamobil.models.requestmodels.AvailableTimesRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.models.requestmodels.WriteToLessonRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.ConfirmRecordDialogFragment
+import com.madcrew.pravamobil.view.dialog.RecordAddedDialogFragment
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.LessonHistoryFragment
 import java.util.*
 
@@ -41,6 +43,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
     lateinit var mDateList: MutableList<InstructorDateData>
     lateinit var instructors: MutableList<InstructorSpinnerItem>
     lateinit var instructorID: String
+    private var selectedTimePosition = 0
 
 
     override fun onCreateView(
@@ -106,6 +109,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
                 if (response.body()!!.status == "done") {
                     if (response.body()!!.times?.size == 0) {
                         binding.drivingRecordAvailableTimeTitle.setText(R.string.no_available_time)
+                        mDateList = mutableListOf()
                         mDateList.clear()
                     } else {
                         binding.drivingRecordAvailableTimeTitle.setText(R.string.available_time)
@@ -116,6 +120,28 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
                         mDateList = tmpDateList
                     }
                     setupTimeRecycler()
+                }
+            }
+        })
+
+        mViewModel.writingResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                when (response.body()!!.status ){
+                    "done" -> {
+                        val confirmedDialog = RecordAddedDialogFragment()
+                        confirmedDialog.show(parentFragmentManager, "RecordAddedDialogFragment")
+                        mDateList.removeAt(selectedTimePosition)
+                        mAdapter.notifyItemRemoved(selectedTimePosition)
+                        if (mDateList.size == 0){
+                            binding.drivingRecordAvailableTimeTitle.setText(R.string.no_available_time)
+                        }
+                    }
+                    "error" -> {
+                        Toast.makeText(requireContext(), response.body()!!.error, Toast.LENGTH_SHORT).show()
+                    }
+                    "fail" -> {
+                        Toast.makeText(requireContext(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
@@ -309,6 +335,12 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         )
     }
 
+    fun confirmWriteToLesson(timeId: String, timeTitle: String){
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        mViewModel.writeToLesson(WriteToLessonRequest(TOKEN, schoolId, instructorID, clientId, selectedDate, timeId, timeTitle))
+    }
+
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         instructorID =
             mViewModel.instructorsResponse.value?.body()!!.instructors?.get(p2)?.id.toString()
@@ -318,10 +350,13 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
     }
 
     override fun onDateClick(v: Button?, position: Int) {
+        selectedTimePosition = position
         val date = "${dateConverter(selectedDate, requireContext())} ${mDateList[position].date}"
         val name =
             instructors[binding.drivingRecordInstructorSpinner.selectedItemPosition].instructorName
-        val confirmDialog = ConfirmRecordDialogFragment(date, name)
+        val timeTitle = mDateList[position].date
+        val timeId = mViewModel.availableTimes.value!!.body()!!.times?.get(position)?.id.toString()
+        val confirmDialog = ConfirmRecordDialogFragment(date, name, timeId, timeTitle)
         confirmDialog.show(childFragmentManager, "ConfirmRecordDialogFragment")
     }
 
