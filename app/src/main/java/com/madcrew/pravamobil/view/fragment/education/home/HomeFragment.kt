@@ -160,4 +160,9 @@ class HomeFragment : Fragment() {
         homePagerAdapter.notifyDataSetChanged()
     }
 
+    fun setTitle(title: String, text: String){
+        binding.educationInfoFieldTitle.text = title
+        binding.educationInfoFieldText.text = text
+    }
+
 }

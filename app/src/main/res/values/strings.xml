@@ -215,4 +215,7 @@
     <string name="no_client">Клиент не найден</string>
     <string name="no_available_time">Нет свободного времени</string>
     <string name="error">Ошибка сервера</string>
+    <string name="see_u_on_theory">Ждем Вас на теории</string>
+    <string name="nearest_lesson">Ближайшее занятие </string>
+    <string name="no_lesson">Не назначено</string>
 </resources>
