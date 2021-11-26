@@ -4,13 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madcrew.pravamobil.domain.Repository
-import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
-import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
-import com.madcrew.pravamobil.models.requestmodels.OnlineExistRequest
-import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
-import com.madcrew.pravamobil.models.responsemodels.ClientInfoResponse
-import com.madcrew.pravamobil.models.responsemodels.OnlineExistResponse
-import com.madcrew.pravamobil.models.responsemodels.StatusOnlyResponse
+import com.madcrew.pravamobil.models.requestmodels.*
+import com.madcrew.pravamobil.models.responsemodels.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -20,6 +15,9 @@ class ProgressViewModel (private val repository: Repository): ViewModel() {
     var registrationResponse = MutableLiveData<Response<StatusOnlyResponse>>()
     var clientInfo = MutableLiveData<Response<ClientInfoResponse>>()
     var onlineExist = MutableLiveData<Response<OnlineExistResponse>>()
+    var tariffInfo = MutableLiveData<Response<TariffPriceResponse>>()
+    var createPayment = MutableLiveData<Response<CreatePaymentResponse>>()
+    var paymentStatus = MutableLiveData<Response<ChekPaymentStatusResponse>>()
 
     fun updateProgress(progressRequest: ProgressRequest) {
         viewModelScope.launch {
@@ -44,8 +42,35 @@ class ProgressViewModel (private val repository: Repository): ViewModel() {
 
     fun getOnlineExist(onlineExistRequest: OnlineExistRequest){
         viewModelScope.launch {
-            val response = repository.getCOnlineExist(onlineExistRequest)
+            val response = repository.getOnlineExist(onlineExistRequest)
             onlineExist.value = response
+        }
+    }
+
+    fun getContract(contractRequest: ContractRequest){
+        viewModelScope.launch {
+            val response = repository.getContract(contractRequest)
+        }
+    }
+
+    fun getTariffInfo(spravkaStatusRequest: SpravkaStatusRequest){
+        viewModelScope.launch {
+            val response = repository.getTariffPrice(spravkaStatusRequest)
+            tariffInfo.value = response
+        }
+    }
+
+    fun createNewPayment(createPaymentRequest: CreatePaymentRequest){
+        viewModelScope.launch {
+            val response = repository.createPayment(createPaymentRequest)
+            createPayment.value = response
+        }
+    }
+
+    fun chekPaymentStatus(chekPaymentStatusRequest: ChekPaymentStatusRequest){
+        viewModelScope.launch {
+            val response = repository.getPaymentStatus(chekPaymentStatusRequest)
+            paymentStatus.value = response
         }
     }
 }

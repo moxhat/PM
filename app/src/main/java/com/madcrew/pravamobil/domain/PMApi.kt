@@ -57,6 +57,13 @@ interface PMApi {
         tariffListRequest: TariffListRequest
     ): Response<TariffListResponse>
 
+    // Получение стоимости выбранного тарифа
+    @POST("/api/school/tariff/info")
+    suspend fun getTariffPrice(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<TariffPriceResponse>
+
     //Получение списка категорий доступных автошколе
     @POST("/api/school/category/list")
     suspend fun getCategoryList(
@@ -147,4 +154,26 @@ interface PMApi {
         @Body
         lessonCancelRequest: LessonCancelRequest
     ): Response<StatusWithErrorResponse>
+
+    //Создание счета на оплату, генерация договора и отправка на почту
+    @POST("/api/client/contract/create")
+    suspend fun getContract(
+        @Body
+        contractRequest: ContractRequest
+    ): Response<StatusOnlyResponse>
+
+
+    //Получение статуса платежа
+    @POST("/api/pay/status")
+    suspend fun getPaymentStatus(
+        @Body
+        chekPaymentStatusRequest: ChekPaymentStatusRequest
+    ): Response<ChekPaymentStatusResponse>
+
+    //Создание платежа + оплата
+    @POST("/api/pay/create")
+    suspend fun createPayment(
+        @Body
+        createPaymentRequest: CreatePaymentRequest
+    ): Response<CreatePaymentResponse>
 }

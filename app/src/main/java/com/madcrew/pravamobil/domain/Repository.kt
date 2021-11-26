@@ -29,6 +29,10 @@ class Repository {
         return RetrofitInstance.api.getTariffList(tariffListRequest)
     }
 
+    suspend fun getTariffPrice(spravkaStatusRequest: SpravkaStatusRequest): Response<TariffPriceResponse>{
+        return RetrofitInstance.api.getTariffPrice(spravkaStatusRequest)
+    }
+
     suspend fun getCategoryList(categoryRequest: CategoryRequest): Response<CategoryResponse>{
         return RetrofitInstance.api.getCategoryList(categoryRequest)
     }
@@ -53,7 +57,7 @@ class Repository {
         return RetrofitInstance.api.getClientInfo(clientInfoRequest)
     }
 
-    suspend fun getCOnlineExist(onlineExistRequest: OnlineExistRequest): Response<OnlineExistResponse>{
+    suspend fun getOnlineExist(onlineExistRequest: OnlineExistRequest): Response<OnlineExistResponse>{
         return RetrofitInstance.api.getOnlineExist(onlineExistRequest)
     }
 
@@ -83,5 +87,17 @@ class Repository {
 
     suspend fun setLessonCancel(lessonCancelRequest: LessonCancelRequest): Response<StatusWithErrorResponse>{
         return RetrofitInstance.api.setLessonCancel(lessonCancelRequest)
+    }
+
+    suspend fun getContract(contractRequest: ContractRequest): Response<StatusOnlyResponse> {
+        return RetrofitInstance.api.getContract(contractRequest)
+    }
+
+    suspend fun createPayment(createPaymentRequest: CreatePaymentRequest): Response<CreatePaymentResponse> {
+        return RetrofitInstance.api.createPayment(createPaymentRequest)
+    }
+
+    suspend fun getPaymentStatus(chekPaymentStatusRequest: ChekPaymentStatusRequest): Response<ChekPaymentStatusResponse> {
+        return RetrofitInstance.api.getPaymentStatus(chekPaymentStatusRequest )
     }
 }

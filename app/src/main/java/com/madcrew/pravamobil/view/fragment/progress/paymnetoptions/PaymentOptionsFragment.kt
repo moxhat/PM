@@ -2,30 +2,31 @@ package com.madcrew.pravamobil.view.fragment.progress.paymnetoptions
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPymentOptionsBinding
-import com.madcrew.pravamobil.domain.BaseUrl
-import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.models.submodels.PaymentModel
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.documenttype.DocumentTypeFragment
 import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.skydoves.powerspinner.IconSpinnerItem
 
 
-class PaymentOptionsFragment(private val summ: Int = 30000) : Fragment() {
+class PaymentOptionsFragment() : Fragment() {
 
     private var _binding: FragmentPymentOptionsBinding? = null
     private val binding get() = _binding!!
+    private var summ = 0
+    private var firstPayment = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,23 +48,100 @@ class PaymentOptionsFragment(private val summ: Int = 30000) : Fragment() {
         val paymentSeekCard = binding.cardPaymentSeek
         val paymentDatesCard = binding.cardPaymentDates
 
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+
+        val parent = this.context as ProgressActivity
+
         val mainManager = parentFragmentManager
+
+        parent.updateProgress("SelectPayment")
+        parent.mViewModel.getTariffInfo(SpravkaStatusRequest(TOKEN, schoolId, clientId))
 
         paymentSeekCard.setGone()
         paymentDatesCard.setGone()
 
-        spinnerPayment.apply {
-            setSpinnerAdapter(IconSpinnerAdapter(this))
-            setItems(
-                arrayListOf(
-                    IconSpinnerItem(text = "Полная оплата", iconRes = null),
-                    IconSpinnerItem(text = "Рассрочка 2 месяца", iconRes = null)
-                )
-            )
-            getSpinnerRecyclerView().layoutManager = GridLayoutManager(context, 1)
-//            selectItemByIndex(0) // select an item initially.
-            lifecycleOwner = this@PaymentOptionsFragment
-        }
+        val seekBar = binding.paymentsOptionsSeekBar
+
+        parent.mViewModel.tariffInfo.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done") {
+                    summ = response.body()!!.amount!!.toInt()
+                    var spinnerItemArray = ArrayList<IconSpinnerItem>()
+                    var startIndex = false
+                    if (response.body()!!.credit == "true" && response.body()!!.fullPay == "true") {
+                        spinnerItemArray = arrayListOf(
+                            IconSpinnerItem(text = "Полная оплата", iconRes = null),
+                            IconSpinnerItem(text = "Рассрочка 1 месяц", iconRes = null)
+                        )
+                    } else {
+                        startIndex = true
+                        if (response.body()!!.credit == "false"){
+                            spinnerItemArray = arrayListOf(
+                                IconSpinnerItem(text = "Полная оплата", iconRes = null),
+                            )
+                        }
+                        if (response.body()!!.fullPay == "false") {
+                            spinnerItemArray = arrayListOf(
+                                IconSpinnerItem(text = "Рассрочка 2 месяца", iconRes = null)
+                            )
+                        }
+                    }
+                    spinnerPayment.apply {
+                        setSpinnerAdapter(IconSpinnerAdapter(this))
+                        setItems(spinnerItemArray)
+                        getSpinnerRecyclerView().layoutManager = GridLayoutManager(context, 1)
+                        if (startIndex) {
+                            selectItemByIndex(0)
+                        }
+                        lifecycleOwner = this@PaymentOptionsFragment
+                    }
+                    spinnerPayment.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
+                        if (newIndex == 0) {
+                            paymentSeekCard.setGone()
+                            paymentDatesCard.setGone()
+                        } else {
+                            paymentSeekCard.setVisible()
+                            paymentDatesCard.setVisible()
+                            val firstPayment = seekBar.progress * 1000
+                            val nextPayment = summ - firstPayment
+                            val progressString = "${(seekBar.progress * 1000)} руб."
+                            binding.paymentValue.text = progressString
+                            binding.paymentSum1.text = "$firstPayment руб."
+                            binding.paymentSum2.text = "$nextPayment руб."
+                        }
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        seekBar.min = 5
+                    }
+                    seekBar.max = summ / 1000 - 1
+
+                    binding.paymentValue.text = (seekBar.progress * 1000).toString()
+                    seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                            if (fromUser) {
+                                if (progress >= 0 && progress <= seekBar.max) {
+                                    firstPayment = progress * 1000
+                                    val nextPayment = summ - firstPayment
+                                    val progressString = "${(progress * 1000)} руб."
+                                    binding.paymentValue.text = progressString
+                                    binding.paymentSum1.text = "$firstPayment руб."
+                                    binding.paymentSum2.text = "$nextPayment руб."
+                                    seekBar.secondaryProgress = progress
+                                }
+                            }
+                        }
+                    })
+                } else {
+                    showServerError(requireContext())
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
 
         spinnerPayment.setOnSpinnerDismissListener {
             spinnerPayment.setBackgroundResource(R.drawable.ic_rectangle_light_gray)
@@ -74,49 +152,12 @@ class PaymentOptionsFragment(private val summ: Int = 30000) : Fragment() {
             spinnerPayment.showOrDismiss()
         }
 
-
-        val seekBar = binding.paymentsOptionsSeekBar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            seekBar.min = 5
-        }
-        seekBar.max = summ / 1000 - 1
-
-        binding.paymentValue.text = (seekBar.progress * 1000).toString()
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    if (progress >= 0 && progress <= seekBar.max) {
-                        val firstPayment = progress * 1000
-                        val nextPayment = summ - firstPayment
-                        val progressString = "${(progress * 1000)} руб."
-                        binding.paymentValue.text = progressString
-                        binding.paymentSum1.text = "$firstPayment руб."
-                        binding.paymentSum2.text = "$nextPayment руб."
-                        seekBar.secondaryProgress = progress
-                    }
-                }
-            }
-        })
-
-        spinnerPayment.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
-            if (newIndex == 0) {
-                paymentSeekCard.setGone()
-                paymentDatesCard.setGone()
-            } else {
-                paymentSeekCard.setVisible()
-                paymentDatesCard.setVisible()
-                val firstPayment = seekBar.progress * 1000
-                val nextPayment = summ - firstPayment
-                val progressString = "${(seekBar.progress * 1000)} руб."
-                binding.paymentValue.text = progressString
-                binding.paymentSum1.text = "$firstPayment руб."
-                binding.paymentSum2.text = "$nextPayment руб."
-            }
-        }
-
         binding.btPaymentOptionsNext.setOnClickListener {
+            if (spinnerPayment.selectedIndex == 0){
+                parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, pay = PaymentModel(spinnerPayment.selectedIndex.toString(), parent.mViewModel.tariffInfo.value!!.body()!!.amount, parent.mViewModel.tariffInfo.value!!.body()!!.amount)))
+            } else {
+                parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, pay = PaymentModel(spinnerPayment.selectedIndex.toString(), firstPayment.toString(), parent.mViewModel.tariffInfo.value!!.body()!!.amount)))
+            }
             nextFragmentInProgress(mainManager, DocumentTypeFragment())
         }
     }

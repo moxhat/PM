@@ -12,6 +12,7 @@ import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.ContractConfirmedFragment
+import com.madcrew.pravamobil.view.fragment.progress.paymentsumm.PaymentSummFragment
 
 
 class ConfirmContractFragment(var type: String) : Fragment() {
@@ -34,6 +35,8 @@ class ConfirmContractFragment(var type: String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        type = Preferences.getPrefsString("adult",  requireContext()).toString()
         binding.contractClientEmail.text = Preferences.getPrefsString("email", requireContext())
 
         val parent = this.context as ProgressActivity
@@ -62,13 +65,13 @@ class ConfirmContractFragment(var type: String) : Fragment() {
             parent2 = isChecked
         }
 
-        when (parent.mViewModel.clientInfo.value?.body()?.client?.adult){
-            "true" -> {
+        when (type){
+            "student" -> {
                 binding.contractStudentChek.setVisible()
                 binding.contractParentChek1.setGone()
                 binding.contractParentChek2.setGone()
             }
-            "false" -> {
+            "parent" -> {
                 binding.contractStudentChek.setGone()
                 binding.contractParentChek1.setVisible()
                 binding.contractParentChek2.setVisible()
@@ -76,7 +79,7 @@ class ConfirmContractFragment(var type: String) : Fragment() {
         }
 
         binding.btContractNext.setOnClickListener {
-            nextFragmentInProgress(parentFragmentManager, ContractConfirmedFragment())
+            nextFragmentInProgress(parentFragmentManager, PaymentSummFragment())
         }
     }
 

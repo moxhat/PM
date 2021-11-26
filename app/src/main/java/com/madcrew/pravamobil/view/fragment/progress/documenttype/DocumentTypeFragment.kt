@@ -98,7 +98,7 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
                 "student" -> nextFragmentInProgress(mainManager, StudentNameFragment())
                 "parent" -> nextFragmentInProgress(mainManager, PassportFragment("parent", title = R.string.representatives))
             }
-            parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, documentType = documentType.toString()))
+            parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, documentType = documentType.toString(), contractType = "1"))
         }
     }
 }

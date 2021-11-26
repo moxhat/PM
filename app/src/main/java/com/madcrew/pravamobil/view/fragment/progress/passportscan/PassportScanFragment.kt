@@ -165,8 +165,10 @@ class PassportScanFragment(
                                 )
                             )
                             if (clientIsAdult) {
+                                Preferences.setPrefsString("adult", "student", requireContext())
                                 nextFragmentInProgress(mainManager, CheckDataFragment("student"))
                             } else {
+                                Preferences.setPrefsString("adult", "parent", requireContext())
                                 nextFragmentInProgress(mainManager, ClientIsNotAdultFragment())
                             }
                         }

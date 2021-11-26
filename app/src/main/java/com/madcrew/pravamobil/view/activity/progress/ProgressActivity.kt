@@ -34,6 +34,8 @@ import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFr
 import com.madcrew.pravamobil.view.fragment.progress.parentphone.ParentPhoneNumberFragment
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
+import com.madcrew.pravamobil.view.fragment.progress.paymentsumm.PaymentSummFragment
+import com.madcrew.pravamobil.view.fragment.progress.paymnetoptions.PaymentOptionsFragment
 import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
@@ -58,12 +60,19 @@ class ProgressActivity : AppCompatActivity() {
         val viewModelFactory = ProgressViewModelFactory(repository)
         mViewModel = ViewModelProvider(this, viewModelFactory).get(ProgressViewModel::class.java)
 
-        mViewModel.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
+        mViewModel.getClientInfo(
+            ClientInfoRequest(
+                TOKEN,
+                schoolId,
+                clientId,
+                listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
+            )
+        )
 
-        mViewModel.clientInfo.observe(this, {response ->
-            if (response.isSuccessful){
-                if(response.body()!!.status == "done"){
-                    owner = if (response.body()!!.client.adult == "true"){
+        mViewModel.clientInfo.observe(this, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done") {
+                    owner = if (response.body()!!.client.adult == "true") {
                         "student"
                     } else {
                         "parent"
@@ -86,7 +95,7 @@ class ProgressActivity : AppCompatActivity() {
                 "SelectFilialAndGroup" -> FilialFragment()
                 "SelectTariffPage" -> TariffFragment()
 //            "SelectPayer" ->
-//                "SelectPayment" -> PaymentOptionsFragment()
+                "SelectPayment" -> PaymentOptionsFragment()
                 "SelectTypeDocument" -> DocumentTypeFragment(type = "student")
                 "RegisterPersonalDataPage" -> StudentNameFragment(type = "student")
                 "RegisterPassportPage" -> PassportFragment("student")
@@ -111,14 +120,17 @@ class ProgressActivity : AppCompatActivity() {
                     title2 = R.string.representatives,
                     type = "parent"
                 )
-                "RegisterParentPassportPage" -> PassportFragment(type = "parent",title = R.string.representatives)
+                "RegisterParentPassportPage" -> PassportFragment(
+                    type = "parent",
+                    title = R.string.representatives
+                )
                 "RegisterParentPhonePage" -> ParentPhoneNumberFragment()
                 "CheckDataPage" -> CheckDataFragment(owner)
                 "ConfirmContractPage" -> ConfirmContractFragment(owner)
-//            "PaymentPage" ->
+                "PaymentPage" -> PaymentSummFragment()
 //            "ContractFail" ->
-            "ContractComplete" -> ContractConfirmedFragment()
-            "InstructionPage" -> TrainingFragment()
+                "ContractComplete" -> ContractConfirmedFragment()
+                "InstructionPage" -> TrainingFragment()
                 else -> AddPasswordFragment()
             }
 
@@ -133,7 +145,7 @@ class ProgressActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    fun updateProgress(status: String){
+    fun updateProgress(status: String) {
         val schoolId = Preferences.getPrefsString("schoolId", this).toString()
         val clientId = Preferences.getPrefsString("clientId", this).toString()
         if (isOnline(this)) {
@@ -143,7 +155,7 @@ class ProgressActivity : AppCompatActivity() {
         }
     }
 
-    fun updateClientData(data:FullRegistrationRequest){
+    fun updateClientData(data: FullRegistrationRequest) {
         if (isOnline(this)) {
             mViewModel.updateClientData(data)
         } else {
@@ -151,8 +163,8 @@ class ProgressActivity : AppCompatActivity() {
         }
     }
 
-    fun getClientInfo(clientInfoRequest: ClientInfoRequest){
-        if (isOnline(this)){
+    fun getClientInfo(clientInfoRequest: ClientInfoRequest) {
+        if (isOnline(this)) {
             mViewModel.getClientInfo(clientInfoRequest)
         } else {
             noInternet(this)

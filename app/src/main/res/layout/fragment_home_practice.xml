@@ -279,10 +279,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/home_practice_instructor_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/ubuntu_r"
-                android:text="Бред Питт"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/home_practice_instructor_name_title"
@@ -303,10 +302,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/home_practice_instructor_car"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/ubuntu_r"
-                android:text="Lada Granta Y 755 YY"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/home_practice_instructor_car_title"

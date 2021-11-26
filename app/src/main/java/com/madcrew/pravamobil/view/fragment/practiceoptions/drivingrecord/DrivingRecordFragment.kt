@@ -283,7 +283,7 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
         binding.btDrivingRecordLessonHistory.setOnClickListener {
             val mainManager = parentFragmentManager
             val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.replace(R.id.practice_options_fragment_container, LessonHistoryFragment(0))
+            transaction.replace(R.id.practice_options_fragment_container, LessonHistoryFragment("theory",0))
             transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             transaction.commit()
         }

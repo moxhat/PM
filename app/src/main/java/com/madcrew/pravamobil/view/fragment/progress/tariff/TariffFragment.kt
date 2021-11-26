@@ -167,7 +167,7 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, tariffId = tariffSlides[position].id))
-        nextFragmentInProgress(mainManager, PaymentOptionsFragment(tariffSlides[position].price.toInt()))
+        nextFragmentInProgress(mainManager, PaymentOptionsFragment())
     }
 
     private fun setupCurrentIndicator(index: Int) {

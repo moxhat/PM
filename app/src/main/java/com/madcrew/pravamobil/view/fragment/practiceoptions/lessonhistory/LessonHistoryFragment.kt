@@ -26,7 +26,7 @@ import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practi
 import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.theory.HistoryTheoryFragment
 
 
-class LessonHistoryFragment(var trigger: Int) : Fragment() {
+class LessonHistoryFragment(var from: String, var trigger: Int) : Fragment() {
 
     private var _binding: FragmentLessonHistoryBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +52,11 @@ class LessonHistoryFragment(var trigger: Int) : Fragment() {
         val historyFragmentsList = mutableListOf(HistoryTheoryFragment(), HistoryPracticeFragment())
         historyPagerAdapter = LessonHistoryPagerAdapter(this, historyFragmentsList.toMutableList())
         historyViewPager.adapter = historyPagerAdapter
-        historyViewPager.currentItem = 0
+
+        when (from){
+            "theory" -> historyViewPager.currentItem = 0
+            "practice" -> historyViewPager.currentItem = 1
+        }
 
         val tabLayout = binding.lessonHistoryTabs
         TabLayoutMediator(tabLayout, historyViewPager) { tab, position ->

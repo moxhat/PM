@@ -218,4 +218,14 @@
     <string name="see_u_on_theory">Ждем Вас на теории</string>
     <string name="nearest_lesson">Ближайшее занятие </string>
     <string name="no_lesson">Не назначено</string>
+    <string name="lesson_canceled">Занятие отменено</string>
+    <string name="contract_payment_title">Оплата договора</string>
+    <string name="payment_summ">Сумма к оплате:</string>
+    <string name="buy">Оплатить</string>
+    <string name="if_not_payed">В случае отсутствия оплаты до конца дня, договор аннулируется</string>
+    <string name="back_to_app">Вернуться в приложение</string>
+    <string name="pending">Ожидание завершения платежа</string>
+    <string name="you_can_new_contract">Вы можете заключить его повторно. Ранее введенные данные были сохранены</string>
+    <string name="contract_nullable">Ваш договор аннулирован</string>
+    <string name="for_chek_status">Для проверки статуса платежа потяни вниз</string>
 </resources>

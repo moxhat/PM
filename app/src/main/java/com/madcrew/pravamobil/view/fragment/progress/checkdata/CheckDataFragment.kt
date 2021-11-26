@@ -14,9 +14,8 @@ import com.madcrew.pravamobil.databinding.FragmentCheckDataBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.previousFragmentInProgress
+import com.madcrew.pravamobil.models.requestmodels.ContractRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
@@ -114,12 +113,14 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
             }
         })
 
+        type = Preferences.getPrefsString("adult", requireContext()).toString()
+
         binding.btCheckDataDocumentEdit.setOnClickListener {
-            previousFragmentInProgress(parentFragmentManager, PassportFragment("student"))
+            previousFragmentInProgress(parentFragmentManager, PassportFragment(type))
         }
 
         binding.btCheckDataBirthdateEdit.setOnClickListener {
-            previousFragmentInProgress(parentFragmentManager, StudentNameFragment(type = "student"))
+            previousFragmentInProgress(parentFragmentManager, StudentNameFragment(type = type))
         }
 
         binding.btCheckDataSnilsEdit.setOnClickListener {
@@ -135,7 +136,12 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
         }
 
         binding.btCheckDataNext.setOnClickListener {
-            nextFragmentInProgress(parentFragmentManager, ConfirmContractFragment(type))
+            if (isOnline(requireContext())) {
+                parent.mViewModel.getContract(ContractRequest(TOKEN, schoolId, clientId))
+                nextFragmentInProgress(parentFragmentManager, ConfirmContractFragment(type))
+            } else {
+                noInternet(requireContext())
+            }
         }
 
 

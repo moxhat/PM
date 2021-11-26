@@ -39,7 +39,7 @@ class HomeTheoryFragment : Fragment() {
 
         binding.btHomeTheoryLessonsHistory.setOnClickListener {
             val parent = this.context as EducationActivity
-            parent.starPracticeOptionsActivity("history")
+            parent.starPracticeOptionsActivity("theory","history")
         }
     }
 }

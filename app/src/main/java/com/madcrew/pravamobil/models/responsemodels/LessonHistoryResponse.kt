@@ -1,5 +1,7 @@
 package com.madcrew.pravamobil.models.responsemodels
 
+import com.google.gson.annotations.SerializedName
+
 data class LessonHistoryResponse(
     var history: List<HistoryLessonModel>? = null,
     var status: String
@@ -8,6 +10,7 @@ data class LessonHistoryResponse(
 data class HistoryLessonModel(
     var date: String? = null,
     var time: String? = null,
+    @SerializedName("time_id")
     var timeID: String? = null,
     var dateTIme: String? = null,
     var place: String? = null,

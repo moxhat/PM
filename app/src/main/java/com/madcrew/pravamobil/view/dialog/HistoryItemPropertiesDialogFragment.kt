@@ -42,16 +42,17 @@ class HistoryItemPropertiesDialogFragment(var date: String, var status: String, 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as PracticeOptionsActivity
+
         binding.historyItemPropertiesDate.text = date
 
         binding.btHistoryItemPropertiesMoreAbout.setOnClickListener {
-            val parent = this.context as PracticeOptionsActivity
-            parent.addOpenLesson(status, rating, position)
+            parent.addOpenLesson(date = date, status = status, rating = rating, position = position)
             this.dialog?.dismiss()
         }
 
         binding.btHistoryItemPropertiesCancel.setOnClickListener {
-            (parentFragment as HistoryPracticeFragment).showConfirm(date)
+            parent.showConfirm(date, position)
             this.dialog?.dismiss()
         }
     }

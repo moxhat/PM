@@ -9,9 +9,13 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.madcrew.pravamobil.databinding.FragmentConfirmCancelDialogBinding
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
+import com.madcrew.pravamobil.view.fragment.education.home.practice.HomePracticeFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practice.HistoryPracticeFragment
+import java.text.FieldPosition
 
 
-class ConfirmCancelDialogFragment(var date: String) : DialogFragment() {
+class ConfirmCancelDialogFragment(var date: String, var parent: String = "history", var position: Int = 0) : DialogFragment() {
 
     private var _binding: FragmentConfirmCancelDialogBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +43,18 @@ class ConfirmCancelDialogFragment(var date: String) : DialogFragment() {
         binding.confirmCancelDate.text = date
 
         binding.btConfirmCancelYes.setOnClickListener {
-            this.dialog?.dismiss()
+            when (parent){
+                "home" -> {
+                    (parentFragment as HomePracticeFragment).cancelLesson()
+                    this.dialog?.dismiss()
+                }
+                "history" -> {
+                    val parentActivity = this.context as PracticeOptionsActivity
+                    parentActivity.setLessonCancel(position)
+                    this.dialog?.dismiss()
+                }
+            }
+
         }
 
         binding.btConfirmCancelNo.setOnClickListener {

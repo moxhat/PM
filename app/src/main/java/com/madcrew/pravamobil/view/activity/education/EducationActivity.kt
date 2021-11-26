@@ -12,19 +12,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEducationBinding
 import com.madcrew.pravamobil.domain.BaseUrl
-import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
-import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
-import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
-import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
 import com.madcrew.pravamobil.view.dialog.EducationStartsDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
 import com.madcrew.pravamobil.view.fragment.education.payments.PaymentsFragment
@@ -49,6 +46,10 @@ class EducationActivity : AppCompatActivity() {
         val viewModelFactory = EducationViewModelFactory(repository)
         mViewModel = ViewModelProvider(this, viewModelFactory).get(EducationViewModel::class.java)
 
+        val clientId = Preferences.getPrefsString("clientId", this).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", this).toString()
+
+        mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "AppHome"))
         bottomMenu.menu.getItem(2).isCheckable = false
 //        bottomMenu.menu.getItem(1).isEnabled = false
         bottomMenu.setOnItemSelectedListener { item ->
@@ -72,15 +73,23 @@ class EducationActivity : AppCompatActivity() {
 
         bottomMenu.selectedItemId = R.id.education_home
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            val greetingsFragment = EducationStartsDialogFragment()
-            greetingsFragment.show(supportFragmentManager, "EducationStartsDialogFragment")
-        },1000)
+        if (Preferences.getPrefsString("EducationStartsDialogFragment", this) != "1"){
+            Handler(Looper.getMainLooper()).postDelayed({
+                val greetingsFragment = EducationStartsDialogFragment()
+                greetingsFragment.show(supportFragmentManager, "EducationStartsDialogFragment")
+            },1000)
+        }
 
         binding.educationMoreMenuConstraint.setOnClickListener {
             hideMenu(it)
             val lastItem = bottomMenu.menu.getItem(lastSelected)
             lastItem.setChecked(true)
+        }
+
+        binding.btEducationMoreMenuSignOut.setOnClickListener{
+            Preferences.setPrefsString("rememberMe", "false", this)
+            startEnterActivity()
+            finish()
         }
     }
 
@@ -107,8 +116,9 @@ class EducationActivity : AppCompatActivity() {
         view.alphaDown(100)
     }
 
-    fun starPracticeOptionsActivity(option: String) {
+    fun starPracticeOptionsActivity(from: String, option: String) {
         val intent = Intent(this, PracticeOptionsActivity::class.java)
+        intent.putExtra("from", from)
         intent.putExtra("option", option)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
@@ -132,6 +142,13 @@ class EducationActivity : AppCompatActivity() {
         } else {
             noInternet(this)
         }
+    }
+
+    private fun startEnterActivity() {
+        val intent = Intent(this, EnterActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 
 }

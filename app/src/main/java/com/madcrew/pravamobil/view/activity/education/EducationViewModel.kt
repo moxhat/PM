@@ -17,6 +17,8 @@ import retrofit2.Response
 class EducationViewModel  (private val repository: Repository): ViewModel() {
     var spravkaStatus = MutableLiveData<Response<SpravkaStatusResponse>>()
 
+    var updateProgressResponse = MutableLiveData<Response<StatusOnlyResponse>>()
+
     fun getSpravkaStatus(spravkaStatusRequest: SpravkaStatusRequest) {
         viewModelScope.launch {
             val response = repository.getSpravkaStatus(spravkaStatusRequest)
@@ -39,6 +41,13 @@ class EducationViewModel  (private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             val response = repository.setFullRegistration(fullRegistrationRequest)
             registrationResponse.value = response
+        }
+    }
+
+    fun updateProgress(progressRequest: ProgressRequest) {
+        viewModelScope.launch {
+            val response = repository.updateProgress(progressRequest)
+            updateProgressResponse.value = response
         }
     }
 }

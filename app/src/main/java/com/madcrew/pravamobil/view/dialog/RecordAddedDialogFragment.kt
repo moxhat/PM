@@ -43,7 +43,7 @@ class RecordAddedDialogFragment : DialogFragment() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             this.dialog?.dismiss()
-        }, 2000)
+        }, 1000)
     }
 
 

@@ -14,9 +14,12 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHistoryPracticeBinding
 import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.models.LessonsData
+import com.madcrew.pravamobil.models.requestmodels.LessonCancelRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.dateConverterForTitle
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
@@ -34,6 +37,7 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
     private lateinit var mLessonsList:MutableList<LessonsData>
 
     private lateinit var mAdapter: LessonHistoryRecyclerAdapter
+    private var selectedPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +72,7 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
                     "done" -> {
                         val tmpLessonList = mutableListOf<LessonsData>()
                         for (i in response.body()!!.history!!){
-                            tmpLessonList.add(LessonsData(i.date, "${i.secondName} ${i.name?.get(0)}. ${i.patronymic?.get(0)}.", i.status, i.rating!!.toDouble()))
+                            tmpLessonList.add(LessonsData("${dateConverterForTitle(i.date.toString(), requireContext())} ${i.time}", "${i.secondName} ${i.name?.get(0)}. ${i.patronymic?.get(0)}.", i.status, i.rating!!.toDouble()))
                         }
                         mLessonsList = tmpLessonList
                         mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
@@ -83,30 +87,40 @@ class HistoryPracticeFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
                 }
             }
         })
+
+        parent.mViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                when (response.body()!!.status){
+                    "done" -> {
+                        setPositionCanceled(selectedPosition)
+                        Toast.makeText(requireContext(), resources.getString(R.string.lesson_canceled), Toast.LENGTH_SHORT).show()
+                    }
+                    "error" -> Toast.makeText(requireContext(), response.body()!!.error.toString(), Toast.LENGTH_SHORT).show()
+                    "fail" -> Toast.makeText(requireContext(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     override fun onStatusClick(itemView: View?, position: Int) {
         val status = mLessonsList[position].status.toString()
-        val rating = mLessonsList[position].rating!!
+        val rating = mLessonsList[position].rating!!.toDouble()
+        val date = mLessonsList[position].date!!
+        selectedPosition = position
         if (mLessonsList[position].status == "Назначено"){
-            val date = mLessonsList[position].date.toString()
             val propertiesDialog = HistoryItemPropertiesDialogFragment(date, status, position, rating)
             propertiesDialog.show(childFragmentManager, "HistoryItemPropertiesDialogFragment")
         } else {
             val parent = this.context as PracticeOptionsActivity
-            parent.addOpenLesson(status, rating, position)
+            parent.addOpenLesson(date, status, rating, position)
         }
     }
 
-    fun showConfirm(date:String){
-        Handler(Looper.getMainLooper()).postDelayed({
-            val cancelConfirm = ConfirmCancelDialogFragment(date)
-            cancelConfirm.show(childFragmentManager, "ConfirmCancelDialogFragment")
-        }, 50)
-    }
 
-    fun removePosition(position: Int){
-        binding.historyPracticeRecycler.removeViewAt(position)
+
+    fun setPositionCanceled(position: Int){
+        mLessonsList[position].status = "Отмена"
+        mAdapter.notifyItemChanged(selectedPosition)
     }
 
 }

@@ -75,11 +75,12 @@ class HomeFragment : Fragment() {
                         }
                         "noconfirm" -> setSpravkaConfirmation()
                         "deactivate" -> {
+                            Preferences.setPrefsString("SpravkaConfirmedDialogFragment", "0", requireContext())
                             Preferences.setPrefsString("spravka", "deactivate", requireContext())
                             Handler(Looper.getMainLooper()).postDelayed({
                                 val confirmedDialog = SpravkaConfirmedDialogFragment("bad")
                                 confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
-                            }, 3000)
+                            }, 1000)
                             setSpravkaAdd()
                             Preferences.setPrefsString("spravkaStatus", "empty", requireContext())
                             hViewModel.deleteSpravka(SpravkaStatusRequest(TOKEN, schoolId, clientId))

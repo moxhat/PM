@@ -362,4 +362,8 @@ fun View.setEnable() {
     this.isClickable = true
 }
 
+fun showServerError(context: Context){
+    Toast.makeText(context, context.resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+}
+
 

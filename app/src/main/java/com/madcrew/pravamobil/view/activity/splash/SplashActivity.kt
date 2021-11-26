@@ -57,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             starProgressActivity()
-        }, 3300)
+        }, 2500)
     }
 
     private fun starProgressActivity() {

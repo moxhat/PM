@@ -3,6 +3,8 @@ package com.madcrew.pravamobil.view.fragment.education.home.practice
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +12,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentHomePracticeBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.LessonCancelRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
+import com.madcrew.pravamobil.view.dialog.ConfirmCancelDialogFragment
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
 import com.madcrew.pravamobil.view.dialog.SpravkaConfirmedDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
@@ -30,6 +35,12 @@ class HomePracticeFragment : Fragment() {
     private var instructorPhoneNumber = ""
 
     lateinit var mViewModel: HomePracticeViewModel
+
+    private var instructorId = "0"
+    private var timeId = "0"
+    private var timeTitle = "0"
+    private var cancelTitle = ""
+    private var nearestDate = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,13 +82,19 @@ class HomePracticeFragment : Fragment() {
                     "done" -> {
                         if (response.body()!!.history?.size != 0){
                         val nearestLesson = response.body()!!.history?.get(0)!!
-                        Glide.with(requireContext()).load(nearestLesson.photoUrl).circleCrop()
+                        Glide.with(requireContext()).load(nearestLesson.photoUrl).circleCrop().diskCacheStrategy(
+                            DiskCacheStrategy.ALL)
                             .into(instructorAvatar)
                             val insName = nearestLesson.secondName + " " + nearestLesson.name + " " + nearestLesson.patronymic
                         instructorName.text = insName
                         instructorCar.text = nearestLesson.car
                         instructorRate.text = nearestLesson.instRating
-                            val titleText = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.dateTIme} ${nearestLesson.place}"
+                            instructorId = nearestLesson.instructor_id.toString()
+                            timeId = nearestLesson.timeID.toString()
+                            timeTitle = nearestLesson.time.toString()
+                            val titleText = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.time} ${nearestLesson.place}"
+                            cancelTitle = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.time}"
+                            nearestDate = nearestLesson.date.toString()
                             home.setTitle(resources.getString(R.string.nearest_lesson), titleText)
                             instructorPhoneNumber = nearestLesson.phone.toString()
                             binding.btHomePracticeCallInstructor.setEnable()
@@ -108,8 +125,27 @@ class HomePracticeFragment : Fragment() {
             }
         })
 
-        val confirmedDialog = SpravkaConfirmedDialogFragment("good")
-        confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+        mViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                when (response.body()!!.status){
+                    "done" ->{
+                        if (isOnline(requireContext())){
+                            mViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                        } else {
+                            noInternet(requireContext())
+                        }
+                        Toast.makeText(requireContext(), resources.getString(R.string.lesson_canceled), Toast.LENGTH_SHORT).show()
+                    }
+                    "error" -> Toast.makeText(requireContext(), response.body()!!.error.toString(), Toast.LENGTH_SHORT).show()
+                    "fail" -> Toast.makeText(requireContext(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
+        if (Preferences.getPrefsString("SpravkaConfirmedDialogFragment", requireContext()) == "0"){
+            val confirmedDialog = SpravkaConfirmedDialogFragment("good")
+            confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+        }
 
         binding.btHomePracticeChangeInstructor.setOnClickListener {
             val changeDialog = InstructorCancelDialogFragment()
@@ -125,12 +161,12 @@ class HomePracticeFragment : Fragment() {
 
         binding.btHomePracticeMenuSignupToPractice.setOnClickListener {
             hideMenu(binding.homePracticeMenuConstraint)
-            parent.starPracticeOptionsActivity("record")
+            parent.starPracticeOptionsActivity("practice","record")
         }
 
         binding.btHomePracticeMenuLessonsHistory.setOnClickListener {
             hideMenu(binding.homePracticeMenuConstraint)
-            parent.starPracticeOptionsActivity("history")
+            parent.starPracticeOptionsActivity("practice","history")
         }
 
         binding.btHomePracticeCallInstructor.setOnClickListener{
@@ -139,6 +175,28 @@ class HomePracticeFragment : Fragment() {
                 Uri.parse("tel:$instructorPhoneNumber")
             startActivity(callIntent)
         }
+
+        binding.btHomePracticeMenuLearnCancel.setOnClickListener{
+            hideMenu(binding.homePracticeMenuConstraint)
+            showConfirm(cancelTitle, "home")
+        }
+    }
+
+    fun cancelLesson(){
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+        if (isOnline(requireContext())){
+            mViewModel.setLessonCancel(LessonCancelRequest(TOKEN, schoolId, instructorId, clientId, nearestDate, timeId, timeTitle))
+        } else {
+            noInternet(requireContext())
+        }
+    }
+
+    private fun showConfirm(date:String, parent: String){
+        Handler(Looper.getMainLooper()).postDelayed({
+            val cancelConfirm = ConfirmCancelDialogFragment(date, parent)
+            cancelConfirm.show(childFragmentManager, "ConfirmCancelDialogFragment")
+        }, 50)
     }
 
     private fun showMenu(view: View) {
@@ -150,5 +208,4 @@ class HomePracticeFragment : Fragment() {
         view.setGone()
         view.alphaDown(100)
     }
-
 }

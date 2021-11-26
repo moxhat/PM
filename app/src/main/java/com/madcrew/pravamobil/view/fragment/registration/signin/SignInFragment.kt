@@ -15,10 +15,7 @@ import com.madcrew.pravamobil.databinding.FragmentSignInBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.ClientAuthorizationRequest
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.hideKeyboard
-import com.madcrew.pravamobil.utils.isOnline
-import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
 import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
@@ -50,6 +47,24 @@ class SignInFragment : Fragment() {
         val loginField = binding.signinLogin
         val passwordText = binding.signinPasswordEditText
         val passwordField = binding.signinPassword
+        val rememberMe = binding.signinRememberChek
+
+        if (Preferences.getPrefsString("rememberMe",  requireContext()) == "true") {
+            loginText.setText(Preferences.getPrefsString("login",  requireContext()))
+            passwordText.setText(Preferences.getPrefsString("password", requireContext()))
+            if (isOnline(requireContext())){
+                binding.btSigninEnter.setDisable()
+                mViewModel.clientAuthorization(
+                    ClientAuthorizationRequest(
+                        TOKEN,
+                        loginText.text.toString(),
+                        passwordText.text.toString()
+                    )
+                )
+            } else {
+                noInternet(requireContext())
+            }
+        }
 
         mViewModel.signResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
@@ -58,13 +73,24 @@ class SignInFragment : Fragment() {
                         Preferences.setPrefsString("clientId", response.body()!!.client.id, requireContext())
                         val progressStatus = response.body()!!.client.progress
                         val name = response.body()!!.client.firstName
+                        if(rememberMe.isChecked){
+                            Preferences.setPrefsString("rememberMe", "true", requireContext())
+                            Preferences.setPrefsString("login", loginText.text.toString().substring(2, 16), requireContext())
+                            Preferences.setPrefsString("password", passwordText.text.toString(), requireContext())
+                            Preferences.setPrefsString("progressStatus", progressStatus, requireContext())
+                        }
+                        Preferences.setPrefsString("progressStatus", progressStatus, requireContext())
                         nextFragment(mainManager, GreetingsFragment(name, progressStatus))
                     }
                     "password" -> {
+                        Preferences.setPrefsString("rememberMe", "false", requireContext())
+                        binding.btSigninEnter.setEnable()
                         passwordField.isErrorEnabled = true
                         passwordField.error = resources.getString(R.string.wrong_password)
                     }
                     "notexist" -> {
+                        Preferences.setPrefsString("rememberMe", "false", requireContext())
+                        binding.btSigninEnter.setEnable()
                         passwordField.isErrorEnabled = true
                         passwordField.error = resources.getString(R.string.accaunt_not_found)
                     }
@@ -89,6 +115,7 @@ class SignInFragment : Fragment() {
         binding.btSigninEnter.setOnClickListener {
             if (loginText.length() == 16 || passwordText.length() == 8) {
                 if (isOnline(requireContext())){
+                    binding.btSigninEnter.setDisable()
                     mViewModel.clientAuthorization(
                         ClientAuthorizationRequest(
                             TOKEN,

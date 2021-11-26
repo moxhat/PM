@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar.OnRatingBarChangeListener
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.madcrew.pravamobil.R
@@ -20,10 +23,11 @@ import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
+import com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory.practice.HistoryPracticeFragment
 import java.text.FieldPosition
 
 
-class OpenLessonFragment(var status: String, var rating: Double, var position: Int) : Fragment() {
+class OpenLessonFragment(var date: String, var status: String, var rating: Double, var position: Int) : Fragment() {
 
     private var _binding: FragmentOpenLessonBinding? = null
     private val binding get() = _binding!!
@@ -53,6 +57,9 @@ class OpenLessonFragment(var status: String, var rating: Double, var position: I
         Glide.with(requireContext()).load(currentLesson.photoUrl).circleCrop()
             .into(instructorAvatar)
 
+        binding.openLessonTitleDate.text = date
+        binding.openLessonTitleStatus.text = status
+
         instructorRating.text = currentLesson.instRating
         instructorName.text = "${currentLesson.secondName} ${currentLesson.name} ${currentLesson.patronymic}"
         instructorCar.text = currentLesson.car
@@ -60,12 +67,11 @@ class OpenLessonFragment(var status: String, var rating: Double, var position: I
         btRateClose.setGone()
         val mBottomRateSheet = BottomSheetBehavior.from(rateSheet)
 
-
-
         mBottomRateSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         mBottomRateSheet.isHideable = true
 
         hideAll()
+
 
         if (rating > 0.1) {
             binding.openLessonRatingBar.rating = rating.toFloat()
@@ -75,13 +81,32 @@ class OpenLessonFragment(var status: String, var rating: Double, var position: I
         when (status) {
             "Назначено" -> setCancel()
             "Пройдено" -> {
-                if (rating == 0.0)
+                if (rating == 0.0){
                     setUnrated()
+                } else {
+                    setRated()
+                }
             }
             else -> setRated()
         }
 
+        binding.btOpenLessonLessonCancel.setOnClickListener {
+            parent.mViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
+                if (response.isSuccessful){
+                    when (response.body()!!.status){
+                        "done" -> {
+                            binding.btOpenLessonBack.performClick()
+                        }
+                        "error" -> Toast.makeText(requireContext(), response.body()!!.error.toString(), Toast.LENGTH_SHORT).show()
+                        "fail" -> Toast.makeText(requireContext(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+            parent.showConfirm(date, position)
+        }
+
         binding.btOpenLessonBack.setOnClickListener {
+            parent.mViewModel.lessonHistoryPracticeResponse.removeObservers(viewLifecycleOwner)
             val mainManager = parentFragmentManager
             val transaction: FragmentTransaction = mainManager.beginTransaction()
             transaction.remove(this)

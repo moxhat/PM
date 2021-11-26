@@ -10,6 +10,7 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSpravkaConfirmedDialogBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
 
 
@@ -42,6 +43,7 @@ class SpravkaConfirmedDialogFragment(var type: String) : DialogFragment() {
                 binding.spravkaConfirmedTitleImage.setImageResource(R.drawable.ic_shield)
                 binding.spravkaConfirmedTitle.text = resources.getString(R.string.spravka_confirmed)
                 binding.spravkaConfirmedText.text = resources.getString(R.string.spravka_confirmed_text)
+                Preferences.setPrefsString("SpravkaConfirmedDialogFragment", "1", requireContext())
             }
             "bad" -> {
                 binding.spravkaConfirmedTitleImage.setImageResource(R.drawable.ic_spravka_bad)
@@ -49,9 +51,7 @@ class SpravkaConfirmedDialogFragment(var type: String) : DialogFragment() {
                 binding.spravkaConfirmedText.text = resources.getString(R.string.spravka_noconfirmed_text)
             }
         }
-
         binding.btSpravkaConfirmedClose.setOnClickListener {
-
             this.dialog?.dismiss()
         }
 
