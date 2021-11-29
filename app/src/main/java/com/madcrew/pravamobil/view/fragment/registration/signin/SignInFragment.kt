@@ -18,6 +18,8 @@ import com.madcrew.pravamobil.models.requestmodels.ClientAuthorizationRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModel
 import com.madcrew.pravamobil.view.activity.progress.ProgressViewModelFactory
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
+import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFragment
 import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.greetings.GreetingsFragment
 
@@ -71,13 +73,18 @@ class SignInFragment : Fragment() {
                 when (response.body()!!.status) {
                     "done" -> {
                         Preferences.setPrefsString("clientId", response.body()!!.client.id, requireContext())
+                        Preferences.setPrefsString("schoolId", response.body()!!.client.school_id, requireContext())
                         val progressStatus = response.body()!!.client.progress
                         val name = response.body()!!.client.firstName
                         if(rememberMe.isChecked){
                             Preferences.setPrefsString("rememberMe", "true", requireContext())
                             Preferences.setPrefsString("login", loginText.text.toString().substring(2, 16), requireContext())
                             Preferences.setPrefsString("password", passwordText.text.toString(), requireContext())
-                            Preferences.setPrefsString("progressStatus", progressStatus, requireContext())
+                        }
+                        if (response.body()!!.client.adult == "true") {
+                            Preferences.setPrefsString("adult", "student", requireContext())
+                        } else {
+                            Preferences.setPrefsString("adult", "parent", requireContext())
                         }
                         Preferences.setPrefsString("progressStatus", progressStatus, requireContext())
                         nextFragment(mainManager, GreetingsFragment(name, progressStatus))
@@ -95,6 +102,8 @@ class SignInFragment : Fragment() {
                         passwordField.error = resources.getString(R.string.accaunt_not_found)
                     }
                 }
+            } else {
+                showServerError(requireContext())
             }
         })
 

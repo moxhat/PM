@@ -100,4 +100,8 @@ class Repository {
     suspend fun getPaymentStatus(chekPaymentStatusRequest: ChekPaymentStatusRequest): Response<ChekPaymentStatusResponse> {
         return RetrofitInstance.api.getPaymentStatus(chekPaymentStatusRequest )
     }
+
+    suspend fun setLessonRate(lessonRateRequest: LessonRateRequest): Response<StatusOnlyResponse> {
+        return RetrofitInstance.api.setLessonRate(lessonRateRequest)
+    }
 }

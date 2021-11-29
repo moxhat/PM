@@ -9,11 +9,13 @@ data class ClientAuthorizationResponse(
 
 data class ClientAuth(
     var id: String,
+    var school_id: String,
     @SerializedName("lastName")
     var secondName: String,
     @SerializedName("name")
     var firstName: String,
     @SerializedName("patronymic")
     var thirdName: String,
-    var progress: String
+    var progress: String,
+    var adult: String
 )

@@ -61,6 +61,9 @@ class HomeFragment : Fragment() {
 
         if (Preferences.getPrefsString("spravka", requireContext()) != "confirm"){
             hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+            setSpravkaConfirmation()
+        } else {
+            setSpravkaConfirmed()
         }
 
         hViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->

@@ -176,4 +176,11 @@ interface PMApi {
         @Body
         createPaymentRequest: CreatePaymentRequest
     ): Response<CreatePaymentResponse>
+
+    //оценка занятия
+    @POST("/api/instructor/learn/rate")
+    suspend fun setLessonRate(
+        @Body
+        lessonRateRequest: LessonRateRequest
+    ): Response<StatusOnlyResponse>
 }

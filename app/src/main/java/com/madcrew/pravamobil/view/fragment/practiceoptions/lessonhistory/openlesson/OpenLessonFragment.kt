@@ -10,16 +10,20 @@ import android.widget.RatingBar.OnRatingBarChangeListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentOpenLessonBinding
-import com.madcrew.pravamobil.utils.alphaDown
-import com.madcrew.pravamobil.utils.alphaUp
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.LessonRateRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.*
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionViewModel
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionViewModelFactory
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.dialog.InstructorCancelDialogFragment
@@ -31,6 +35,9 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
 
     private var _binding: FragmentOpenLessonBinding? = null
     private val binding get() = _binding!!
+    lateinit var mViewModel: OpenLessonViewModel
+    private var additionalRate = mutableMapOf(Pair("clean", false), Pair("politeness", false), Pair("timing", false), Pair("quality", false))
+    private var comment = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +51,15 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
         super.onViewCreated(view, savedInstanceState)
 
         val parent = this.context as PracticeOptionsActivity
-        val currentLesson = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history?.get(position)!!
+        var currentLesson = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history?.get(position)!!
+
+
+        val repository = Repository()
+        val viewModelFactory = OpenLessonViewModelFactory(repository)
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(OpenLessonViewModel::class.java)
+
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
         val rateSheet = binding.openLessonRatingSheet
         val btRateClose = binding.btOpenLessonCloseRating
@@ -53,6 +68,7 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
         val instructorRating = binding.openLessonInstructorRate
         val instructorName = binding.openLessonInstructorName
         val instructorCar = binding.openLessonInstructorCar
+        val instructorComment = binding.openLessonRateComment
 
         Glide.with(requireContext()).load(currentLesson.photoUrl).circleCrop()
             .into(instructorAvatar)
@@ -72,10 +88,9 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
 
         hideAll()
 
-
         if (rating > 0.1) {
             binding.openLessonRatingBar.rating = rating.toFloat()
-            binding.openLessonRateComment.text = "Вот такой вот Питт водитель!"
+            binding.openLessonRateComment.text = currentLesson.comment
         }
 
         when (status) {
@@ -89,6 +104,35 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
             }
             else -> setRated()
         }
+
+        parent.mViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    currentLesson = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history?.get(position)!!
+                    instructorRating.text = currentLesson.instRating
+                    instructorName.text = "${currentLesson.secondName} ${currentLesson.name} ${currentLesson.patronymic}"
+                    instructorCar.text = currentLesson.car
+
+                    if (rating > 0.1) {
+                        binding.openLessonRatingBar.rating = rating.toFloat()
+                        instructorRating.text = currentLesson.instRating
+                    }
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
+
+        mViewModel.lessonRateResponse.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done"){
+                    parent.mViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                    setRated()
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
 
         binding.btOpenLessonLessonCancel.setOnClickListener {
             parent.mViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
@@ -144,13 +188,33 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
         ratingSheetBar.onRatingBarChangeListener =
             OnRatingBarChangeListener { ratingBar, rating, fromUser ->
                 when (rating) {
-                    0f -> hideAll()
-                    5f -> showGood()
-                    else -> showBad()
+                    0f -> {
+                        hideAll()
+                        binding.btRateSheetDone.setDisable()
+                    }
+                    5f -> {
+                        showGood()
+                        binding.btRateSheetDone.setEnable()
+                    }
+                    else -> {
+                        showBad()
+                        binding.btRateSheetDone.setEnable()
+                    }
                 }
             }
 
         binding.btRateSheetDone.setOnClickListener {
+            val instructorId = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history!![position].instructor_id!!
+            val timeId = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history!![position].timeID!!
+            val rating = ratingSheetBar.rating.toInt()
+            val date = parent.mViewModel.lessonHistoryPracticeResponse.value!!.body()!!.history!![position].date!!
+            val features = mutableListOf<String>()
+                additionalRate.forEach { i ->
+                    if (i.value){
+                        features.add(i.key)
+                    }
+                }
+            mViewModel.setLessonRate(LessonRateRequest(TOKEN, schoolId.toInt(), clientId.toInt(), instructorId.toInt(), date, timeId, features, comment, rating))
             btRateClose.alphaDown(100)
             btRateClose.setGone()
             setRated()
@@ -162,6 +226,98 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
             val callBackDialog = InstructorCancelDialogFragment("callback")
             callBackDialog.show(childFragmentManager, "InstructorCancelDialogFragment")
         }
+
+        binding.btDirtyCar.setOnClickListener {
+            if (additionalRate["clean"] == false){
+                binding.btDirtyCar.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["clean"] = true
+            } else {
+                binding.btDirtyCar.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["clean"] = false
+            }
+        }
+
+        binding.btRudeInstructor.setOnClickListener {
+            if (additionalRate["politeness"] == false){
+                binding.btRudeInstructor.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["politeness"] = true
+            } else {
+                binding.btRudeInstructor.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["politeness"] = false
+            }
+        }
+
+        binding.btLate.setOnClickListener {
+            if (additionalRate["timing"] == false){
+                binding.btLate.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["timing"] = true
+            } else {
+                binding.btLate.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["timing"] = false
+            }
+        }
+
+        binding.btNoComment.setOnClickListener {
+            if (additionalRate["quality"] == false){
+                binding.btNoComment.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["quality"] = true
+            } else {
+                binding.btNoComment.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["quality"] = false
+            }
+        }
+
+        binding.btClearCar.setOnClickListener {
+            if (additionalRate["clean"] == false){
+                binding.btClearCar.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["clean"] = true
+            } else {
+                binding.btClearCar.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["clean"] = false
+            }
+        }
+
+        binding.btPoliteness.setOnClickListener {
+            if (additionalRate["politeness"] == false){
+                binding.btPoliteness.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["politeness"] = true
+            } else {
+                binding.btPoliteness.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["politeness"] = false
+            }
+        }
+
+        binding.btPunctuality.setOnClickListener {
+            if (additionalRate["timing"] == false){
+                binding.btPunctuality.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["timing"] = true
+            } else {
+                binding.btPunctuality.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["timing"] = false
+            }
+        }
+
+        binding.btLessonQuality.setOnClickListener {
+            if (additionalRate["quality"] == false){
+                binding.btLessonQuality.setBackgroundResource(R.drawable.ic_rectangle_blue_transparent)
+                additionalRate["quality"] = true
+            } else {
+                binding.btLessonQuality.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+                additionalRate["quality"] = false
+            }
+        }
+    }
+
+    private fun cleanAdditionalRating(){
+        additionalRate = mutableMapOf(Pair("clean", false), Pair("politeness", false), Pair("timing", false), Pair("quality", false))
+        binding.btDirtyCar.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btRudeInstructor.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btLate.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btNoComment.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btClearCar.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btPoliteness.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btPunctuality.setBackgroundResource(R.drawable.ic_rectangle_transparent)
+        binding.btLessonQuality.setBackgroundResource(R.drawable.ic_rectangle_transparent)
     }
 
     private fun setCancel() {
@@ -205,11 +361,13 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
     }
 
     private fun showGood() {
+        cleanAdditionalRating()
         binding.rateSheetRatingGood.setVisible()
         binding.rateSheetRatingBad.setGone()
     }
 
     private fun showBad() {
+        cleanAdditionalRating()
         binding.rateSheetRatingGood.setGone()
         binding.rateSheetRatingBad.setVisible()
     }
@@ -220,7 +378,7 @@ class OpenLessonFragment(var date: String, var status: String, var rating: Doubl
     }
 
     fun setCommentText(text: String){
-        binding.openLessonRateComment.text = text
+        comment = text
     }
 
 }

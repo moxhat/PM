@@ -137,7 +137,7 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
 
         binding.btCheckDataNext.setOnClickListener {
             if (isOnline(requireContext())) {
-                parent.mViewModel.getContract(ContractRequest(TOKEN, schoolId, clientId))
+                parent.mViewModel.getContract(ContractRequest(TOKEN, schoolId.toInt(), clientId.toInt()))
                 nextFragmentInProgress(parentFragmentManager, ConfirmContractFragment(type))
             } else {
                 noInternet(requireContext())

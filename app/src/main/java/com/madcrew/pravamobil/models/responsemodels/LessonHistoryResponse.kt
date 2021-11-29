@@ -23,5 +23,6 @@ data class HistoryLessonModel(
     var phone: String? = null,
     var status: String? = null,
     var instRating: String? = null,
-    var rating: String? = null
+    var rating: String? = null,
+    var comment: String? = null
 )
