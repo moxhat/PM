@@ -16,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivityEducationBinding
 import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
@@ -49,7 +51,7 @@ class EducationActivity : AppCompatActivity() {
         val clientId = Preferences.getPrefsString("clientId", this).toString()
         val schoolId = Preferences.getPrefsString("schoolId", this).toString()
 
-        mViewModel.updateProgress(ProgressRequest(BaseUrl.TOKEN, schoolId, clientId, "AppHome"))
+        mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "AppHome"))
         bottomMenu.menu.getItem(2).isCheckable = false
 //        bottomMenu.menu.getItem(1).isEnabled = false
         bottomMenu.setOnItemSelectedListener { item ->

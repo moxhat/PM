@@ -7,10 +7,7 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
-import com.madcrew.pravamobil.models.responsemodels.ClientInfoResponse
-import com.madcrew.pravamobil.models.responsemodels.OnlineExistResponse
-import com.madcrew.pravamobil.models.responsemodels.SpravkaStatusResponse
-import com.madcrew.pravamobil.models.responsemodels.StatusOnlyResponse
+import com.madcrew.pravamobil.models.responsemodels.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -50,4 +47,6 @@ class EducationViewModel  (private val repository: Repository): ViewModel() {
             updateProgressResponse.value = response
         }
     }
+
+
 }

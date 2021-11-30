@@ -8,6 +8,7 @@ import com.madcrew.pravamobil.models.requestmodels.LessonCancelRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.models.responsemodels.LessonHistoryResponse
 import com.madcrew.pravamobil.models.responsemodels.StatusWithErrorResponse
+import com.madcrew.pravamobil.models.responsemodels.TheoryHistoryResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -28,6 +29,15 @@ class PracticeOptionViewModel (private val repository: Repository): ViewModel() 
         viewModelScope.launch {
             val response = repository.setLessonCancel(lessonCancelRequest)
             lessonCancelResponse.value = response
+        }
+    }
+
+    val theoryHistory = MutableLiveData<Response<TheoryHistoryResponse>>()
+
+    fun getTheoryHistory(spravkaStatusRequest: SpravkaStatusRequest){
+        viewModelScope.launch {
+            val response = repository.getTheoryHistory(spravkaStatusRequest)
+            theoryHistory.value = response
         }
     }
 

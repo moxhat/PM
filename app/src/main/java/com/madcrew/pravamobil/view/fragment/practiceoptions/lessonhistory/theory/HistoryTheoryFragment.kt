@@ -11,7 +11,13 @@ import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryRecyclerAdapter
 import com.madcrew.pravamobil.databinding.FragmentHistoryPracticeBinding
 import com.madcrew.pravamobil.databinding.FragmentHistoryTheoryBinding
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.models.LessonsData
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.dateConverterForTitle
+import com.madcrew.pravamobil.utils.showServerError
+import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 
 
 class HistoryTheoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusClickListener {
@@ -20,6 +26,7 @@ class HistoryTheoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusC
     private val binding get() = _binding!!
 
     private lateinit var mAdapter: LessonHistoryRecyclerAdapter
+    private  var mLessonsList = mutableListOf<LessonsData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,27 +44,34 @@ class HistoryTheoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mLessonsList = mutableListOf(
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Отмена", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Неявка", 1.0),
-            LessonsData("12.10.21 (вт)", "Питт Б.Б.", "Пройдено", 1.0)
+        val parent = this.context as PracticeOptionsActivity
 
-            )
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
+        parent.mViewModel.getTheoryHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
 
-
-        binding.historyTheoryRecycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = mAdapter
-        }
+        parent.mViewModel.theoryHistory.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    mLessonsList.clear()
+                    for (i in response.body()!!.schedule!!){
+                        val name = "${i.secondName} ${i.name!![0]}. ${i.patronymic!![0]}"
+                        mLessonsList.add(LessonsData(dateConverterForTitle(i.date.toString(), requireContext()), name, i.status, 1.0))
+                    }
+                    mAdapter = LessonHistoryRecyclerAdapter(mLessonsList, this)
+                    binding.historyTheoryRecycler.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = mAdapter
+                    }
+                    mAdapter.notifyDataSetChanged()
+                } else {
+                    showServerError(requireContext())
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
     }
 
     override fun onStatusClick(itemView: View?, position: Int) {

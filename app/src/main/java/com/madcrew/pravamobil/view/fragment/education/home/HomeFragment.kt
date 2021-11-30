@@ -17,6 +17,8 @@ import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.dateConverterForTitle
+import com.madcrew.pravamobil.utils.showServerError
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.activity.education.EducationViewModel
 import com.madcrew.pravamobil.view.activity.education.EducationViewModelFactory
@@ -34,7 +36,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewPager: ViewPager2
     private lateinit var homePagerAdapter: HomePagerAdapter
-    private lateinit var hViewModel: HomeViewModel
+    lateinit var hViewModel: HomeViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,9 @@ class HomeFragment : Fragment() {
         val viewModelFactory = HomeViewModelFactory(repository)
         hViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
+        var thTitleSecond = resources.getString(R.string.no_lesson)
+        var prTitleSecond = resources.getString(R.string.no_lesson)
+
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
@@ -65,6 +71,39 @@ class HomeFragment : Fragment() {
         } else {
             setSpravkaConfirmed()
         }
+
+        hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                prTitleSecond = if (response.body()!!.status == "done"){
+                    "${response.body()!!.history!![0].date?.let {
+                        dateConverterForTitle(
+                            it, requireContext())
+                    }}, ${response.body()!!.history!![0].time}, ${response.body()!!.history!![0].place}"
+                } else {
+                    resources.getString(R.string.no_lesson)
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
+
+        hViewModel.theoryHistory.observe(viewLifecycleOwner, {response ->
+            if (response.isSuccessful){
+                thTitleSecond = if (response.body()!!.status == "done"){
+                    "${response.body()!!.schedule!![0].date?.let {
+                        dateConverterForTitle(
+                            it, requireContext())
+                    }}, ${response.body()!!.schedule!![0].time}, ${response.body()!!.schedule!![0].place}"
+
+                } else {
+                    resources.getString(R.string.no_lesson)
+                }
+                setTitle(thTitleSecond)
+            } else {
+                showServerError(requireContext())
+            }
+        })
+
 
         hViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
@@ -111,6 +150,16 @@ class HomeFragment : Fragment() {
 
         homeViewPager.adapter = homePagerAdapter
         homeViewPager.currentItem = 0
+
+        homeViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position){
+                    0 -> setTitle(thTitleSecond)
+                    1 -> setTitle(prTitleSecond)
+                }
+            }
+        })
 
         val tabLayout = binding.homeTabs
         TabLayoutMediator(tabLayout, homeViewPager) { tab, position ->
@@ -164,9 +213,8 @@ class HomeFragment : Fragment() {
         homePagerAdapter.notifyDataSetChanged()
     }
 
-    fun setTitle(title: String, text: String){
-        binding.educationInfoFieldTitle.text = title
-        binding.educationInfoFieldText.text = text
+    private fun setTitle(title: String){
+        binding.educationInfoFieldText.text = title
     }
 
 }

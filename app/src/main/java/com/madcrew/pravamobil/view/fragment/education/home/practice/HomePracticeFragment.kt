@@ -71,12 +71,12 @@ class HomePracticeFragment : Fragment() {
         mViewModel = ViewModelProvider(this, viewModelFactory).get(HomePracticeViewModel::class.java)
 
         if (isOnline(requireContext())){
-            mViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+            home.hViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
         } else {
             noInternet(requireContext())
         }
 
-        mViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
+        home.hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
                 when (response.body()!!.status){
                     "done" -> {
@@ -92,10 +92,8 @@ class HomePracticeFragment : Fragment() {
                             instructorId = nearestLesson.instructor_id.toString()
                             timeId = nearestLesson.timeID.toString()
                             timeTitle = nearestLesson.time.toString()
-                            val titleText = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.time} ${nearestLesson.place}"
                             cancelTitle = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.time}"
                             nearestDate = nearestLesson.date.toString()
-                            home.setTitle(resources.getString(R.string.nearest_lesson), titleText)
                             instructorPhoneNumber = nearestLesson.phone.toString()
                             binding.btHomePracticeCallInstructor.setEnable()
                             binding.btHomePracticeChangeInstructor.setEnable()
@@ -105,7 +103,6 @@ class HomePracticeFragment : Fragment() {
                             instructorName.text = resources.getString(R.string.no)
                             instructorCar.text = resources.getString(R.string.no)
                             instructorRate.text = resources.getString(R.string.no)
-                            home.setTitle(resources.getString(R.string.nearest_lesson), resources.getString(R.string.no_lesson))
                             binding.btHomePracticeCallInstructor.setDisable()
                             binding.btHomePracticeChangeInstructor.setDisable()
                         }
@@ -117,7 +114,6 @@ class HomePracticeFragment : Fragment() {
                         instructorName.text = resources.getString(R.string.no)
                         instructorCar.text = resources.getString(R.string.no)
                         instructorRate.text = resources.getString(R.string.no)
-                        home.setTitle(resources.getString(R.string.nearest_lesson), resources.getString(R.string.no_lesson))
                         binding.btHomePracticeCallInstructor.setDisable()
                         binding.btHomePracticeChangeInstructor.setDisable()
                     }
@@ -125,12 +121,12 @@ class HomePracticeFragment : Fragment() {
             }
         })
 
-        mViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
+        home.hViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
                 when (response.body()!!.status){
                     "done" ->{
                         if (isOnline(requireContext())){
-                            mViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                            home.hViewModel.getPracticeHistory(SpravkaStatusRequest(TOKEN, schoolId, clientId))
                         } else {
                             noInternet(requireContext())
                         }

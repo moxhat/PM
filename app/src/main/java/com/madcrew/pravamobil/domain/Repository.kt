@@ -104,4 +104,8 @@ class Repository {
     suspend fun setLessonRate(lessonRateRequest: LessonRateRequest): Response<StatusOnlyResponse> {
         return RetrofitInstance.api.setLessonRate(lessonRateRequest)
     }
+
+    suspend fun getTheoryHistory(spravkaStatusRequest: SpravkaStatusRequest): Response<TheoryHistoryResponse> {
+        return RetrofitInstance.api.getTheoryHistory(spravkaStatusRequest)
+    }
 }

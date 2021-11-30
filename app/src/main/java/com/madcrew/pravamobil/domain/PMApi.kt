@@ -183,4 +183,11 @@ interface PMApi {
         @Body
         lessonRateRequest: LessonRateRequest
     ): Response<StatusOnlyResponse>
+
+    //Получение истории теории
+    @POST("/api/client/group/schedule")
+    suspend fun getTheoryHistory(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<TheoryHistoryResponse>
 }
