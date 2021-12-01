@@ -108,4 +108,8 @@ class Repository {
     suspend fun getTheoryHistory(spravkaStatusRequest: SpravkaStatusRequest): Response<TheoryHistoryResponse> {
         return RetrofitInstance.api.getTheoryHistory(spravkaStatusRequest)
     }
+
+    suspend fun getPayInfo(spravkaStatusRequest: SpravkaStatusRequest): Response<PayInfoResponse> {
+        return RetrofitInstance.api.getPayInfo(spravkaStatusRequest)
+    }
 }

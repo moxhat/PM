@@ -190,4 +190,11 @@ interface PMApi {
         @Body
         spravkaStatusRequest: SpravkaStatusRequest
     ): Response<TheoryHistoryResponse>
+
+    //Инфа по оплатам
+    @POST("/api/client/pay/info")
+    suspend fun getPayInfo(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<PayInfoResponse>
 }

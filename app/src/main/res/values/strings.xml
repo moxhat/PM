@@ -228,4 +228,8 @@
     <string name="you_can_new_contract">Вы можете заключить его повторно. Ранее введенные данные были сохранены</string>
     <string name="contract_nullable">Ваш договор аннулирован</string>
     <string name="for_chek_status">Для проверки статуса платежа потяни вниз</string>
+    <string name="nearest_payment_by">Ближайший платеж до </string>
+    <string name="not_payed">Общий остаток </string>
+    <string name="contract_payed">Договор оплачен!</string>
+    <string name="no_indebtedness">Задолженность отсутсвует</string>
 </resources>

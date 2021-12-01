@@ -20,7 +20,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/payments_title_content_constraint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="90dp">
+
+            <TextView
+                android:id="@+id/payment_contract_payed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu_r"
+                android:text="@string/contract_payed"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/payments_title"
@@ -28,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/ubuntu_r"
-                android:text="Ближайший платеж до 12 июля 2021"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +53,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/ubuntu_m"
-                android:text="15 000 руб."
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +115,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/ubuntu_m"
-                android:text="2 300 рублей"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -269,7 +279,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/ubuntu_m"
-                android:text="25 000 рублей"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -330,7 +339,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/ubuntu_m"
-                android:text="12 300 рублей"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -344,7 +352,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/ubuntu_r"
-                android:text="Общий остаток 15 000 рублей"
                 android:textColor="@color/gray_text"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"

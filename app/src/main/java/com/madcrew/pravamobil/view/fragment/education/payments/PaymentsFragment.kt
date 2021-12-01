@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPaymentsBinding
-import com.madcrew.pravamobil.utils.alphaDown
-import com.madcrew.pravamobil.utils.alphaUp
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.fragment.education.paymentshistory.PaymentsHistoryFragment
 
@@ -21,11 +22,7 @@ class PaymentsFragment : Fragment() {
 
     var _binding: FragmentPaymentsBinding? = null
     val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    lateinit var mViewModel: PaymentsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +35,60 @@ class PaymentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
+        val repository = Repository()
+        val viewModelFactory = PaymentsViewModelFactory(repository)
+
+        val contractPrice = binding.paymentsContractPrice
+        val nearestPaymentTitle = binding.paymentsTitle
+        val nearestPaymentTitleSum = binding.paymentTitleSum
+        val payedPayment = binding.paymentsPayed
+        val anotherSum = binding.paymentsPayedTitle2
+        val additionalPayments = binding.paymentsAdditionalServices
+        val contractPayed = binding.paymentContractPayed
+
+        mViewModel = ViewModelProvider(this, viewModelFactory).get(PaymentsViewModel::class.java)
+
+        mViewModel.getPayInfo(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+
+        mViewModel.payInfo.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful){
+                if (response.body()!!.status == "done"){
+                    if (response.body()!!.nextAmount != 0){
+                        nearestPaymentTitle.setVisible()
+                        nearestPaymentTitleSum.setVisible()
+                        contractPrice.text = "${response.body()!!.amount} рублей"
+                        nearestPaymentTitle.text = "${resources.getString(R.string.nearest_payment_by)} ${response.body()!!.nextDate}"
+                        nearestPaymentTitleSum.text = "${response.body()!!.nextAmount} рублей"
+                        payedPayment.text = "${response.body()!!.pay} рублей"
+                        anotherSum.text = "${resources.getString(R.string.not_payed)} ${response.body()!!.debt}"
+                        additionalPayments.text = "${response.body()!!.sPay} рублей"
+                        contractPayed.setGone()
+                        when (response.body()!!.expired) {
+                            true -> {
+                                setIndebtedness()
+                            }
+                            else -> {
+                                setUnIndebtedness()
+                            }
+                        }
+                    } else {
+                        contractPayed.setVisible()
+                        nearestPaymentTitle.setGone()
+                        nearestPaymentTitleSum.setGone()
+                        contractPrice.text = "${response.body()!!.amount} рублей"
+                        anotherSum.text = resources.getString(R.string.no_indebtedness)
+                        payedPayment.text = "${response.body()!!.pay} рублей"
+                    }
+                } else {
+                    showServerError(requireContext())
+                }
+            } else {
+                showServerError(requireContext())
+            }
+        })
 
         hideMenu(binding.paymentsMenuConstraint)
 
@@ -51,22 +101,12 @@ class PaymentsFragment : Fragment() {
             hideMenu(it)
         }
 
-        binding.paymentsContractPriceContentConstraint.setOnClickListener{
-            setIndebtedness()
-        }
-
-
         binding.paymentsAdditionalServicesConstraint.setOnClickListener{
             showHistory()
         }
 
         binding.paymentsPayedContentConstraint.setOnClickListener{
             showHistory()
-        }
-
-        //Временно
-        binding.paymentsIndebtednessConstraint.setOnClickListener {
-            setUnIndebtedness()
         }
     }
 
