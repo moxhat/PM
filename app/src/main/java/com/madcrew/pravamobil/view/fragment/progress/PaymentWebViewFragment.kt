@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.progress
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,10 +19,11 @@ import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.utils.previousFragmentInProgress
+import com.madcrew.pravamobil.view.activity.paymentsoptions.PaymentsOptionsActivity
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 
 
-class PaymentWebViewFragment(var paymentUrl: String) : Fragment() {
+class PaymentWebViewFragment(var first: Boolean = true, var paymentUrl: String) : Fragment() {
 
     private var _binding: FragmentPaymentWebViewBinding? = null
     private val binding get() = _binding!!
@@ -41,8 +43,6 @@ class PaymentWebViewFragment(var paymentUrl: String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val parent = this.context as ProgressActivity
 
         val webView = binding.paymentWebView
 
@@ -66,17 +66,24 @@ class PaymentWebViewFragment(var paymentUrl: String) : Fragment() {
         }
 
         binding.btPaymentWebViewBack.setOnClickListener {
-            val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
-            val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
-            if (isOnline(requireContext())){
-                parent.mViewModel.chekPaymentStatus(ChekPaymentStatusRequest(TOKEN, schoolId.toInt(), clientId.toInt(), false, true))
-            } else {
-                noInternet(requireContext())
-            }
-            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+            if (first){
+                val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
+                val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+                val currentParent = this.context as ProgressActivity
+                if (isOnline(requireContext())){
+                        currentParent.mViewModel.chekPaymentStatus(ChekPaymentStatusRequest(TOKEN, schoolId.toInt(), clientId.toInt(), false, true))
+                } else {
+                    noInternet(requireContext())
+                }
+                val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
                 transaction.remove(this)
                 transaction.commit()
+            } else {
+                val parent = this.context as PaymentsOptionsActivity
+                parent.finish()
             }
+            }
+
         }
     }

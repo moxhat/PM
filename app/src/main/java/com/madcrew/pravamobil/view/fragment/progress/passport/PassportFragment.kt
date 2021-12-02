@@ -61,12 +61,12 @@ class PassportFragment(var type: String = "student", var title: Int  = R.string.
             parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
             parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->
                 if (response.isSuccessful){
-                    if (response.body()!!.status == "done" && response.body()!!.client.passport != null){
-                        val series = response.body()!!.client.passport?.series.toString()
-                        val number = response.body()!!.client.passport?.number.toString()
-                        val giver = response.body()!!.client.passport?.office.toString()
-                        val date = response.body()!!.client.passport?.date.toString()
-                        val department = response.body()!!.client.passport?.code.toString()
+                    if (response.body()!!.status == "done" && response.body()!!.client?.passport != null){
+                        val series = response.body()!!.client?.passport?.series.toString()
+                        val number = response.body()!!.client?.passport?.number.toString()
+                        val giver = response.body()!!.client?.passport?.office.toString()
+                        val date = response.body()!!.client?.passport?.date.toString()
+                        val department = response.body()!!.client?.passport?.code.toString()
                         setData(series, number, giver, date, department)
                     }
                 }

@@ -16,9 +16,12 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
+import com.madcrew.pravamobil.models.requestmodels.TokenOnly
+import com.madcrew.pravamobil.models.responsemodels.School
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.utils.previousFragmentInProgress
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.fragment.progress.ContractConfirmedFragment
@@ -41,12 +44,14 @@ import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFrag
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.training.TrainingFragment
+import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
 
 class ProgressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProgressBinding
     lateinit var mViewModel: ProgressViewModel
     private var owner = "true"
+    private var schoolList = mutableListOf<School>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,23 +61,40 @@ class ProgressActivity : AppCompatActivity() {
         val clientId = Preferences.getPrefsString("clientId", this).toString()
         val schoolId = Preferences.getPrefsString("schoolId", this).toString()
 
+        val status = intent.getStringExtra("progress")
+
         val repository = Repository()
         val viewModelFactory = ProgressViewModelFactory(repository)
         mViewModel = ViewModelProvider(this, viewModelFactory).get(ProgressViewModel::class.java)
 
-        mViewModel.getClientInfo(
-            ClientInfoRequest(
-                TOKEN,
-                schoolId,
-                clientId,
-                listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
+        if (Preferences.getPrefsString("progressStatus", this) != "AddPassword")
+            mViewModel.getClientInfo(
+                ClientInfoRequest(
+                    TOKEN,
+                    schoolId,
+                    clientId,
+                    listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
+                )
             )
-        )
+
+        if (isOnline(this)) {
+            mViewModel.getSchoolList(TokenOnly(TOKEN))
+        } else {
+            noInternet(this)
+        }
+
+        mViewModel.schoolListResponse.observe(this, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done") {
+                    schoolList = response.body()!!.schoolList
+                }
+            }
+        })
 
         mViewModel.clientInfo.observe(this, { response ->
             if (response.isSuccessful) {
                 if (response.body()!!.status == "done") {
-                    owner = if (response.body()!!.client.adult == "true") {
+                    owner = if (response.body()!!.client?.adult == "true") {
                         "student"
                     } else {
                         "parent"
@@ -81,13 +103,13 @@ class ProgressActivity : AppCompatActivity() {
             }
         })
 
-        val status = Preferences.getPrefsString("progressStatus", this)
-
+        Preferences.setPrefsString("progressStatus", status, this)
         val window: Window = this.window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.main)
         val currentFragment: Fragment =
             when (status) {
+                "AddPassword" -> AddPasswordFragment()
                 "RegisterEmailPage" -> EmailFragment()
                 "SelectCategoryPage" -> CategoryFragment()
 //                "RegisterTransmissionPage" -> TransmissionFragment()
@@ -176,5 +198,13 @@ class ProgressActivity : AppCompatActivity() {
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
+    }
+
+    fun changeSchool() {
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
+            add(R.id.progress_activity_fragment_container, SchoolFragment(schoolList))
+            commit()
+        }
     }
 }

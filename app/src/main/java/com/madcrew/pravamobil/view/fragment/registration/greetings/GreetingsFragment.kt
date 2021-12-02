@@ -98,7 +98,7 @@ class GreetingsFragment(private var name: String = "Оксана", val progressS
             }, 3300)
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
-                parent.starProgressActivity()
+                parent.starProgressActivity(progressStatus)
             }, 3300)
         }
     }

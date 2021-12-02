@@ -80,12 +80,12 @@ class AddressFragment : Fragment() {
         parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 if (response.body()!!.status == "done") {
-                    val region = response.body()!!.client.place?.region.toString()
-                    val city = response.body()!!.client.place?.city.toString()
-                    val street = response.body()!!.client.place?.street.toString()
-                    val house = response.body()!!.client.place?.home.toString()
-                    val housing = response.body()!!.client.place?.building.toString()
-                    val apartment = response.body()!!.client.place?.apartment.toString()
+                    val region = response.body()!!.client?.place?.region.toString()
+                    val city = response.body()!!.client?.place?.city.toString()
+                    val street = response.body()!!.client?.place?.street.toString()
+                    val house = response.body()!!.client?.place?.home.toString()
+                    val housing = response.body()!!.client?.place?.building.toString()
+                    val apartment = response.body()!!.client?.place?.apartment.toString()
                     setData(region, city, street, house, housing, apartment)
                 }
             }

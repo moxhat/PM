@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/payment_contract_payed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/payments_triangle"
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/bt_payments_menu_signup_to_practice"
+                    android:id="@+id/bt_payments_menu_nearest_payment"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:background="@drawable/ic_menu_button"
@@ -176,6 +176,7 @@
                     android:textIsSelectable="false"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -185,12 +186,12 @@
                     android:layout_height="1dp"
                     android:alpha="0.2"
                     android:background="?attr/colorOnSecondary"
-                    app:layout_constraintTop_toBottomOf="@+id/bt_payments_menu_signup_to_practice">
+                    app:layout_constraintTop_toBottomOf="@+id/bt_payments_menu_nearest_payment">
 
                 </FrameLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/bt_payments_menu_learn_cancel"
+                    android:id="@+id/bt_payments_menu_pay_all"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:autoSizeTextType="none"
@@ -212,12 +213,12 @@
                     android:layout_height="1dp"
                     android:alpha="0.2"
                     android:background="?attr/colorOnSecondary"
-                    app:layout_constraintTop_toBottomOf="@+id/bt_payments_menu_learn_cancel">
+                    app:layout_constraintTop_toBottomOf="@+id/bt_payments_menu_pay_all">
 
                 </FrameLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/bt_payments_menu_lessons_history"
+                    android:id="@+id/bt_payments_menu_pay_additional"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:autoSizeTextType="none"

@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.education.paymentshistory
+package com.madcrew.pravamobil.view.fragment.education.payments.paymentshistory
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,10 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryRecyclerAdapter
-import com.madcrew.pravamobil.databinding.FragmentHomeBinding
 import com.madcrew.pravamobil.databinding.FragmentPaymentsHistoryBinding
 import com.madcrew.pravamobil.models.LessonsData
+import com.madcrew.pravamobil.view.activity.paymentsoptions.PaymentsOptionsActivity
+import com.madcrew.pravamobil.view.activity.paymentsoptions.PaymentsOptionsViewModel
 
 
 class PaymentsHistoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatusClickListener {
@@ -37,6 +38,8 @@ class PaymentsHistoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val parent = this.context as PaymentsOptionsActivity
+
         val mPaymentsList = mutableListOf(
             LessonsData("12.10.21 (вт)", "5 000 руб.", "Карта", 1.0),
             LessonsData("12.10.21 (вт)", "5 000 руб.", "Наличные", 1.0),
@@ -60,16 +63,9 @@ class PaymentsHistoryFragment : Fragment(), LessonHistoryRecyclerAdapter.OnStatu
         }
 
         binding.btPaymentsHistoryBack.setOnClickListener {
-            val mainManager = parentFragmentManager
-            val transaction: FragmentTransaction = mainManager.beginTransaction()
-            transaction.remove(this)
-            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            transaction.commit()
+            parent.finish()
         }
 
-        binding.paymentsHistoryMainConstraint.setOnClickListener{
-
-        }
     }
 
     override fun onStatusClick(itemView: View?, position: Int) {

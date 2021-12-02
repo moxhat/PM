@@ -73,4 +73,13 @@ class ProgressViewModel (private val repository: Repository): ViewModel() {
             paymentStatus.value = response
         }
     }
+
+    val schoolListResponse: MutableLiveData<Response<SchoolListResponse>> = MutableLiveData()
+
+    fun getSchoolList(schoolListRequest: TokenOnly) {
+        viewModelScope.launch {
+            val response = repository.getSchoolList(schoolListRequest)
+            schoolListResponse.value = response
+        }
+    }
 }

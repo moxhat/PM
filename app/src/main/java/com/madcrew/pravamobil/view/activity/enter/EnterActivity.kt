@@ -35,8 +35,9 @@ class EnterActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    fun starProgressActivity() {
+    fun starProgressActivity(progress: String) {
         val intent = Intent(this, ProgressActivity::class.java)
+        intent.putExtra("progress", progress)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()

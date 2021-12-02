@@ -23,6 +23,7 @@ import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import com.madcrew.pravamobil.view.activity.paymentsoptions.PaymentsOptionsActivity
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
 import com.madcrew.pravamobil.view.dialog.EducationStartsDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeFragment
@@ -144,6 +145,14 @@ class EducationActivity : AppCompatActivity() {
         } else {
             noInternet(this)
         }
+    }
+
+    fun starPaymentsOption(type: String, url: String = "empty") {
+        val intent = Intent(this, PaymentsOptionsActivity::class.java)
+        intent.putExtra("url", url)
+        intent.putExtra("type", type)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     private fun startEnterActivity() {

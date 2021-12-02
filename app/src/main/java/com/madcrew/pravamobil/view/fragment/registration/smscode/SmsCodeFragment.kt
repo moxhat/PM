@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,8 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import java.util.*
+import kotlin.concurrent.timerTask
 
 
 class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
@@ -45,8 +48,10 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
         val viewModelFactory = SmsCodeViewModelFactory(repository)
         val mViewModel = ViewModelProvider(this, viewModelFactory).get(SmsCodeViewModel::class.java)
 
+        val deviceId = Preferences.getPrefsString("deviceId", requireContext())!!
+
         if (isOnline(requireContext())){
-            mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, TOKEN))
+            mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, deviceId))
         } else {
             noInternet(requireContext())
         }
@@ -55,9 +60,15 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
             if (response.isSuccessful){
                 if (response.body()!!.status == "done"){
                     smsCode = response.body()!!.code
+                    Timer().schedule(timerTask  {
+                        binding.btSmsCodeRetry.setEnable()
+                    }, 30000)
+                } else {
+                    Toast.makeText(requireContext(), resources.getString(R.string.try_later), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+
 
         val codeChar1 = binding.smsCode1EditText
         val codeChar2 = binding.smsCode2EditText
@@ -150,6 +161,14 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
                 } else {
                     errorOn(code1, code2, code3, code4, codeChar1, codeChar2, codeChar3,codeChar4)
                 }
+            }
+        }
+        binding.btSmsCodeRetry.setOnClickListener {
+            if (isOnline(requireContext())){
+                mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, TOKEN))
+                binding.btSmsCodeRetry.setDisable()
+            } else {
+                noInternet(requireContext())
             }
         }
     }

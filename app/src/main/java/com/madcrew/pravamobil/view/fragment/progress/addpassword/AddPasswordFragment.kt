@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,9 +47,14 @@ class AddPasswordFragment : Fragment() {
 
         mViewModel.firstRegistrationResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
-                if (response.body()!!.status == "done"){
-                    Preferences.setPrefsString("clientId", response.body()!!.clientId, requireContext())
-                    nextFragmentInProgress(mainManager, EmailFragment())
+                when (response.body()!!.status){
+                    "done" -> {
+                        Preferences.setPrefsString("clientId", response.body()!!.clientId, requireContext())
+                        nextFragmentInProgress(mainManager, EmailFragment())
+                    }
+                    "exist" -> {
+                        Toast.makeText(requireContext(), resources.getString(R.string.number_exist), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })

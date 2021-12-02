@@ -1,5 +1,7 @@
 package com.madcrew.pravamobil.view.activity.splash
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +15,12 @@ import android.webkit.WebViewClient
 import androidx.core.content.ContextCompat
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.ActivitySplashBinding
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
 
@@ -34,6 +38,11 @@ class SplashActivity : AppCompatActivity() {
 
         val webView = binding.spalshAnimationWebview
         val bgImage = binding.splashBgImage
+
+        val devId = UUID.randomUUID()
+        if (!this.getSharedPreferences("appSettingsSingleOptions", MODE_PRIVATE).contains("deviceId")){
+            Preferences.setPrefsString("deviceId", devId.toString(), this)
+        }
 
         if (isOnline(this)){
             webView.setVisible()

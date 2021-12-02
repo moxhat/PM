@@ -6,16 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPaymentsBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.CreatePaymentRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
-import com.madcrew.pravamobil.view.fragment.education.paymentshistory.PaymentsHistoryFragment
+import com.madcrew.pravamobil.view.fragment.education.payments.paymentshistory.PaymentsHistoryFragment
 
 
 class PaymentsFragment : Fragment() {
@@ -34,6 +36,11 @@ class PaymentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val parent = this.context as EducationActivity
+
+        var _type = ""
+        var _url = ""
 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
@@ -63,7 +70,7 @@ class PaymentsFragment : Fragment() {
                         nearestPaymentTitle.text = "${resources.getString(R.string.nearest_payment_by)} ${response.body()!!.nextDate}"
                         nearestPaymentTitleSum.text = "${response.body()!!.nextAmount} рублей"
                         payedPayment.text = "${response.body()!!.pay} рублей"
-                        anotherSum.text = "${resources.getString(R.string.not_payed)} ${response.body()!!.debt}"
+                        anotherSum.text = "${resources.getString(R.string.not_payed)} ${response.body()!!.debt} рублей"
                         additionalPayments.text = "${response.body()!!.sPay} рублей"
                         contractPayed.setGone()
                         when (response.body()!!.expired) {
@@ -90,6 +97,18 @@ class PaymentsFragment : Fragment() {
             }
         })
 
+        parent.mViewModel.createPayment.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                when (response.body()!!.status) {
+                    "done" -> {
+                        _url = response.body()!!.url.toString()
+                        parent.starPaymentsOption( type = _type)
+                    }
+                    else -> showServerError(requireContext())
+                }
+            } else showServerError(requireContext())
+        })
+
         hideMenu(binding.paymentsMenuConstraint)
 
         binding.paymentsIndebtednessCard.setGone()
@@ -102,11 +121,25 @@ class PaymentsFragment : Fragment() {
         }
 
         binding.paymentsAdditionalServicesConstraint.setOnClickListener{
-            showHistory()
         }
 
         binding.paymentsPayedContentConstraint.setOnClickListener{
-            showHistory()
+            _type = "history"
+            parent.starPaymentsOption(type = _type)
+        }
+
+        binding.btPaymentsMenuNearestPayment.setOnClickListener {
+            _type = "paymentNearest"
+            parent.mViewModel.createNewPayment(CreatePaymentRequest(TOKEN, schoolId.toInt(), clientId.toInt(),false, true ))
+        }
+
+        binding.btPaymentsMenuPayAll.setOnClickListener {
+            _type = "paymentAll"
+            parent.mViewModel.createNewPayment(CreatePaymentRequest(TOKEN, schoolId.toInt(), clientId.toInt(),false, false ))
+        }
+
+        binding.btPaymentsMenuPayAdditional.setOnClickListener {
+//            parent.starPaymentsOption("additional")
         }
     }
 
@@ -142,5 +175,17 @@ class PaymentsFragment : Fragment() {
         transaction.add(R.id.education_fragment_container, PaymentsHistoryFragment())
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
         transaction.commit()
+    }
+
+    fun nextFragmentInProgress(
+        fragmentManager: FragmentManager,
+        fragment: Fragment
+    ) {
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.apply {
+            setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
+            replace(R.id.progress_activity_fragment_container, fragment)
+            commit()
+        }
     }
 }

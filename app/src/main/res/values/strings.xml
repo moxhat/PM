@@ -232,4 +232,7 @@
     <string name="not_payed">Общий остаток </string>
     <string name="contract_payed">Договор оплачен!</string>
     <string name="no_indebtedness">Задолженность отсутсвует</string>
+    <string name="try_later">Попробуйте позже</string>
+    <string name="number_exist">Номер телефона уже используется</string>
+    <string name="no_groups">Нет доступных групп</string>
 </resources>

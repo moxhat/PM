@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentCategoryBinding
@@ -21,6 +23,7 @@ import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.theory.SelectTheoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.theorygroup.TheoryGroupFragment
 import com.madcrew.pravamobil.view.fragment.progress.transmission.TransmissionFragment
+import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
 
 
 class CategoryFragment : Fragment() {
@@ -62,10 +65,16 @@ class CategoryFragment : Fragment() {
 
         mViewModel.categoryResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
-                for (i in response.body()!!.categories) {
-                    categoryList.add(resources.getString(R.string.category) + " " + i.title)
+                when (response.body()!!.status){
+                    "done" -> {
+                        for (i in response.body()!!.categories) {
+                            categoryList.add(resources.getString(R.string.category) + " " + i.title)
+                        }
+                        mViewModel.setUpPicker(picker, categoryList.toTypedArray())
+                    }
+                    "empty" -> {Toast.makeText(requireContext(), resources.getString(R.string.no_groups), Toast.LENGTH_SHORT).show()}
                 }
-                mViewModel.setUpPicker(picker, categoryList.toTypedArray())
+
             }
         })
 
@@ -81,6 +90,10 @@ class CategoryFragment : Fragment() {
                 )
             )
             nextFragmentInProgress(mainManager, SelectTheoryFragment())
+        }
+
+        binding.btCategoryChangeSchool.setOnClickListener {
+            parent.changeSchool()
         }
     }
 

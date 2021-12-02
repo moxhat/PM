@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.CreatePaymentRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
@@ -45,6 +46,15 @@ class EducationViewModel  (private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             val response = repository.updateProgress(progressRequest)
             updateProgressResponse.value = response
+        }
+    }
+
+    var createPayment = MutableLiveData<Response<CreatePaymentResponse>>()
+
+    fun createNewPayment(createPaymentRequest: CreatePaymentRequest){
+        viewModelScope.launch {
+            val response = repository.createPayment(createPaymentRequest)
+            createPayment.value = response
         }
     }
 

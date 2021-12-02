@@ -81,11 +81,11 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
                 )
                 parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
                     if (response.isSuccessful) {
-                        if (response.body()!!.status == "done" && response.body()!!.client.name != null) {
-                            val name = response.body()!!.client.name.toString()
-                            val secondName = response.body()!!.client.lastName.toString()
-                            val thirdName = response.body()!!.client.patronymic.toString()
-                            val date = response.body()!!.client.dateBirthday.toString()
+                        if (response.body()!!.status == "done" && response.body()!!.client?.name != null) {
+                            val name = response.body()!!.client?.name.toString()
+                            val secondName = response.body()!!.client?.lastName.toString()
+                            val thirdName = response.body()!!.client?.patronymic.toString()
+                            val date = response.body()!!.client?.dateBirthday.toString()
                             setData(name, secondName, thirdName, date)
                         }
                     }

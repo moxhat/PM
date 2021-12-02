@@ -88,6 +88,10 @@ class SelectTheoryFragment : Fragment() {
                 nextFragmentInProgress(mainManager, FilialFragment())
             }
         }
+
+        binding.btSelectTheoryChangeSchool.setOnClickListener {
+            parent.changeSchool()
+        }
     }
 
 }

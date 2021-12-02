@@ -16,6 +16,10 @@
         android:roundIcon="@drawable/ic_launcher_rounded"
         android:supportsRtl="true"
         android:theme="@style/Theme.PravaMobil">
+        <activity
+            android:name=".view.activity.paymentsoptions.PaymentsOptionsActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -25,14 +29,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
         </provider>
+
         <activity
             android:name=".view.activity.practiceoptions.PracticeOptionsActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.education.EducationActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.enter.EnterActivity"
             android:configChanges="orientation"
@@ -55,7 +60,5 @@
             android:exported="true"
             android:screenOrientation="portrait" />
     </application>
-
-
 
 </manifest>

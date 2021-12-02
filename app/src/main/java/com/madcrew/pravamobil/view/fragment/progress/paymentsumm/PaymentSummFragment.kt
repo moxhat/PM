@@ -62,7 +62,7 @@ class PaymentSummFragment(var paymentId: String = "empty") : Fragment() {
                             setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out)
                             add(
                                 R.id.progress_activity_fragment_container,
-                                PaymentWebViewFragment(response.body()!!.url.toString())
+                                PaymentWebViewFragment(paymentUrl = response.body()!!.url.toString())
                             )
                             commit()
                             setButtonPayInstance(0)

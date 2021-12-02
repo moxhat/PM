@@ -4,5 +4,6 @@ data class CreatePaymentRequest (
     var token: String,
     var school_id: Int,
     var client_id: Int,
-    var first: Boolean
+    var first: Boolean,
+    var next: Boolean? = null
         )

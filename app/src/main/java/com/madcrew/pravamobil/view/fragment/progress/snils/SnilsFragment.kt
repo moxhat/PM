@@ -101,8 +101,8 @@ class SnilsFragment : Fragment() {
             binding.snilsCard.setDisable()
             parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
                 if (response.isSuccessful) {
-                    if (response.body()!!.status == "done" && response.body()!!.client.snils != null) {
-                        val snils = response.body()!!.client.snils.toString().replace("-", "")
+                    if (response.body()!!.status == "done" && response.body()!!.client?.snils != null) {
+                        val snils = response.body()!!.client?.snils.toString().replace("-", "")
                         snilsText.setText(snils)
                     }
                 }

@@ -71,31 +71,31 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
         parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 if (response.body()!!.status == "done") {
-                    val passportSeries = response.body()!!.client.passport?.series
-                    val passportNumber = response.body()!!.client.passport?.number
-                    val passportGiver = response.body()!!.client.passport?.office
-                    val passportDate = response.body()!!.client.passport?.date
-                    val passportDepartmentCode = response.body()!!.client.passport?.code
-                    val birthDate = response.body()!!.client.dateBirthday
-                    val snilsNumber = response.body()!!.client.snils
-                    val transmission = when (response.body()!!.client.kpp) {
+                    val passportSeries = response.body()!!.client?.passport?.series
+                    val passportNumber = response.body()!!.client?.passport?.number
+                    val passportGiver = response.body()!!.client?.passport?.office
+                    val passportDate = response.body()!!.client?.passport?.date
+                    val passportDepartmentCode = response.body()!!.client?.passport?.code
+                    val birthDate = response.body()!!.client?.dateBirthday
+                    val snilsNumber = response.body()!!.client?.snils
+                    val transmission = when (response.body()!!.client?.kpp) {
                         "mechanic" -> resources.getString(R.string.mechanic)
                         "automatic" -> resources.getString(R.string.automatic)
                         else -> "empty"
                     }
-                    val theory = when (response.body()!!.client.format) {
+                    val theory = when (response.body()!!.client?.format) {
                         "FullTime" -> resources.getString(R.string.theory_offline)
                         else -> resources.getString(R.string.theory_online)
                     }
-                    val housing = if (response.body()!!.client.place?.building != "") {
-                        ", ${resources.getString(R.string.housing)} ${response.body()!!.client.place?.building}"
+                    val housing = if (response.body()!!.client?.place?.building != "") {
+                        ", ${resources.getString(R.string.housing)} ${response.body()!!.client?.place?.building}"
                     } else {
                         ""
                     }
                     val registrationAddress =
-                        "${response.body()!!.client.place?.region.toString()} обл., г. ${response.body()!!.client.place?.city}, ул. ${response.body()!!.client.place?.street}, ${
+                        "${response.body()!!.client?.place?.region.toString()} обл., г. ${response.body()!!.client?.place?.city}, ул. ${response.body()!!.client?.place?.street}, ${
                             resources.getString(R.string.house)
-                        } ${response.body()!!.client.place?.home}$housing, ${resources.getString(R.string.apartment)} ${response.body()!!.client.place?.apartment}"
+                        } ${response.body()!!.client?.place?.home}$housing, ${resources.getString(R.string.apartment)} ${response.body()!!.client?.place?.apartment}"
                     binding.checkDataDocumentText.text =
                         "${resources.getString(R.string.series)} $passportSeries ${
                             resources.getString(R.string.number)

@@ -7,7 +7,7 @@ import com.madcrew.pravamobil.models.submodels.ParentModel
 import com.madcrew.pravamobil.models.submodels.PassportModel
 
 data class ClientInfoResponse(
-    var client: Client,
+    var client: Client? = null,
     var status: String
 )
 

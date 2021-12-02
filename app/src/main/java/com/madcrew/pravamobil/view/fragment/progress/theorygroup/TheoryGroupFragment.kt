@@ -93,6 +93,10 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
                 nextFragmentInProgress(mainManager, TariffFragment())
             }
         }
+
+        binding.btTheoryGroupChangeSchool.setOnClickListener {
+            parent.changeSchool()
+        }
     }
 
     override fun onGroupClick(itemView: View?, position: Int) {

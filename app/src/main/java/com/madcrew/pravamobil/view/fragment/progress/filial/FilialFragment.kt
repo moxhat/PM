@@ -89,9 +89,12 @@ class FilialFragment : Fragment() {
             } else {
                 val selectedFilial = mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].id
                 Preferences.setPrefsString("filialId", selectedFilial, requireContext())
-                parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, centre = selectedFilial))
+                parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, centre_id = selectedFilial))
                 nextFragmentInProgress(mainManager, TheoryGroupFragment(selectedFilial))
             }
+        }
+        binding.btFilialChangeSchool.setOnClickListener {
+            parent.changeSchool()
         }
     }
 }

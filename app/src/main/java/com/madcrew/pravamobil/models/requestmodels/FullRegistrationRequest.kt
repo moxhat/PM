@@ -9,6 +9,7 @@ data class FullRegistrationRequest(
     var clientId: String,
     @SerializedName("school_id")
     var schoolId: String,
+    var new_school_id: String? = null,
     var lastName: String? = null,
     var name: String? = null,
     var patronymic: String? = null,
@@ -18,7 +19,7 @@ data class FullRegistrationRequest(
     var progress: String? = null,
     var email: String? = null,
     var group_id: String? = null,
-    var centre: String? = null,
+    var centre_id: String? = null,
     var kpp: String? = null,
     var format: String? = null,
     var category: String? = null,

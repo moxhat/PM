@@ -119,7 +119,7 @@ class PassportScanFragment(
                 parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->
                     if (response.isSuccessful){
                         if (response.body()!!.status == "done"){
-                            clientIsAdult = response.body()!!.client.adult == "true"
+                            clientIsAdult = response.body()!!.client?.adult == "true"
                         }
                     }
                 })

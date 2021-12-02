@@ -24,10 +24,7 @@ import com.madcrew.pravamobil.models.TariffSliderData
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.TariffListRequest
 import com.madcrew.pravamobil.models.responsemodels.Tariff
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.isOnline
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.previousFragmentInProgress
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryViewModel
 import com.madcrew.pravamobil.view.fragment.progress.category.CategoryViewModelFactory
@@ -96,6 +93,12 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
                         offscreenPageLimit = 3
                     }
 
+                    if (respone.body()!!.tariffs.size == 1){
+                        hideNavButtons(true)
+                    } else {
+                        hideNavButtons(false)
+                    }
+
                     val compositePageTransformer = CompositePageTransformer()
                     compositePageTransformer.addTransformer(MarginPageTransformer(20))
                     compositePageTransformer.addTransformer { page, position ->
@@ -105,7 +108,6 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
                     viewPager.setPageTransformer(compositePageTransformer)
                     sliderAdapter.notifyDataSetChanged()
                     (viewPager.adapter as TariffSliderAdapter).notifyDataSetChanged()
-//        setupIndicators()
 
                     val indicatorsContainer = binding.tariffIndicators
                     val indicators = arrayOfNulls<ImageView>(sliderAdapter.itemCount)
@@ -159,6 +161,10 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
             previousFragmentInProgress(mainManager, TheoryGroupFragment(filialId))
         }
 
+        binding.btTariffChangeSchool.setOnClickListener {
+            parent.changeSchool()
+        }
+
     }
 
     override fun onSelectClick(itemView: View?, position: Int) {
@@ -190,6 +196,16 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
                     )
                 )
             }
+        }
+    }
+
+    private fun hideNavButtons(need: Boolean){
+        if (need) {
+            binding.btTariffNext.setGone()
+            binding.btTariffPrevious.setGone()
+        } else {
+            binding.btTariffNext.setVisible()
+            binding.btTariffPrevious.setVisible()
         }
     }
 }

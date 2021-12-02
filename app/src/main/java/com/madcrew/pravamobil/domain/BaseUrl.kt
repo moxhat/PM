@@ -1,5 +1,9 @@
 package com.madcrew.pravamobil.domain
 
+import androidx.core.content.ContextCompat
+import com.madcrew.pravamobil.utils.Preferences
+import java.util.*
+
 class BaseUrl {
 
     companion object {
