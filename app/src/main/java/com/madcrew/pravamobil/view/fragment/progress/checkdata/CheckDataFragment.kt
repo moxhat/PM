@@ -57,6 +57,8 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
         Preferences.setPrefsString("checkData", "true", requireContext())
 
         parent.updateProgress("CheckDataPage")
+        if (isOnline(requireContext())){
+
         parent.mViewModel.getClientInfo(
             ClientInfoRequest(
                 TOKEN,
@@ -65,6 +67,9 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
                 cells = listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
             )
         )
+        } else {
+            noInternet(requireContext())
+        }
 
 
 

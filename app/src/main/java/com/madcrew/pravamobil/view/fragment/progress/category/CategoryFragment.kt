@@ -54,6 +54,7 @@ class CategoryFragment : Fragment() {
         val picker = binding.categoryPicker
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
+        Preferences.setPrefsString("checkData", "false", requireContext())
 
         parent.mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "SelectCategoryPage"))
 

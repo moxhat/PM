@@ -52,7 +52,6 @@ class PaymentWebViewFragment(var first: Boolean = true, var paymentUrl: String) 
         webSettings.useWideViewPort = true
         webSettings.loadWithOverviewMode = true
         webSettings.javaScriptEnabled = true
-        webSettings.cacheMode
         webView.loadUrl(paymentUrl)
         webView.setBackgroundColor(0x00000000)
 

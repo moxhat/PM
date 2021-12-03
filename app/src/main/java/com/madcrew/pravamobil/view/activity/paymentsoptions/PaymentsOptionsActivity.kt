@@ -36,7 +36,7 @@ class PaymentsOptionsActivity : AppCompatActivity() {
         val url = intent.getStringExtra("url").toString()
         when(type){
             "paymentNearest" -> setupFragment(PaymentWebViewFragment(false, url))
-            "paymentAll" -> PaymentWebViewFragment(false, url)
+            "paymentAll" -> setupFragment(PaymentWebViewFragment(false, url))
             "additional" -> PaymentWebViewFragment(false, url)
             "history" -> PaymentsHistoryFragment()
         }

@@ -102,7 +102,7 @@ class PaymentsFragment : Fragment() {
                 when (response.body()!!.status) {
                     "done" -> {
                         _url = response.body()!!.url.toString()
-                        parent.starPaymentsOption( type = _type)
+                        parent.starPaymentsOption( type = _type, url = _url)
                     }
                     else -> showServerError(requireContext())
                 }

@@ -89,7 +89,7 @@ class Repository {
         return RetrofitInstance.api.setLessonCancel(lessonCancelRequest)
     }
 
-    suspend fun getContract(contractRequest: ContractRequest): Response<StatusOnlyResponse> {
+    suspend fun getContract(contractRequest: ContractRequest) {
         return RetrofitInstance.api.getContract(contractRequest)
     }
 

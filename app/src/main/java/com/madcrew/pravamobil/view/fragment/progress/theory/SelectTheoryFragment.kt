@@ -43,7 +43,9 @@ class SelectTheoryFragment : Fragment() {
 
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
-        val checkData = Preferences.getPrefsString("checkData",  requireContext()) == "true"
+        val checkInstance = Preferences.getPrefsString("checkData",  requireContext())
+
+        val checkData: Boolean = checkInstance == "true"
 
         if (checkData){
             parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))

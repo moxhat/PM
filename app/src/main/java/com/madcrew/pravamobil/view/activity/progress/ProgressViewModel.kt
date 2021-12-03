@@ -49,7 +49,7 @@ class ProgressViewModel (private val repository: Repository): ViewModel() {
 
     fun getContract(contractRequest: ContractRequest){
         viewModelScope.launch {
-            val response = repository.getContract(contractRequest)
+            repository.getContract(contractRequest)
         }
     }
 

@@ -160,7 +160,7 @@ interface PMApi {
     suspend fun getContract(
         @Body
         contractRequest: ContractRequest
-    ): Response<StatusOnlyResponse>
+    )
 
 
     //Получение статуса платежа
