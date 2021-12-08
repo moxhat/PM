@@ -2,20 +2,15 @@ package com.madcrew.pravamobil.view.fragment.registration.school
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSchoolBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
-import com.madcrew.pravamobil.domain.Repository
-import com.madcrew.pravamobil.models.requestmodels.CategoryRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
-import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
-import com.madcrew.pravamobil.models.requestmodels.TokenOnly
 import com.madcrew.pravamobil.models.responsemodels.School
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline

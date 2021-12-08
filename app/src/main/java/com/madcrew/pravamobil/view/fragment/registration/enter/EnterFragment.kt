@@ -13,6 +13,7 @@ import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.TokenOnly
 import com.madcrew.pravamobil.models.responsemodels.School
+import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
 import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
@@ -60,6 +61,7 @@ class EnterFragment : Fragment() {
         }
 
         binding.btEnterSignUp.setOnClickListener {
+            Preferences.setPrefsString("progressStatus", "AddPassword", requireContext())
             replaceFragment(SchoolFragment(schoolList), R.anim.slide_left_in, R.anim.slide_left_out)
         }
     }
