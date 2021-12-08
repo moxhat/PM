@@ -12,6 +12,7 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionViewModel
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionViewModelFactory
+import com.madcrew.pravamobil.view.fragment.education.payments.additionalpayments.AdditionalPaymentsFragment
 import com.madcrew.pravamobil.view.fragment.education.payments.paymentshistory.PaymentsHistoryFragment
 import com.madcrew.pravamobil.view.fragment.progress.PaymentWebViewFragment
 
@@ -37,8 +38,9 @@ class PaymentsOptionsActivity : AppCompatActivity() {
         when(type){
             "paymentNearest" -> setupFragment(PaymentWebViewFragment(false, url))
             "paymentAll" -> setupFragment(PaymentWebViewFragment(false, url))
-            "additional" -> PaymentWebViewFragment(false, url)
-            "history" -> PaymentsHistoryFragment()
+            "additional" -> setupFragment(AdditionalPaymentsFragment())
+            "history" -> setupFragment(PaymentsHistoryFragment("history"))
+            "additional_history" -> setupFragment(PaymentsHistoryFragment("additional_history"))
         }
     }
 

@@ -112,4 +112,16 @@ class Repository {
     suspend fun getPayInfo(spravkaStatusRequest: SpravkaStatusRequest): Response<PayInfoResponse> {
         return RetrofitInstance.api.getPayInfo(spravkaStatusRequest)
     }
+
+    suspend fun getPayHistory(spravkaStatusRequest: SpravkaStatusRequest): Response<PayHistoryResponse> {
+        return RetrofitInstance.api.getPayHistory(spravkaStatusRequest)
+    }
+
+    suspend fun getAdditionalServices(categoryRequest: CategoryRequest): Response<AdditionalServicesResponse> {
+        return RetrofitInstance.api.getAdditionalServices(categoryRequest)
+    }
+
+    suspend fun createAdditionalPayment(additionalPaymentRequest: AdditionalPaymentRequest): Response<AdditionalPaymentResponse> {
+        return RetrofitInstance.api.createAdditionalPayment(additionalPaymentRequest)
+    }
 }

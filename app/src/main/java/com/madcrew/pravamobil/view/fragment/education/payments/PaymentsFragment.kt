@@ -56,6 +56,8 @@ class PaymentsFragment : Fragment() {
         val additionalPayments = binding.paymentsAdditionalServices
         val contractPayed = binding.paymentContractPayed
 
+        binding.paymentsSwipe.isEnabled = true
+
         mViewModel = ViewModelProvider(this, viewModelFactory).get(PaymentsViewModel::class.java)
 
         mViewModel.getPayInfo(SpravkaStatusRequest(TOKEN, schoolId, clientId))
@@ -63,6 +65,8 @@ class PaymentsFragment : Fragment() {
         mViewModel.payInfo.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful){
                 if (response.body()!!.status == "done"){
+                    binding.paymentsSwipe.isEnabled = true
+                    binding.paymentsSwipe.isRefreshing = false
                     if (response.body()!!.nextAmount != 0){
                         nearestPaymentTitle.setVisible()
                         nearestPaymentTitleSum.setVisible()
@@ -88,6 +92,7 @@ class PaymentsFragment : Fragment() {
                         contractPrice.text = "${response.body()!!.amount} рублей"
                         anotherSum.text = resources.getString(R.string.no_indebtedness)
                         payedPayment.text = "${response.body()!!.pay} рублей"
+                        additionalPayments.text = "${response.body()!!.sPay} рублей"
                     }
                 } else {
                     showServerError(requireContext())
@@ -109,6 +114,11 @@ class PaymentsFragment : Fragment() {
             } else showServerError(requireContext())
         })
 
+        binding.paymentsSwipe.setOnRefreshListener {
+            binding.paymentsSwipe.isEnabled = false
+            mViewModel.getPayInfo(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+        }
+
         hideMenu(binding.paymentsMenuConstraint)
 
         binding.paymentsIndebtednessCard.setGone()
@@ -121,6 +131,8 @@ class PaymentsFragment : Fragment() {
         }
 
         binding.paymentsAdditionalServicesConstraint.setOnClickListener{
+            _type = "additional_history"
+            parent.starPaymentsOption(type = _type)
         }
 
         binding.paymentsPayedContentConstraint.setOnClickListener{
@@ -139,7 +151,8 @@ class PaymentsFragment : Fragment() {
         }
 
         binding.btPaymentsMenuPayAdditional.setOnClickListener {
-//            parent.starPaymentsOption("additional")
+            _type = "additional"
+            parent.starPaymentsOption( type = _type)
         }
     }
 

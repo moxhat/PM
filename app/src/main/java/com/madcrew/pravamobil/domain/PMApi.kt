@@ -197,4 +197,25 @@ interface PMApi {
         @Body
         spravkaStatusRequest: SpravkaStatusRequest
     ): Response<PayInfoResponse>
+
+    //История платежей
+    @POST("/api/client/pay/history")
+    suspend fun getPayHistory(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<PayHistoryResponse>
+
+    //Получение списка доп. услуг
+    @POST("/api/school/price/list")
+    suspend fun getAdditionalServices(
+        @Body
+        categoryRequest: CategoryRequest
+    ): Response<AdditionalServicesResponse>
+
+    //Оплата выбранной услуги
+    @POST("/api/pay/prices/create")
+    suspend fun createAdditionalPayment(
+        @Body
+        additionalPaymentRequest: AdditionalPaymentRequest
+    ): Response<AdditionalPaymentResponse>
 }

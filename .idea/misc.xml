@@ -165,7 +165,9 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_practice_options.xml" value="0.321875" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_progress.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/activity_splash.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/additional_payments_fragment.xml" value="0.33" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_add_password.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_additional_payments.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_address.xml" value="0.33" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_birth_date_dialog.xml" value="0.26132246376811596" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_category.xml" value="0.19114583333333332" />
@@ -197,7 +199,7 @@
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_passport_scan.xml" value="0.5020833333333333" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_payment_summ.xml" value="0.5" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_payment_web_view.xml" value="0.5020833333333333" />
-        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_payments.xml" value="0.5" />
+        <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_payments.xml" value="0.9" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_payments_history.xml" value="0.33" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_pyment_options.xml" value="0.33" />
         <entry key="..\:/Users/moxha/StudioProjects/pravamobil/app/src/main/res/layout/fragment_record_added_dialog.xml" value="0.26811594202898553" />

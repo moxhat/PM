@@ -77,30 +77,36 @@ class PaymentSummFragment(var paymentId: String = "empty") : Fragment() {
 
         parent.mViewModel.paymentStatus.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
-                if (response.body()!!.status == "done") {
-                    swipeContainer.isRefreshing = false
-                    swipeContainer.isEnabled = true
-                    binding.paymentSummSumm.text = "${response.body()!!.amount} руб."
-                    when (response.body()!!.payStatus) {
-                        "empty" -> {
-                            setButtonPayInstance(1)
-                        }
-                        "pending" -> {
-                            setButtonPayInstance(1)
-//                            Toast.makeText(requireContext(), resources.getString(R.string.pending), Toast.LENGTH_SHORT).show()
-                        }
-                        "waiting_for_capture" -> {
-                            Toast.makeText(requireContext(), resources.getString(R.string.pending), Toast.LENGTH_SHORT).show()
-                        }
-                        "succeeded" -> {
-                            nextFragmentInProgress(parentFragmentManager, ContractConfirmedFragment("good"))
-                        }
-                        "canceled" -> {
-                            nextFragmentInProgress(parentFragmentManager, PaymentSummFragment("bad"))
+                when (response.body()!!.status){
+                     "done" -> {
+                        swipeContainer.isRefreshing = false
+                        swipeContainer.isEnabled = true
+                        binding.paymentSummSumm.text = "${response.body()!!.amount} руб."
+                        when (response.body()!!.payStatus) {
+                            "empty" -> {
+                                setButtonPayInstance(1)
+                            }
+                            "pending" -> {
+                                setButtonPayInstance(1)
+            //                            Toast.makeText(requireContext(), resources.getString(R.string.pending), Toast.LENGTH_SHORT).show()
+                            }
+                            "waiting_for_capture" -> {
+                                Toast.makeText(requireContext(), resources.getString(R.string.pending), Toast.LENGTH_SHORT).show()
+                            }
+                            "succeeded" -> {
+                                nextFragmentInProgress(parentFragmentManager, ContractConfirmedFragment("good"))
+                            }
+                            "canceled" -> {
+                                nextFragmentInProgress(parentFragmentManager, PaymentSummFragment("bad"))
+                            }
                         }
                     }
-                } else {
-                    showServerError(requireContext())
+                    "fail" -> {
+                        Toast.makeText(requireContext(), resources.getString(R.string.no_payment), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        showServerError(requireContext())
+                    }
                 }
             } else {
                 showServerError(requireContext())

@@ -228,6 +228,7 @@
     <string name="you_can_new_contract">Вы можете заключить его повторно. Ранее введенные данные были сохранены</string>
     <string name="contract_nullable">Ваш договор аннулирован</string>
     <string name="for_chek_status">Для проверки статуса платежа потяни вниз</string>
+    <string name="swipe_for_refresh">Для обновления потяни вниз</string>
     <string name="nearest_payment_by">Ближайший платеж до </string>
     <string name="not_payed">Общий остаток </string>
     <string name="contract_payed">Договор оплачен!</string>
@@ -235,4 +236,7 @@
     <string name="try_later">Попробуйте позже</string>
     <string name="number_exist">Номер телефона уже используется</string>
     <string name="no_groups">Нет доступных групп</string>
+    <string name="no_payment">Платеж не сформирован</string>
+    <string name="price_for_one">Цена за единицу</string>
+    <string name="amount">Колличество</string>
 </resources>
