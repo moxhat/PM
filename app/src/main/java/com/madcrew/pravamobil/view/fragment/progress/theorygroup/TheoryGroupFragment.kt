@@ -19,11 +19,9 @@ import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.GroupsRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.responsemodels.FilialGroup
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.isOnline
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.progress.filial.FilialFragment
 import com.madcrew.pravamobil.view.fragment.progress.filial.FilialViewModel
 import com.madcrew.pravamobil.view.fragment.progress.filial.FilialViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.tariff.TariffFragment
@@ -68,6 +66,8 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
             noInternet(requireContext())
         }
 
+        binding.btTheoryGroupBack.text = Preferences.getPrefsString("filialName", requireContext())
+
         mViewModel.groupsResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
                 if (response.body()!!.status == "done"){
@@ -96,6 +96,10 @@ class TheoryGroupFragment(var filialId: String) : Fragment(),
 
         binding.btTheoryGroupChangeSchool.setOnClickListener {
             parent.changeSchool()
+        }
+
+        binding.btTheoryGroupBack.setOnClickListener {
+            previousFragmentInProgress(mainManager, FilialFragment())
         }
     }
 

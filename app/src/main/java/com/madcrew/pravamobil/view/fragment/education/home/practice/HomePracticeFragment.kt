@@ -82,8 +82,7 @@ class HomePracticeFragment : Fragment() {
                     "done" -> {
                         if (response.body()!!.history?.size != 0){
                         val nearestLesson = response.body()!!.history?.get(0)!!
-                        Glide.with(requireContext()).load(nearestLesson.photoUrl).circleCrop().diskCacheStrategy(
-                            DiskCacheStrategy.ALL)
+                        Glide.with(requireContext()).load(nearestLesson.photoUrl.toString()).circleCrop()
                             .into(instructorAvatar)
                             val insName = nearestLesson.secondName + " " + nearestLesson.name + " " + nearestLesson.patronymic
                         instructorName.text = insName

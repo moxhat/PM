@@ -49,6 +49,8 @@ class AddPasswordFragment : Fragment() {
             if (response.isSuccessful){
                 when (response.body()!!.status){
                     "done" -> {
+                        Preferences.setPrefsString("rememberMe", "true", requireContext())
+                        Preferences.setPrefsString("password", firstPasswordText.text.toString(), requireContext())
                         Preferences.setPrefsString("clientId", response.body()!!.clientId, requireContext())
                         nextFragmentInProgress(mainManager, EmailFragment())
                     }

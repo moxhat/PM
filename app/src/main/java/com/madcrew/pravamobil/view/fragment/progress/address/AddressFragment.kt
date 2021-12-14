@@ -112,7 +112,7 @@ class AddressFragment : Fragment() {
         }
 
         binding.btAddressNext.setOnClickListener {
-            if (regionText.length() > 2 && cityText.length() > 2 && streetText.length() > 2 && houseText.length() != 0 && apartmentText.length() != 0) {
+            if (regionText.length() > 2 && cityText.length() > 2 && streetText.length() > 2 && houseText.length() != 0) {
                 if (binding.addressTitle.text == resources.getString(R.string.registration_address)) {
                     region = binding.addressRegionText.text.toString()
                     city = binding.addressCityText.text.toString()
@@ -224,7 +224,7 @@ class AddressFragment : Fragment() {
                 if (cityText.length() < 2) cityField.setErrorOn()
                 if (streetText.length() < 2) streetField.setErrorOn()
                 if (houseText.length() == 0) houseField.setErrorOn()
-                if (apartmentText.length() == 0) apartmentField.setErrorOn()
+//                if (apartmentText.length() == 0) apartmentField.setErrorOn()
             }
         }
     }

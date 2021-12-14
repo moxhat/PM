@@ -42,8 +42,7 @@ class PaymentSummFragment(var paymentId: String = "empty") : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val parent = this.context as ProgressActivity
-
-        getPaymentStatus(parent)
+             getPaymentStatus(parent)
 
         parent.updateProgress("ConfirmContractPage")
 
@@ -56,6 +55,7 @@ class PaymentSummFragment(var paymentId: String = "empty") : Fragment() {
             if (response.isSuccessful) {
                 when (response.body()!!.status) {
                     "done" -> {
+                        Preferences.setPrefsString("canceled", "false", requireContext())
                         val transaction: FragmentTransaction =
                             parentFragmentManager.beginTransaction()
                         transaction.apply {
@@ -97,7 +97,9 @@ class PaymentSummFragment(var paymentId: String = "empty") : Fragment() {
                                 nextFragmentInProgress(parentFragmentManager, ContractConfirmedFragment("good"))
                             }
                             "canceled" -> {
-                                nextFragmentInProgress(parentFragmentManager, PaymentSummFragment("bad"))
+                                nextFragmentInProgress(parentFragmentManager, ContractConfirmedFragment("bad"))
+                                parent.mViewModel.paymentStatus.removeObservers(viewLifecycleOwner)
+                                Preferences.setPrefsString("canceled", "true", requireContext())
                             }
                         }
                     }

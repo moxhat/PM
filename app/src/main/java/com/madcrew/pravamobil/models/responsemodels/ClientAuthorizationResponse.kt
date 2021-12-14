@@ -16,6 +16,6 @@ data class ClientAuth(
     var firstName: String,
     @SerializedName("patronymic")
     var thirdName: String,
-    var progress: String,
+    var appProgress: String,
     var adult: String
 )

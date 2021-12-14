@@ -24,7 +24,9 @@
             android:layout_height="25dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/ic_rectangle_light_gray_text"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -51,7 +53,9 @@
             android:text="Стандарт"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_in_contract_title"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_title_label_background" />
 
@@ -64,9 +68,26 @@
             android:text="@string/in_contract_title"
             android:textColor="@color/main"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/in_contract_text_0"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_name" />
+
+        <ListView
+            android:id="@+id/in_contract_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:divider="@color/transparent"
+            android:dividerHeight="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_brake_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tariff_in_contract_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/in_contract_text_0"
@@ -78,7 +99,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/in_contract_text_1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_in_contract_title" />
 
@@ -92,7 +115,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/in_contract_text_2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_contract_text_0" />
 
@@ -106,7 +131,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/in_contract_text_3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_contract_text_1" />
 
@@ -120,7 +147,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_brake_line"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_contract_text_2" />
 
@@ -132,7 +161,9 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/ic_break_line"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_additional_payments_tatle"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_contract_text_3"
             app:tint="@color/hint" />
@@ -146,7 +177,9 @@
             android:text="@string/additional_payments"
             android:textColor="@color/main"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_additional_payment_0"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_brake_line" />
 
@@ -160,7 +193,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_additional_payment_1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payments_tatle" />
 
@@ -174,7 +209,9 @@
             android:fontFamily="@font/ubuntu_r"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_card_price"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_0" />
 
@@ -187,7 +224,9 @@
             android:text="23 000 руб."
             android:textColor="?attr/colorOnSecondary"
             android:textSize="28sp"
+            app:layout_constraintBottom_toTopOf="@+id/tariff_card_payment_by_instalments"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payment_1" />
 
@@ -200,7 +239,9 @@
             android:text="@string/may_be_installments"
             android:textColor="@color/gray_text"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/bt_tariff_card_select"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tariff_card_price" />
 
@@ -209,7 +250,7 @@
             android:layout_width="0dp"
             android:layout_height="34dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/ic_main_button"
@@ -221,8 +262,9 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tariff_card_price"
+            app:layout_constraintTop_toBottomOf="@+id/tariff_card_payment_by_instalments"
             tools:ignore="TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

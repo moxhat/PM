@@ -84,6 +84,7 @@ class TariffFragment : Fragment(), TariffSliderAdapter.OnSelectClickListener {
                     for (i in respone.body()!!.tariffs){
                         tariffSlides.add(i)
                     }
+                    println(tariffSlides)
                     sliderAdapter.notifyDataSetChanged()
                     viewPager.apply {
                         adapter = sliderAdapter

@@ -16,7 +16,7 @@ data class FullRegistrationRequest(
     var dateBirthday: String? = null,
     var phoneNumber: String? = null,
     var password: String? = null,
-    var progress: String? = null,
+    var appProgress: String? = null,
     var email: String? = null,
     var group_id: String? = null,
     var centre_id: String? = null,

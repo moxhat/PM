@@ -49,23 +49,23 @@ class SignInFragment : Fragment() {
         val loginField = binding.signinLogin
         val passwordText = binding.signinPasswordEditText
         val passwordField = binding.signinPassword
-        val rememberMe = binding.signinRememberChek
+//        val rememberMe = binding.signinRememberChek
 
         if (Preferences.getPrefsString("rememberMe",  requireContext()) == "true") {
             loginText.setText(Preferences.getPrefsString("login",  requireContext()))
             passwordText.setText(Preferences.getPrefsString("password", requireContext()))
-            if (isOnline(requireContext())){
-                binding.btSigninEnter.setDisable()
-                mViewModel.clientAuthorization(
-                    ClientAuthorizationRequest(
-                        TOKEN,
-                        loginText.text.toString(),
-                        passwordText.text.toString()
-                    )
-                )
-            } else {
-                noInternet(requireContext())
-            }
+//            if (isOnline(requireContext())){
+//                binding.btSigninEnter.setDisable()
+//                mViewModel.clientAuthorization(
+//                    ClientAuthorizationRequest(
+//                        TOKEN,
+//                        loginText.text.toString(),
+//                        passwordText.text.toString()
+//                    )
+//                )
+//            } else {
+//                noInternet(requireContext())
+//            }
         }
 
         mViewModel.signResponse.observe(viewLifecycleOwner, { response ->
@@ -74,13 +74,13 @@ class SignInFragment : Fragment() {
                     "done" -> {
                         Preferences.setPrefsString("clientId", response.body()!!.client.id, requireContext())
                         Preferences.setPrefsString("schoolId", response.body()!!.client.school_id, requireContext())
-                        val progressStatus = response.body()!!.client.progress
+                        val progressStatus = response.body()!!.client.appProgress
                         val name = response.body()!!.client.firstName
-                        if(rememberMe.isChecked){
+//                        if(rememberMe.isChecked){
                             Preferences.setPrefsString("rememberMe", "true", requireContext())
                             Preferences.setPrefsString("login", loginText.text.toString().substring(2, 16), requireContext())
                             Preferences.setPrefsString("password", passwordText.text.toString(), requireContext())
-                        }
+//                        }
                         if (response.body()!!.client.adult == "true") {
                             Preferences.setPrefsString("adult", "student", requireContext())
                         } else {

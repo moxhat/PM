@@ -90,6 +90,7 @@ class FilialFragment : Fragment() {
                 val selectedFilial = mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].id
                 Preferences.setPrefsString("filialId", selectedFilial, requireContext())
                 parent.mViewModel.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, centre_id = selectedFilial))
+                Preferences.setPrefsString("filialName", mViewModel.filialResponse.value!!.body()!!.centres!![picker.value].title, requireContext())
                 nextFragmentInProgress(mainManager, TheoryGroupFragment(selectedFilial))
             }
         }

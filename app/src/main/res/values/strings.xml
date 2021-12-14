@@ -239,4 +239,6 @@
     <string name="no_payment">Платеж не сформирован</string>
     <string name="price_for_one">Цена за единицу</string>
     <string name="amount">Колличество</string>
+    <string name="change_filial">Выбрать другой филиал</string>
+    <string name="already_exist">Номер уже зарегистрирован</string>
 </resources>

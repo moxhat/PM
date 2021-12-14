@@ -24,7 +24,7 @@ import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 
 
-class StudentNameFragment(var title: Int = R.string.student, var type: String = "student") :
+class StudentNameFragment(var title: Int = R.string.student, var type: String = "student", var check: Boolean = false) :
     Fragment() {
 
     private var _binding: FragmentStudentNameBinding? = null

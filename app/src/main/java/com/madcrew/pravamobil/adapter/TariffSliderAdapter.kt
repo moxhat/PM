@@ -3,8 +3,11 @@ package com.madcrew.pravamobil.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.models.responsemodels.Tariff
@@ -28,29 +31,38 @@ class TariffSliderAdapter(private var slides: List<Tariff>, private val listener
         private val tariffAdditional0 = view.findViewById<TextView>(R.id.tariff_additional_payment_0)
         private val tariffAdditional1 = view.findViewById<TextView>(R.id.tariff_additional_payment_1)
         private val btTariffSelect = view.findViewById<AppCompatButton>(R.id.bt_tariff_card_select)
+        private val tariffInContractList = view.findViewById<ListView>(R.id.in_contract_list)
 
 
         fun bind(tariff: Tariff) {
             tariffName.text = tariff.title
             tariffPrice.text = tariff.price + " " + "руб."
-            when(tariff.include.size){
-                1 ->  tariffInclude0.text = tariff.include[0]
-                2 -> {
-                    tariffInclude0.text = tariff.include[0]
-                    tariffInclude1.text = tariff.include[1]
-                }
-                3 -> {
-                    tariffInclude0.text = tariff.include[0]
-                    tariffInclude1.text = tariff.include[1]
-                    tariffInclude2.text = tariff.include[2]
-                }
-                4 -> {
-                    tariffInclude0.text = tariff.include[0]
-                    tariffInclude1.text = tariff.include[1]
-                    tariffInclude2.text = tariff.include[2]
-                    tariffInclude3.text = tariff.include[3]
-                }
-            }
+
+            val adapter = ArrayAdapter(itemView.context, R.layout.list_contract_item, tariff.include )
+            tariffInContractList.adapter = adapter
+
+//            when(tariff.include.size){
+//                1 ->  tariffInclude0.text = tariff.include[0]
+//                2 -> {
+//                    tariffInclude0.text = tariff.include[0]
+//                    tariffInclude1.text = tariff.include[1]
+//                }
+//                3 -> {
+//                    tariffInclude0.text = tariff.include[0]
+//                    tariffInclude1.text = tariff.include[1]
+//                    tariffInclude2.text = tariff.include[2]
+//                }
+//                4 -> {
+//                    tariffInclude0.text = tariff.include[0]
+//                    tariffInclude1.text = tariff.include[1]
+//                    tariffInclude2.text = tariff.include[2]
+//                    tariffInclude3.text = tariff.include[3]
+//                }
+//                else -> {
+//                    val adapter = ArrayAdapter(itemView.context, R.layout.list_contract_item, tariff.include )
+//                    tariffInContractList.adapter = adapter
+//                }
+//            }
             when(tariff.extra.size){
                 1 -> tariffAdditional0.text = tariff.extra[0]
                 2 -> {

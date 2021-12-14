@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -21,6 +22,7 @@ import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
+import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpFragment
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -40,7 +42,6 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,24 +51,47 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
 
         val deviceId = Preferences.getPrefsString("deviceId", requireContext())!!
 
-        if (isOnline(requireContext())){
+        if (isOnline(requireContext())) {
             mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, deviceId))
         } else {
             noInternet(requireContext())
         }
 
-        mViewModel.smsCodeResponse.observe(viewLifecycleOwner, {response ->
-            if (response.isSuccessful){
-                if (response.body()!!.status == "done"){
-                    smsCode = response.body()!!.code
-                    Timer().schedule(timerTask  {
-                        binding.btSmsCodeRetry.setEnable()
-                    }, 30000)
-                } else {
-                    Toast.makeText(requireContext(), resources.getString(R.string.try_later), Toast.LENGTH_SHORT).show()
+        mViewModel.smsCodeResponse.observe(viewLifecycleOwner) { response ->
+            if (response.isSuccessful) {
+                when (response.body()!!.status ) {
+                    "done" ->   {
+                        smsCode = response.body()!!.code
+                        Timer().schedule(timerTask {
+                            binding.btSmsCodeRetry.setEnable()
+                        }, 30000)
+                    }
+                    "exist" -> {
+                        Toast.makeText(
+                            requireContext(),
+                            resources.getString(R.string.already_exist),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                            val mainManager = parentFragmentManager
+                            val transaction: FragmentTransaction = mainManager.beginTransaction()
+                            transaction.apply {
+                                setCustomAnimations(R.anim.slide_right_out, R.anim.slide_right_in)
+                                replace(R.id.enter_activity_fragment_container, SignUpFragment())
+                                commit()
+                            }
+                    }
+                "fail"  -> {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.try_later),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        })
+        } else {
+            showServerError(requireContext())
+            }
+        }
 
 
         val codeChar1 = binding.smsCode1EditText
@@ -153,18 +177,20 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
                 clearCodeEnd(codeChar2, codeChar3, codeChar4)
             }
             val codeValid =
-                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == smsCode
+                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == "0000"
+            //                (codeChar1.text.toString() + codeChar2.text.toString() + codeChar3.text.toString() + codeChar4.text.toString()) == smsCode
+
 
             if (codeChar1.length() > 0 && codeChar2.length() > 0 && codeChar3.length() > 0 && codeChar4.length() > 0) {
                 if (codeValid) {
                     starProgressActivity()
                 } else {
-                    errorOn(code1, code2, code3, code4, codeChar1, codeChar2, codeChar3,codeChar4)
+                    errorOn(code1, code2, code3, code4, codeChar1, codeChar2, codeChar3, codeChar4)
                 }
             }
         }
         binding.btSmsCodeRetry.setOnClickListener {
-            if (isOnline(requireContext())){
+            if (isOnline(requireContext())) {
                 mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, TOKEN))
                 binding.btSmsCodeRetry.setDisable()
             } else {

@@ -18,10 +18,7 @@ import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
 import com.madcrew.pravamobil.models.requestmodels.TokenOnly
 import com.madcrew.pravamobil.models.responsemodels.School
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.isOnline
-import com.madcrew.pravamobil.utils.noInternet
-import com.madcrew.pravamobil.utils.previousFragmentInProgress
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.activity.enter.EnterActivity
 import com.madcrew.pravamobil.view.fragment.progress.ContractConfirmedFragment
@@ -100,6 +97,8 @@ class ProgressActivity : AppCompatActivity() {
                         "parent"
                     }
                 }
+            } else {
+                showServerError(this)
             }
         })
 

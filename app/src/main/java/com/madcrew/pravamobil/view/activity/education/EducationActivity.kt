@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -55,6 +56,14 @@ class EducationActivity : AppCompatActivity() {
         mViewModel.updateProgress(ProgressRequest(TOKEN, schoolId, clientId, "AppHome"))
         bottomMenu.menu.getItem(2).isCheckable = false
 //        bottomMenu.menu.getItem(1).isEnabled = false
+
+        // Временно
+        binding.btEducationMoreMenuNews.setDisable()
+        binding.btEducationMoreMenuProfile.setDisable()
+        binding.btEducationMoreMenuAbout.setDisable()
+        binding.btEducationMoreMenuRateApp.setDisable()
+
+
         bottomMenu.setOnItemSelectedListener { item ->
 
             when (item.itemId) {

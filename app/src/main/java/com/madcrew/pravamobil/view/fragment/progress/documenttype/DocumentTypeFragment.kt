@@ -69,9 +69,9 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
             setItems(
                 arrayListOf(
                     IconSpinnerItem(text = "Паспорт РФ", iconRes = null),
-                    IconSpinnerItem(text = "Иностранный паспорт", iconRes = null),
-                    IconSpinnerItem(text = "Вид на жительсво", iconRes = null),
-                    IconSpinnerItem(text = "РВП", iconRes = null)
+//                    IconSpinnerItem(text = "Иностранный паспорт", iconRes = null),
+//                    IconSpinnerItem(text = "Вид на жительсво", iconRes = null),
+//                    IconSpinnerItem(text = "РВП", iconRes = null)
                 )
             )
             getSpinnerRecyclerView().layoutManager = GridLayoutManager(context, 1)
