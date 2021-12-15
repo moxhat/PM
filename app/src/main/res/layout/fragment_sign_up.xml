@@ -88,7 +88,8 @@
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_phone">
+            app:layout_constraintTop_toBottomOf="@+id/signup_phone"
+            app:passwordToggleEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/signup_name_edit_text"
@@ -99,12 +100,12 @@
                 android:layout_marginEnd="2dp"
                 android:background="@drawable/ic_rectangle_light_gray"
                 android:fontFamily="@font/ubuntu_m"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textCapSentences"
                 android:paddingHorizontal="12dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSecondary"
                 android:textColorHint="?attr/colorOnSecondary"
-                app:keep_hint="true" />
+                app:keep_hint="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

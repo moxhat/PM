@@ -101,6 +101,8 @@ class DrivingRecordFragment : Fragment(), AdapterView.OnItemSelectedListener,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            } else {
+                showServerError(requireContext())
             }
         })
 

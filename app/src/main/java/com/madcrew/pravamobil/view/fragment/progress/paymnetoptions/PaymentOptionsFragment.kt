@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.progress.paymnetoptions
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -41,6 +42,7 @@ class PaymentOptionsFragment() : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -112,9 +114,7 @@ class PaymentOptionsFragment() : Fragment() {
                         }
                     }
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        seekBar.min = 5
-                    }
+                    seekBar.min = 5
                     seekBar.max = summ / 1000 - 1
 
                     binding.paymentValue.text = (seekBar.progress * 1000).toString()
@@ -124,7 +124,11 @@ class PaymentOptionsFragment() : Fragment() {
                         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                             if (fromUser) {
                                 if (progress >= 0 && progress <= seekBar.max) {
-                                    firstPayment = progress * 1000
+                                    firstPayment = if (progress > 5 ){
+                                        progress * 1000
+                                    } else {
+                                        5000
+                                    }
                                     val nextPayment = summ - firstPayment
                                     val progressString = "${(progress * 1000)} руб."
                                     binding.paymentValue.text = progressString

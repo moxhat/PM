@@ -35,6 +35,7 @@ class SignUpFragment : Fragment() {
         val btGetCode = binding.btSignupCode
         val nameText = binding.signupNameEditText
         val phoneText = binding.signupPhoneEditText
+        var name = ""
 
         val nameField = binding.signupName
         val phoneField = binding.signupPhone
@@ -48,11 +49,12 @@ class SignUpFragment : Fragment() {
         }
 
         nameText.doOnTextChanged { _, _, _, _ ->
+            name = nameText.text.toString()
             if (nameText.length() > 1) nameField.setErrorOff()
         }
 
         btGetCode.setOnClickListener {
-            if (nameText.length() > 1 && phoneText.length() == 16){
+            if (nameText.length() > 2 && name.first().toString() != " " && phoneText.length() == 16){
                 Preferences.setPrefsString("firstName", nameText.text.toString(), requireContext())
                 Preferences.setPrefsString("phoneNumber", phoneText.text.toString(), requireContext())
                 Preferences.setPrefsString("login", phoneText.text.toString().substring(2, 16), requireContext())

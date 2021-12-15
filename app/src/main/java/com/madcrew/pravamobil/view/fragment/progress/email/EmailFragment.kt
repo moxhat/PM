@@ -44,15 +44,19 @@ class EmailFragment : Fragment() {
 
         val emailText = binding.emailEditText
         val emailTextLayout = binding.emailTextInput
+        var email = ""
 
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
 
         parent.updateProgress("RegisterEmailPage")
 
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
         emailText.doOnTextChanged { _, _, _, _ ->
             if (emailText.length() > 1) {
                 emailTextLayout.isErrorEnabled = false
+                email = emailText.text.toString().trim()
             }
         }
 
@@ -65,7 +69,7 @@ class EmailFragment : Fragment() {
         })
 
         binding.btEmailNext.setOnClickListener {
-            if(emailText.length() > 4 && emailText.text!!.contains(Regex("[@.]"))){
+            if(emailText.length() > 4 && email.matches(emailPattern.toRegex())){
                 Preferences.setPrefsString("email", emailText.text.toString(), requireContext())
                 this.view?.hideKeyboard()
                 parent.updateClientData(FullRegistrationRequest(TOKEN, clientId, schoolId, email = emailText.text.toString()))

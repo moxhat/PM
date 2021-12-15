@@ -18,7 +18,7 @@ import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
 import com.madcrew.pravamobil.view.fragment.progress.passportscan.PassportScanFragment
 
 
-class AddressFragment : Fragment() {
+class AddressFragment(var fromCheck: Boolean = false) : Fragment() {
 
     private var _binding: FragmentAddressBinding? = null
     private val binding get() = _binding!!
@@ -86,7 +86,9 @@ class AddressFragment : Fragment() {
                     val house = response.body()!!.client?.place?.home.toString()
                     val housing = response.body()!!.client?.place?.building.toString()
                     val apartment = response.body()!!.client?.place?.apartment.toString()
-                    setData(region, city, street, house, housing, apartment)
+                    if (fromCheck){
+                        setData(region, city, street, house, housing, apartment)
+                    }
                 }
             }
         })

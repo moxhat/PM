@@ -147,7 +147,8 @@ class ProgressActivity : AppCompatActivity() {
                 )
                 "RegisterParentPhonePage" -> ParentPhoneNumberFragment()
                 "CheckDataPage" -> CheckDataFragment(owner)
-                "ConfirmContractPage" -> ConfirmContractFragment(owner)
+                "ConfirmContractPage" -> CheckDataFragment(owner)
+//                "ConfirmContractPage" -> ConfirmContractFragment(owner)
                 "PaymentPage" -> PaymentSummFragment()
 //            "ContractFail" ->
                 "ContractComplete" -> ContractConfirmedFragment()

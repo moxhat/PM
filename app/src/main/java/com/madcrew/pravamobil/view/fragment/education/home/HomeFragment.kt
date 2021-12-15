@@ -65,12 +65,8 @@ class HomeFragment : Fragment() {
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        if (Preferences.getPrefsString("spravka", requireContext()) != "confirm"){
-            hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
-            setSpravkaConfirmation()
-        } else {
-            setSpravkaConfirmed()
-        }
+        hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+
 
         hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
@@ -107,6 +103,11 @@ class HomeFragment : Fragment() {
 
         hViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
+                if (Preferences.getPrefsString("spravka", requireContext()) != "confirm"){
+                    setSpravkaConfirmation()
+                } else {
+                    setSpravkaConfirmed()
+                }
                 if (response.body()!!.status == "done"){
                     Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
                     when (Preferences.getPrefsString("spravkaStatus", requireContext())) {
@@ -129,6 +130,9 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
+            } else {
+                showServerError(requireContext())
+                setSpravkaAdd()
             }
         })
 

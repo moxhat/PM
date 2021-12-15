@@ -124,6 +124,10 @@ class AdditionalPaymentsFragment : Fragment() {
         binding.btAdditionalPaymentsPay.setOnClickListener {
             viewModel.createAdditionalPayment(AdditionalPaymentRequest(TOKEN, schoolId.toInt(), clientId.toInt(), viewModel.additionalServices.value!!.body()!!.prices!![_selectedIndex].id!!.toInt(), binding.additionalPaymentsAmountText.text.toString().toInt()))
         }
+
+        binding.btAdditionalPaymentsBack.setOnClickListener {
+            this.activity?.finish()
+        }
     }
 
 }

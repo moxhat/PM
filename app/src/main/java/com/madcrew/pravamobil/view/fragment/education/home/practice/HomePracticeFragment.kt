@@ -53,7 +53,7 @@ class HomePracticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.homePracticeMenuConstraint.setGone()
+        hideMenu()
 
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
@@ -148,19 +148,19 @@ class HomePracticeFragment : Fragment() {
         }
 
         binding.btHomePracticeMenu.setOnClickListener {
-            showMenu(binding.homePracticeMenuConstraint)
+            showMenu()
         }
         binding.homePracticeMenuConstraint.setOnClickListener {
-            hideMenu(it)
+            hideMenu()
         }
 
         binding.btHomePracticeMenuSignupToPractice.setOnClickListener {
-            hideMenu(binding.homePracticeMenuConstraint)
+            hideMenu()
             parent.starPracticeOptionsActivity("practice","record")
         }
 
         binding.btHomePracticeMenuLessonsHistory.setOnClickListener {
-            hideMenu(binding.homePracticeMenuConstraint)
+            hideMenu()
             parent.starPracticeOptionsActivity("practice","history")
         }
 
@@ -172,7 +172,7 @@ class HomePracticeFragment : Fragment() {
         }
 
         binding.btHomePracticeMenuLearnCancel.setOnClickListener{
-            hideMenu(binding.homePracticeMenuConstraint)
+            hideMenu()
             showConfirm(cancelTitle, "home")
         }
     }
@@ -194,13 +194,17 @@ class HomePracticeFragment : Fragment() {
         }, 50)
     }
 
-    private fun showMenu(view: View) {
-        view.setVisible()
-        view.alphaUp(100)
+    private fun showMenu() {
+        binding.homePracticeMenuConstraint.setVisible()
+        binding.homePracticeMenuInCard.setVisible()
+        binding.homePracticeMenuConstraint.alphaUp(100)
+        binding.homePracticeMenuInCard.alphaUp(100)
     }
 
-    private fun hideMenu(view: View) {
-        view.setGone()
-        view.alphaDown(100)
+    private fun hideMenu() {
+        binding.homePracticeMenuConstraint.setGone()
+        binding.homePracticeMenuInCard.setGone()
+        binding.homePracticeMenuConstraint.alphaDown(100)
+        binding.homePracticeMenuInCard.alphaDown(100)
     }
 }

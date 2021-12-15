@@ -1,5 +1,6 @@
 package com.madcrew.pravamobil.view.fragment.education.payments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class PaymentsFragment : Fragment() {
         return  binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -141,16 +143,19 @@ class PaymentsFragment : Fragment() {
         }
 
         binding.btPaymentsMenuNearestPayment.setOnClickListener {
+            showMenu(binding.paymentsMenuConstraint)
             _type = "paymentNearest"
             parent.mViewModel.createNewPayment(CreatePaymentRequest(TOKEN, schoolId.toInt(), clientId.toInt(),false, true ))
         }
 
         binding.btPaymentsMenuPayAll.setOnClickListener {
+            showMenu(binding.paymentsMenuConstraint)
             _type = "paymentAll"
             parent.mViewModel.createNewPayment(CreatePaymentRequest(TOKEN, schoolId.toInt(), clientId.toInt(),false, false ))
         }
 
         binding.btPaymentsMenuPayAdditional.setOnClickListener {
+            showMenu(binding.paymentsMenuConstraint)
             _type = "additional"
             parent.starPaymentsOption( type = _type)
         }

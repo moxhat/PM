@@ -133,7 +133,7 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
         }
 
         binding.btCheckDataAddressEdit.setOnClickListener {
-            previousFragmentInProgress(parentFragmentManager, AddressFragment())
+            previousFragmentInProgress(parentFragmentManager, AddressFragment(true))
         }
 
         binding.btCheckDataGroupEdit.setOnClickListener {
