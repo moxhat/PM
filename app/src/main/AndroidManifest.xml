@@ -18,6 +18,7 @@
         android:theme="@style/Theme.PravaMobil">
         <activity
             android:name=".view.activity.paymentsoptions.PaymentsOptionsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <provider

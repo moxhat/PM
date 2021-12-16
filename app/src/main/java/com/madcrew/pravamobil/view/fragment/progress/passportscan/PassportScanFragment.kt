@@ -108,12 +108,15 @@ class PassportScanFragment(
 
         val rxPermissions = RxPermissions(this)
 
+        binding.avatarPhotoAnnotation.setGone()
+
         binding.passportScanTitle.setText(titleText)
 
         when (typeOfPage) {
             "passport" -> parent.updateProgress("RegistrationImagePassportPage")
             "registrationAddress" -> parent.updateProgress("RegisterAddressImagePage")
             "avatar" -> {
+                binding.avatarPhotoAnnotation.setVisible()
                 parent.updateProgress("RegisterIPhotoPage")
                 parent.getClientInfo(ClientInfoRequest(TOKEN, schoolId, clientId, listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")))
                 parent.mViewModel.clientInfo.observe(viewLifecycleOwner, {response ->

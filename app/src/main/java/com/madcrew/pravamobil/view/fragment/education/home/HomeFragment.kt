@@ -39,11 +39,6 @@ class HomeFragment : Fragment() {
     lateinit var hViewModel: HomeViewModel
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +62,7 @@ class HomeFragment : Fragment() {
 
         hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
 
+        setSpravkaAdd()
 
         hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){

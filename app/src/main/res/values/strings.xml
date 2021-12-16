@@ -241,4 +241,5 @@
     <string name="amount">Колличество</string>
     <string name="change_filial">Выбрать другой филиал</string>
     <string name="already_exist">Номер уже зарегистрирован</string>
+    <string name="avatar_annotation">Смотрите в камеру прямо, как на паспорт. Фото используется для документов автошколы</string>
 </resources>

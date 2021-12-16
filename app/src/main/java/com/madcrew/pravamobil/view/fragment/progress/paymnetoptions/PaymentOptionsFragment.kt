@@ -27,7 +27,7 @@ class PaymentOptionsFragment() : Fragment() {
     private var _binding: FragmentPymentOptionsBinding? = null
     private val binding get() = _binding!!
     private var summ = 0
-    private var firstPayment = 0
+    private var firstPayment = 5000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,11 +124,7 @@ class PaymentOptionsFragment() : Fragment() {
                         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                             if (fromUser) {
                                 if (progress >= 0 && progress <= seekBar.max) {
-                                    firstPayment = if (progress > 5 ){
-                                        progress * 1000
-                                    } else {
-                                        5000
-                                    }
+                                    firstPayment = progress * 1000
                                     val nextPayment = summ - firstPayment
                                     val progressString = "${(progress * 1000)} руб."
                                     binding.paymentValue.text = progressString
@@ -139,6 +135,7 @@ class PaymentOptionsFragment() : Fragment() {
                             }
                         }
                     })
+                    seekBar.progress = 1
                 } else {
                     showServerError(requireContext())
                 }

@@ -16,6 +16,7 @@ import com.madcrew.pravamobil.models.responsemodels.School
 import com.madcrew.pravamobil.utils.Preferences
 import com.madcrew.pravamobil.utils.isOnline
 import com.madcrew.pravamobil.utils.noInternet
+import com.madcrew.pravamobil.utils.showServerError
 import com.madcrew.pravamobil.view.fragment.registration.school.SchoolFragment
 import com.madcrew.pravamobil.view.fragment.registration.signin.SignInFragment
 
@@ -53,6 +54,8 @@ class EnterFragment : Fragment() {
                 if (response.body()!!.status == "done"){
                     schoolList = response.body()!!.schoolList
                 }
+            } else {
+                showServerError(requireContext())
             }
         })
 
