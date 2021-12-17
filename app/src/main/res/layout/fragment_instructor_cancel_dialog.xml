@@ -11,7 +11,7 @@
         android:id="@+id/instructor_cancel_title"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/ubuntu_b"
         android:text="@string/request"
         android:textAlignment="center"
@@ -84,7 +84,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ic_main_button"
         android:fontFamily="@font/ubuntu_b"
         android:singleLine="true"
@@ -92,9 +92,27 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bt_instructor_cancel_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructor_cancel_field" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_instructor_cancel_close"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/ic_transparent_button"
+        android:fontFamily="@font/ubuntu_b"
+        android:singleLine="true"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/main"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

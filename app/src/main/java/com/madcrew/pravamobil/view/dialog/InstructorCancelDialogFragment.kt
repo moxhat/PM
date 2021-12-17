@@ -18,11 +18,6 @@ class InstructorCancelDialogFragment(var trigger: String = "cancel") : DialogFra
     private var _binding: FragmentInstructorCancelDialogBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +49,10 @@ class InstructorCancelDialogFragment(var trigger: String = "cancel") : DialogFra
             binding.instructorCancelTitle.setText(R.string.request)
             binding.instructorCancelTitle2.setText(R.string.on_instructor_change)
             binding.instructorCancelField.setHint(R.string.reason)
+        }
+
+        binding.btInstructorCancelClose.setOnClickListener {
+            this.dialog?.dismiss()
         }
     }
 }

@@ -1,14 +1,18 @@
 package com.madcrew.pravamobil.view.fragment.practiceoptions.lessonhistory
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.adapter.LessonHistoryPagerAdapter
@@ -17,9 +21,11 @@ import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.Preferences
+import com.madcrew.pravamobil.utils.setGone
 import com.madcrew.pravamobil.utils.setInvisible
 import com.madcrew.pravamobil.utils.setVisible
 import com.madcrew.pravamobil.view.activity.practiceoptions.PracticeOptionsActivity
+import com.madcrew.pravamobil.view.dialog.SpravkaConfirmedDialogFragment
 import com.madcrew.pravamobil.view.fragment.education.home.HomeViewModel
 import com.madcrew.pravamobil.view.fragment.education.home.HomeViewModelFactory
 import com.madcrew.pravamobil.view.fragment.practiceoptions.drivingrecord.DrivingRecordFragment
@@ -50,22 +56,38 @@ class LessonHistoryFragment(var from: String, var trigger: Int) : Fragment() {
 
         historyViewPager = binding.lessonHistoryViewPager
 
-        val historyFragmentsList = mutableListOf(HistoryTheoryFragment(), HistoryPracticeFragment())
-        historyPagerAdapter = LessonHistoryPagerAdapter(this, historyFragmentsList.toMutableList())
-        historyViewPager.adapter = historyPagerAdapter
+        val tabLayout = binding.lessonHistoryTabs
+
+
 
         when (from){
             "theory" -> historyViewPager.currentItem = 0
             "practice" -> historyViewPager.currentItem = 1
         }
 
-        val tabLayout = binding.lessonHistoryTabs
-        TabLayoutMediator(tabLayout, historyViewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = resources.getString(R.string.theory)
-                1 -> tab.text = resources.getString(R.string.practice)
+        when (Preferences.getPrefsString("spravkaStatus", requireContext())) {
+            "confirm" -> {
+                val historyFragmentsList = mutableListOf(HistoryTheoryFragment(), HistoryPracticeFragment())
+                historyPagerAdapter = LessonHistoryPagerAdapter(this, historyFragmentsList.toMutableList())
+                historyViewPager.adapter = historyPagerAdapter
+
+                TabLayoutMediator(tabLayout, historyViewPager) { tab, position ->
+                    when (position) {
+                        0 -> tab.text = resources.getString(R.string.theory)
+                        1 -> tab.text = resources.getString(R.string.practice)
+                    }
+                }.attach()
             }
-        }.attach()
+            else -> {
+                val historyFragmentsList = mutableListOf(HistoryTheoryFragment())
+                historyPagerAdapter = LessonHistoryPagerAdapter(this, historyFragmentsList.toMutableList())
+                historyViewPager.adapter = historyPagerAdapter
+                tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.theory)))
+                tabLayout.tabMode = TabLayout.MODE_FIXED
+                historyViewPager.isUserInputEnabled = false
+            }
+        }
+
 
         historyViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

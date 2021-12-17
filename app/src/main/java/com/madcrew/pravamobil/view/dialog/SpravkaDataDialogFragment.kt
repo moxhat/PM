@@ -75,6 +75,16 @@ class SpravkaDataDialogFragment : DialogFragment() {
             if (dateText.length() == 10) dateText.hideKeyboard()
         }
 
+        licenseText.doOnTextChanged{_,_,_,_ ->
+            if(licenseText.length() > 1) licenseField.setErrorOff()
+        }
+
+        centerText.doOnTextChanged{_,_,_,_ ->
+            if(centerText.length() > 1) centerField.setErrorOff()
+        }
+
+
+
         binding.btSpravkaDataNext.setOnClickListener {
             if (seriesText.length() == 6 && numberText.length() == 6 && centerText.length() > 3 && dateText.length() == 10 && licenseText.length() > 3){
                 val series = seriesText.text.toString()
