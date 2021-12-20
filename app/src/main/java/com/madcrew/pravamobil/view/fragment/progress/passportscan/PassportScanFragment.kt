@@ -191,13 +191,14 @@ class PassportScanFragment(
                 )
                 .subscribe { granted: Boolean ->
                     if (granted) {
-                        if(typeOfPage == "avatar"){
-                            selectImageFromGallery()
-                        } else {
-                            takeImage()
-                        }
+                        takeImage()
+//                        if(typeOfPage == "avatar"){
+//                            selectImageFromGallery()
+//                        } else {
+//                            takeImage()
+//                        }
                     } else {
-                        Toast.makeText(requireContext(), "Нет доступа к камере", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), "Нет доступа", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }

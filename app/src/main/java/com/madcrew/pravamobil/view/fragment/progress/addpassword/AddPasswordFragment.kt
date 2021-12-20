@@ -45,6 +45,8 @@ class AddPasswordFragment : Fragment() {
         val firstPasswordText = binding.addPasswordEditText2
         val secondPasswordText = binding.addPasswordEditText1
 
+        firstPasswordText.requestFocus()
+
         mViewModel.firstRegistrationResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
                 when (response.body()!!.status){

@@ -114,7 +114,11 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
                     binding.checkDataTransmissionText.text = transmission
                     binding.checkDataGroupText.text = theory
                     binding.checkDataAddressText.text = registrationAddress
+                } else {
+                    showServerError(requireContext())
                 }
+            } else {
+                showServerError(requireContext())
             }
         })
 
@@ -125,7 +129,7 @@ class CheckDataFragment(var type: String = "student") : Fragment() {
         }
 
         binding.btCheckDataBirthdateEdit.setOnClickListener {
-            previousFragmentInProgress(parentFragmentManager, StudentNameFragment(type = type))
+            previousFragmentInProgress(parentFragmentManager, StudentNameFragment(type = type, check = true))
         }
 
         binding.btCheckDataSnilsEdit.setOnClickListener {

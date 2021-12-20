@@ -59,8 +59,8 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
 
         val checkData = Preferences.getPrefsString("checkData", requireContext()) == "true"
 
-        if (checkData) {
-            if (type == "sudent") {
+        if (check) {
+            if (type == "student") {
                 parent.getClientInfo(
                     ClientInfoRequest(
                         TOKEN,
@@ -95,16 +95,17 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
             if (type == "student") {
                 parent.mViewModel.updateProgress(
                     ProgressRequest(
-                        BaseUrl.TOKEN,
+                        TOKEN,
                         schoolId,
                         clientId,
                         "RegisterPersonalDataPage"
                     )
                 )
+                firstNameText.setText(Preferences.getPrefsString("firstName", requireContext()))
             } else {
                 parent.mViewModel.updateProgress(
                     ProgressRequest(
-                        BaseUrl.TOKEN,
+                        TOKEN,
                         schoolId,
                         clientId,
                         "RegisterParentDataPage"
@@ -158,7 +159,7 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
                                 dateBirthday = birthDate
                             )
                         )
-                        if (checkData) {
+                        if (check) {
                             nextFragmentInProgress(
                                 parentFragmentManager,
                                 CheckDataFragment("student")
