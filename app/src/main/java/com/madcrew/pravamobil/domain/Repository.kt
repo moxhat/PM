@@ -124,4 +124,8 @@ class Repository {
     suspend fun createAdditionalPayment(additionalPaymentRequest: AdditionalPaymentRequest): Response<AdditionalPaymentResponse> {
         return RetrofitInstance.api.createAdditionalPayment(additionalPaymentRequest)
     }
+
+    suspend fun getNearestPractice(spravkaStatusRequest: SpravkaStatusRequest): Response<NearestPracticeResponse> {
+        return RetrofitInstance.api.getNearestPractice(spravkaStatusRequest)
+    }
 }

@@ -57,4 +57,13 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
             lessonCancelResponse.value = response
         }
     }
+
+    var nearestPracticeResponse = MutableLiveData<Response<NearestPracticeResponse>>()
+
+    fun getNearestPractice(spravkaStatusRequest: SpravkaStatusRequest) {
+        viewModelScope.launch {
+            val response = repository.getNearestPractice(spravkaStatusRequest)
+            nearestPracticeResponse.value = response
+        }
+    }
 }

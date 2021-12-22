@@ -16,9 +16,7 @@ import com.madcrew.pravamobil.databinding.FragmentHomeBinding
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.dateConverterForTitle
-import com.madcrew.pravamobil.utils.showServerError
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.education.EducationActivity
 import com.madcrew.pravamobil.view.activity.education.EducationViewModel
 import com.madcrew.pravamobil.view.activity.education.EducationViewModelFactory
@@ -64,13 +62,19 @@ class HomeFragment : Fragment() {
 
         setSpravkaAdd()
 
-        hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
+        if (isOnline(requireContext())){
+            hViewModel.getNearestPractice(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+        } else {
+            noInternet(requireContext())
+        }
+
+        hViewModel.nearestPracticeResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
-                prTitleSecond = if (response.body()!!.status == "done"){
-                    "${response.body()!!.history!![0].date?.let {
+                prTitleSecond = if (response.body()!!.status == "done" && response.body()!!.next!!.date != ""){
+                    "${response.body()!!.next!!.date?.let {
                         dateConverterForTitle(
                             it, requireContext())
-                    }}, ${response.body()!!.history!![0].time}, ${response.body()!!.history!![0].place}"
+                    }}, ${response.body()!!.next!!.time}, ${response.body()!!.next!!.place}"
                 } else {
                     resources.getString(R.string.no_lesson)
                 }

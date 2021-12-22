@@ -218,4 +218,11 @@ interface PMApi {
         @Body
         additionalPaymentRequest: AdditionalPaymentRequest
     ): Response<AdditionalPaymentResponse>
+
+    //Ближайшее занятие практика
+    @POST("/api/instructor/learn/history/next")
+    suspend fun getNearestPractice(
+        @Body
+        spravkaStatusRequest: SpravkaStatusRequest
+    ): Response<NearestPracticeResponse>
 }

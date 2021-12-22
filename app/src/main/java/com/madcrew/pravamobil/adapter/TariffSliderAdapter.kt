@@ -32,6 +32,7 @@ class TariffSliderAdapter(private var slides: List<Tariff>, private val listener
         private val tariffAdditional1 = view.findViewById<TextView>(R.id.tariff_additional_payment_1)
         private val btTariffSelect = view.findViewById<AppCompatButton>(R.id.bt_tariff_card_select)
         private val tariffInContractList = view.findViewById<ListView>(R.id.in_contract_list)
+        private val tariffAdditionalList = view.findViewById<ListView>(R.id.additional_list)
 
 
         fun bind(tariff: Tariff) {
@@ -40,6 +41,10 @@ class TariffSliderAdapter(private var slides: List<Tariff>, private val listener
 
             val adapter = ArrayAdapter(itemView.context, R.layout.list_contract_item, tariff.include )
             tariffInContractList.adapter = adapter
+
+            val adAdapter = ArrayAdapter(itemView.context, R.layout.list_contract_item, tariff.extra )
+            tariffAdditionalList.adapter = adAdapter
+
 
 //            when(tariff.include.size){
 //                1 ->  tariffInclude0.text = tariff.include[0]
@@ -63,13 +68,13 @@ class TariffSliderAdapter(private var slides: List<Tariff>, private val listener
 //                    tariffInContractList.adapter = adapter
 //                }
 //            }
-            when(tariff.extra.size){
-                1 -> tariffAdditional0.text = tariff.extra[0]
-                2 -> {
-                    tariffAdditional0.text = tariff.extra[0]
-                    tariffAdditional1.text = tariff.extra[1]
-                }
-            }
+//            when(tariff.extra.size){
+//                1 -> tariffAdditional0.text = tariff.extra[0]
+//                2 -> {
+//                    tariffAdditional0.text = tariff.extra[0]
+//                    tariffAdditional1.text = tariff.extra[1]
+//                }
+//            }
 
             btTariffSelect.setOnClickListener(this)
         }
