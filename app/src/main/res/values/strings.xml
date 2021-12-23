@@ -88,7 +88,7 @@
     <string name="add_snils">Добавьте СНИЛС</string>
     <string name="add_snils_scan">Добавить скан СНИЛС</string>
     <string name="snils">СНИЛС</string>
-    <string name="registration_address">Адрес регистриции</string>
+    <string name="registration_address">Адрес регистрации</string>
     <string name="living_address">Адрес проживания</string>
     <string name="region">Область</string>
     <string name="city">Город</string>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.AdditionalPaymentRequest
 import com.madcrew.pravamobil.models.requestmodels.CategoryRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.models.responsemodels.AdditionalPaymentResponse
 import com.madcrew.pravamobil.models.responsemodels.AdditionalServicesResponse
 import kotlinx.coroutines.launch
@@ -15,9 +16,9 @@ class AdditionalPaymentsViewModel (private val repository: Repository): ViewMode
 
     var additionalServices = MutableLiveData<Response<AdditionalServicesResponse>>()
 
-    fun getAdditionalServices(categoryRequest: CategoryRequest) {
+    fun getAdditionalServices(spravkaStatusRequest: SpravkaStatusRequest) {
         viewModelScope.launch {
-            val response = repository.getAdditionalServices(categoryRequest)
+            val response = repository.getAdditionalServices(spravkaStatusRequest)
             additionalServices.value = response
         }
     }

@@ -28,6 +28,8 @@ class EnterActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.main)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
         val manager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = manager.beginTransaction()
         transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)

@@ -117,8 +117,8 @@ class Repository {
         return RetrofitInstance.api.getPayHistory(spravkaStatusRequest)
     }
 
-    suspend fun getAdditionalServices(categoryRequest: CategoryRequest): Response<AdditionalServicesResponse> {
-        return RetrofitInstance.api.getAdditionalServices(categoryRequest)
+    suspend fun getAdditionalServices(spravkaStatusRequest: SpravkaStatusRequest): Response<AdditionalServicesResponse> {
+        return RetrofitInstance.api.getAdditionalServices(spravkaStatusRequest)
     }
 
     suspend fun createAdditionalPayment(additionalPaymentRequest: AdditionalPaymentRequest): Response<AdditionalPaymentResponse> {

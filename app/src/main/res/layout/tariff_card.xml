@@ -185,13 +185,14 @@
             <ListView
                 android:id="@+id/additional_list"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:divider="@color/transparent"
                 android:dividerHeight="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="40dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tariff_additional_payments_tatle" />
 

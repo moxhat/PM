@@ -209,7 +209,7 @@ interface PMApi {
     @POST("/api/school/price/list")
     suspend fun getAdditionalServices(
         @Body
-        categoryRequest: CategoryRequest
+        spravkaStatusRequest: SpravkaStatusRequest
     ): Response<AdditionalServicesResponse>
 
     //Оплата выбранной услуги

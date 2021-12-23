@@ -15,6 +15,7 @@ import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.domain.Repository
 import com.madcrew.pravamobil.models.requestmodels.AdditionalPaymentRequest
 import com.madcrew.pravamobil.models.requestmodels.CategoryRequest
+import com.madcrew.pravamobil.models.requestmodels.SpravkaStatusRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.fragment.education.payments.PaymentsViewModelFactory
 import com.madcrew.pravamobil.view.fragment.progress.PaymentWebViewFragment
@@ -52,7 +53,7 @@ class AdditionalPaymentsFragment : Fragment() {
         binding.btAdditionalPaymentsPay.setDisable()
 
         if (isOnline(requireContext())){
-            viewModel.getAdditionalServices(CategoryRequest(TOKEN, schoolId))
+            viewModel.getAdditionalServices(SpravkaStatusRequest(TOKEN, schoolId, clientId))
         } else {
             noInternet(requireContext())
         }

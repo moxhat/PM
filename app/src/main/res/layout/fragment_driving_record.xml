@@ -167,29 +167,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bt_driving_record_choose_date" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/blur_top"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
-                android:background="@drawable/ic_rectangle_blurdown"
-                android:elevation="1dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/fragment_driving_record_instructor_time_recycler">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/blur_bottom"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
-                android:background="@drawable/ic_rectangle_blurup"
-                android:elevation="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/fragment_driving_record_instructor_time_recycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragment_driving_record_instructor_time_recycler"

@@ -55,6 +55,8 @@ class ProgressActivity : AppCompatActivity() {
         binding = ActivityProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
         val clientId = Preferences.getPrefsString("clientId", this).toString()
         val schoolId = Preferences.getPrefsString("schoolId", this).toString()
 

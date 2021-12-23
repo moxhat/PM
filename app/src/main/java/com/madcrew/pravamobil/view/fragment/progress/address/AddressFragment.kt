@@ -86,7 +86,7 @@ class AddressFragment(var fromCheck: Boolean = false) : Fragment() {
                     val house = response.body()!!.client?.place?.home.toString()
                     val housing = response.body()!!.client?.place?.building.toString()
                     val apartment = response.body()!!.client?.place?.apartment.toString()
-                    if (fromCheck){
+                    if (fromCheck) {
                         setData(region, city, street, house, housing, apartment)
                     }
                 }
@@ -113,8 +113,10 @@ class AddressFragment(var fromCheck: Boolean = false) : Fragment() {
             if (apartmentText.length() > 1) apartmentField.setErrorOff()
         }
 
+
+
         binding.btAddressNext.setOnClickListener {
-            if (regionText.length() > 2 && cityText.length() > 2 && streetText.length() > 2 && houseText.length() != 0) {
+            if (regionText.length() >= 2 && cityText.length() >= 2 && streetText.length() >= 2 && houseText.length() > 0) {
                 if (binding.addressTitle.text == resources.getString(R.string.registration_address)) {
                     region = binding.addressRegionText.text.toString()
                     city = binding.addressCityText.text.toString()
@@ -140,45 +142,45 @@ class AddressFragment(var fromCheck: Boolean = false) : Fragment() {
                         )
                         nextFragmentInProgress(parentFragmentManager, CheckDataFragment("student"))
                     } else {
-                    if (checkAddress) {
-                        if (isOnline(requireContext())) {
-                            parent.updateClientData(
-                                FullRegistrationRequest(
-                                    TOKEN,
-                                    clientId,
-                                    schoolId,
-                                    address = AddressModel(
-                                        region,
-                                        city,
-                                        street,
-                                        house,
-                                        housing,
-                                        apartment
-                                    ),
-                                    livingAddress = AddressModel(
-                                        region,
-                                        city,
-                                        street,
-                                        house,
-                                        housing,
-                                        apartment
+                        if (checkAddress) {
+                            if (isOnline(requireContext())) {
+                                parent.updateClientData(
+                                    FullRegistrationRequest(
+                                        TOKEN,
+                                        clientId,
+                                        schoolId,
+                                        address = AddressModel(
+                                            region,
+                                            city,
+                                            street,
+                                            house,
+                                            housing,
+                                            apartment
+                                        ),
+                                        livingAddress = AddressModel(
+                                            region,
+                                            city,
+                                            street,
+                                            house,
+                                            housing,
+                                            apartment
+                                        )
                                     )
                                 )
-                            )
-                            nextFragmentInProgress(
-                                parentFragmentManager,
-                                PassportScanFragment(
-                                    R.string.registration_scan_title,
-                                    "registrationAddress"
+                                nextFragmentInProgress(
+                                    parentFragmentManager,
+                                    PassportScanFragment(
+                                        R.string.registration_scan_title,
+                                        "registrationAddress"
+                                    )
                                 )
-                            )
+                            } else {
+                                noInternet(requireContext())
+                            }
                         } else {
-                            noInternet(requireContext())
+                            livingAddress()
                         }
-                    } else {
-                        livingAddress()
                     }
-                }
                 } else {
                     val lRegion = binding.addressRegionText.text.toString()
                     val lCity = binding.addressCityText.text.toString()
@@ -222,9 +224,9 @@ class AddressFragment(var fromCheck: Boolean = false) : Fragment() {
                     }
                 }
             } else {
-                if (regionText.length() < 2) regionField.setErrorOn()
-                if (cityText.length() < 2) cityField.setErrorOn()
-                if (streetText.length() < 2) streetField.setErrorOn()
+                if (regionText.length() <= 2) regionField.setErrorOn()
+                if (cityText.length() <= 2) cityField.setErrorOn()
+                if (streetText.length() <= 2) streetField.setErrorOn()
                 if (houseText.length() == 0) houseField.setErrorOn()
 //                if (apartmentText.length() == 0) apartmentField.setErrorOn()
             }
