@@ -133,7 +133,7 @@ class StudentNameFragment(var title: Int = R.string.student, var type: String = 
         }
 
         binding.btStudentNameNext.setOnClickListener {
-            if (secondNameText.length() > 2 && firstNameText.length() > 2 && thirdNameText.length() > 2 && birthDateText.length() == 10) {
+            if (secondNameText.length() > 2 && firstNameText.length() > 2 && birthDateText.length() == 10) {
                 val lastname = secondNameText.text.toString().replaceFirstChar { it.uppercase() }
                 val name = firstNameText.text.toString().replaceFirstChar { it.uppercase() }
                 val thirdName = thirdNameText.text.toString().replaceFirstChar { it.uppercase() }

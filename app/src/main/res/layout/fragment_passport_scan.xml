@@ -1,117 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/passport_scan_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".view.fragment.progress.passportscan.PassportScanFragment">
 
+    <FrameLayout
+        android:id="@+id/bt_passport_scan_behavior_close"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:background="@color/black"
+        android:elevation="9dp">
+
+    </FrameLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/passport_scan_content_constraint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/passport_scan_main_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/passport_scan_title"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/passport_scan_content_constraint"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/ubuntu_b"
-            android:text="@string/passport_scan_title"
-            android:textAlignment="center"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/avatar_photo_annotation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/avatar_photo_annotation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/ubuntu_r"
-            android:text="@string/avatar_annotation"
-            android:textAlignment="center"
-            android:textColor="@color/gray_text"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/snils_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passport_scan_title" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/snils_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            app:cardBackgroundColor="?attr/colorOnPrimarySurface"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bt_passport_scan_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_min="250dp"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar_photo_annotation">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/passport_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_camera" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/ubuntu_m"
-                android:text="@string/add"
-                android:textColor="@color/gray_text"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_passport_scan_next"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/ic_main_button"
-            android:fontFamily="@font/ubuntu_b"
-            android:singleLine="true"
-            android:text="@string/next"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/snils_card" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/passport_scan_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/ubuntu_b"
+                android:text="@string/passport_scan_title"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/avatar_photo_annotation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/avatar_photo_annotation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/ubuntu_r"
+                android:text="@string/avatar_annotation"
+                android:textAlignment="center"
+                android:textColor="@color/gray_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/snils_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passport_scan_title" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/snils_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/bt_passport_scan_next"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_min="250dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatar_photo_annotation">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/passport_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="24dp"
+                    android:src="@drawable/ic_camera" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/add"
+                    android:textColor="@color/gray_text"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_passport_scan_next"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/ic_main_button"
+                android:fontFamily="@font/ubuntu_b"
+                android:singleLine="true"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/snils_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/passport_scan_choose_from"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:elevation="15dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="visible">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/passport_scan_behavior_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="?attr/colorOnBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_passport_scan_photo"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ic_transparent_button"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/take_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/main"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_passport_scan_gallery"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_passport_scan_gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ic_transparent_button"
+                    android:fontFamily="@font/ubuntu_m"
+                    android:text="@string/take_from_gallery"
+                    android:textAllCaps="false"
+                    android:textColor="@color/main"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_passport_scan_photo"
+                    tools:ignore="TextContrastCheck" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

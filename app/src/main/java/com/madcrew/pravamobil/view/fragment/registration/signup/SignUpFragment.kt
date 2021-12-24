@@ -4,16 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentSignUpBinding
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.hideKeyboard
+import com.madcrew.pravamobil.domain.BaseUrl
+import com.madcrew.pravamobil.domain.Repository
+import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.fragment.registration.enter.EnterFragment
 import com.madcrew.pravamobil.view.fragment.registration.smscode.SmsCodeFragment
+import com.madcrew.pravamobil.view.fragment.registration.smscode.SmsCodeViewModel
+import com.madcrew.pravamobil.view.fragment.registration.smscode.SmsCodeViewModelFactory
+import java.util.*
+import kotlin.concurrent.timerTask
 
 
 class SignUpFragment : Fragment() {
@@ -40,6 +48,12 @@ class SignUpFragment : Fragment() {
         val nameField = binding.signupName
         val phoneField = binding.signupPhone
 
+        val repository = Repository()
+        val viewModelFactory = SignUpViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(SignUpViewModel::class.java)
+
+        val deviceId = Preferences.getPrefsString("deviceId", requireContext())!!
+
         Preferences.setPrefsString("progressStatus", "AddPassword", requireContext())
         Preferences.setPrefsString("checkData", "false", requireContext())
 
@@ -58,7 +72,13 @@ class SignUpFragment : Fragment() {
                 Preferences.setPrefsString("firstName", nameText.text.toString(), requireContext())
                 Preferences.setPrefsString("phoneNumber", phoneText.text.toString(), requireContext())
                 Preferences.setPrefsString("login", phoneText.text.toString().substring(2, 16), requireContext())
-                replaceFragment(SmsCodeFragment(phoneText.text.toString()), R.anim.fade_in, R.anim.fade_out)
+                if (isOnline(requireContext())) {
+                    mViewModel.getSmsCode(CallCodeRequest(BaseUrl.TOKEN, phoneText.text.toString(), deviceId))
+                } else {
+                    noInternet(requireContext())
+                }
+
+                btGetCode.hideKeyboard()
             } else {
                 if (phoneText.length() < 16) phoneField.setErrorOn()
                 if (nameText.length() < 2) nameField.setErrorOn()
@@ -67,6 +87,32 @@ class SignUpFragment : Fragment() {
 
         binding.btSignupBack.setOnClickListener {
             replaceFragment(EnterFragment(),R.anim.slide_right_in, R.anim.slide_right_out)
+        }
+
+        mViewModel.smsCodeResponse.observe(viewLifecycleOwner) { response ->
+            if (response.isSuccessful) {
+                when (response.body()!!.status ) {
+                    "done" ->   {
+                        replaceFragment(SmsCodeFragment(phoneText.text.toString()), R.anim.fade_in, R.anim.fade_out)
+                    }
+                    "exist" -> {
+                        Toast.makeText(
+                            requireContext(),
+                            resources.getString(R.string.already_exist),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    "fail"  -> {
+                        Toast.makeText(
+                            requireContext(),
+                            resources.getString(R.string.try_later),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                showServerError(requireContext())
+            }
         }
     }
 

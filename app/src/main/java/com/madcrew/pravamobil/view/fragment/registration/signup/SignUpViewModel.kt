@@ -1,4 +1,4 @@
-package com.madcrew.pravamobil.view.fragment.registration.smscode
+package com.madcrew.pravamobil.view.fragment.registration.signup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import retrofit2.Response
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class SmsCodeViewModel (private val repository: Repository): ViewModel() {
+class SignUpViewModel (private val repository: Repository): ViewModel() {
 
     val smsCodeResponse: MutableLiveData<Response<CallCodeResponse>> = MutableLiveData()
 

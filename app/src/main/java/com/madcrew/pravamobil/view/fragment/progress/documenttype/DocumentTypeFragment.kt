@@ -14,10 +14,7 @@ import com.madcrew.pravamobil.domain.BaseUrl
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.requestmodels.ProgressRequest
-import com.madcrew.pravamobil.utils.Preferences
-import com.madcrew.pravamobil.utils.nextFragmentInProgress
-import com.madcrew.pravamobil.utils.setGone
-import com.madcrew.pravamobil.utils.setVisible
+import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.progress.passport.PassportFragment
 import com.madcrew.pravamobil.view.fragment.progress.studentname.StudentNameFragment
@@ -64,6 +61,8 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
 
         binding.documentTypeTitle2.setText(title2)
 
+        binding.btDocumentTypeNext.setDisable()
+
         spinnerDocument.apply {
             setSpinnerAdapter(IconSpinnerAdapter(this))
             setItems(
@@ -90,6 +89,7 @@ class DocumentTypeFragment(var title2: Int = R.string.of_student, var type: Stri
 
 
         spinnerDocument.setOnSpinnerItemSelectedListener<Any> { oldIndex, oldItem, newIndex, newText ->
+            binding.btDocumentTypeNext.setEnable()
             documentType = newIndex + 1
         }
 

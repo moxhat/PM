@@ -42,7 +42,6 @@ class PaymentOptionsFragment() : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -64,6 +63,8 @@ class PaymentOptionsFragment() : Fragment() {
         paymentDatesCard.setGone()
 
         val seekBar = binding.paymentsOptionsSeekBar
+
+        binding.btPaymentOptionsNext.setDisable()
 
         parent.mViewModel.tariffInfo.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
@@ -102,7 +103,9 @@ class PaymentOptionsFragment() : Fragment() {
                         if (newIndex == 0) {
                             paymentSeekCard.setGone()
                             paymentDatesCard.setGone()
+                            binding.btPaymentOptionsNext.setEnable()
                         } else {
+                            binding.btPaymentOptionsNext.setEnable()
                             paymentSeekCard.setVisible()
                             paymentDatesCard.setVisible()
                             val firstPayment = seekBar.progress * 1000
@@ -114,28 +117,39 @@ class PaymentOptionsFragment() : Fragment() {
                         }
                     }
 
-                    seekBar.min = 5
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        seekBar.min = 5
+                    }
                     seekBar.max = summ / 1000 - 1
-
-                    binding.paymentValue.text = (seekBar.progress * 1000).toString()
                     seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                         override fun onStopTrackingTouch(seekBar: SeekBar) {}
                         override fun onStartTrackingTouch(seekBar: SeekBar) {}
                         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                             if (fromUser) {
                                 if (progress >= 0 && progress <= seekBar.max) {
-                                    firstPayment = progress * 1000
-                                    val nextPayment = summ - firstPayment
-                                    val progressString = "${(progress * 1000)} руб."
-                                    binding.paymentValue.text = progressString
-                                    binding.paymentSum1.text = "$firstPayment руб."
-                                    binding.paymentSum2.text = "$nextPayment руб."
-                                    seekBar.secondaryProgress = progress
+                                    if (progress <= 5){
+                                        firstPayment = 5000
+                                        val nextPayment = summ - firstPayment
+                                        val progressString = "${(5000)} руб."
+                                        binding.paymentValue.text = progressString
+                                        binding.paymentSum1.text = "$firstPayment руб."
+                                        binding.paymentSum2.text = "$nextPayment руб."
+                                        seekBar.secondaryProgress = 5
+                                    } else {
+                                        firstPayment = progress * 1000
+                                        val nextPayment = summ - firstPayment
+                                        val progressString = "${(progress * 1000)} руб."
+                                        binding.paymentValue.text = progressString
+                                        binding.paymentSum1.text = "$firstPayment руб."
+                                        binding.paymentSum2.text = "$nextPayment руб."
+                                        seekBar.secondaryProgress = progress
+                                    }
                                 }
                             }
                         }
                     })
-                    seekBar.progress = 1
+                    seekBar.setProgress(5, false)
+                    binding.paymentValue.text = (seekBar.progress * 1000).toString()
                 } else {
                     showServerError(requireContext())
                 }

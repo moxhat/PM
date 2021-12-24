@@ -135,6 +135,7 @@ class SignInFragment : Fragment() {
                 } else {
                     noInternet(requireContext())
                 }
+                this.view?.hideKeyboard()
             } else {
                 if (loginText.length() < 16) loginField.setErrorOn()
                 if (passwordText.length() < 8)passwordField.setErrorOn()

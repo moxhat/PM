@@ -23,6 +23,8 @@ import com.madcrew.pravamobil.models.requestmodels.CallCodeRequest
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
 import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpFragment
+import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpViewModel
+import com.madcrew.pravamobil.view.fragment.registration.signup.SignUpViewModelFactory
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -32,6 +34,7 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
     private var _binding: FragmentSmsCodeBinding? = null
     private val binding get() = _binding!!
     private lateinit var smsCode: String
+    private  lateinit var timer: Timer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,23 +49,19 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val repository = Repository()
-        val viewModelFactory = SmsCodeViewModelFactory(repository)
-        val mViewModel = ViewModelProvider(this, viewModelFactory).get(SmsCodeViewModel::class.java)
+        val viewModelFactory = SignUpViewModelFactory(repository)
+        val mViewModel = ViewModelProvider(this, viewModelFactory).get(SignUpViewModel::class.java)
 
         val deviceId = Preferences.getPrefsString("deviceId", requireContext())!!
 
-        if (isOnline(requireContext())) {
-            mViewModel.getSmsCode(CallCodeRequest(TOKEN, phoneNumber, deviceId))
-        } else {
-            noInternet(requireContext())
-        }
+        timer = Timer()
 
         mViewModel.smsCodeResponse.observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 when (response.body()!!.status ) {
                     "done" ->   {
                         smsCode = response.body()!!.code
-                        Timer().schedule(timerTask {
+                        timer.schedule(timerTask {
                             binding.btSmsCodeRetry.setEnable()
                         }, 30000)
                     }
@@ -87,6 +86,13 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                    "timeout"  -> {
+                        Toast.makeText(
+                            requireContext(),
+                            resources.getString(R.string.try_later),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
         } else {
             showServerError(requireContext())
@@ -183,6 +189,7 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
 
             if (codeChar1.length() > 0 && codeChar2.length() > 0 && codeChar3.length() > 0 && codeChar4.length() > 0) {
                 if (codeValid) {
+                    codeChar4.hideKeyboard()
                     starProgressActivity()
                 } else {
                     errorOn(code1, code2, code3, code4, codeChar1, codeChar2, codeChar3, codeChar4)
@@ -197,6 +204,11 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
                 noInternet(requireContext())
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
     }
 
     private fun errorOff(
@@ -244,6 +256,8 @@ class SmsCodeFragment(private var phoneNumber: String) : Fragment() {
         binding.invalidCodeAlert.setVisible()
 
     }
+
+
 
     private fun starProgressActivity() {
         val intent = Intent(requireContext(), ProgressActivity::class.java)

@@ -78,7 +78,8 @@ class HomePracticeFragment : Fragment() {
                     val nearestLesson = response.body()!!.next!!
                     Glide.with(requireContext()).load(nearestLesson.photoUrl.toString()).circleCrop()
                         .into(instructorAvatar)
-                    val insName = nearestLesson.secondName + " " + nearestLesson.name + " " + nearestLesson.patronymic
+                    val insName = nearestLesson.secondName + " " + nearestLesson.name
+//                    val insName = nearestLesson.secondName + " " + nearestLesson.name + " " + nearestLesson.patronymic
                     instructorName.text = insName
                     instructorCar.text = nearestLesson.car
                     instructorRate.text = nearestLesson.instRating
@@ -102,50 +103,6 @@ class HomePracticeFragment : Fragment() {
                 showServerError(requireContext())
             }
         }
-
-//        home.hViewModel.lessonHistoryPracticeResponse.observe(viewLifecycleOwner, {response ->
-//            if (response.isSuccessful){
-//                when (response.body()!!.status){
-//                    "done" -> {
-//                        if (response.body()!!.history?.size != 0){
-//                        val nearestLesson = response.body()!!.history?.get(0)!!
-//                        Glide.with(requireContext()).load(nearestLesson.photoUrl.toString()).circleCrop()
-//                            .into(instructorAvatar)
-//                            val insName = nearestLesson.secondName + " " + nearestLesson.name + " " + nearestLesson.patronymic
-//                        instructorName.text = insName
-//                        instructorCar.text = nearestLesson.car
-//                        instructorRate.text = nearestLesson.instRating
-//                            instructorId = nearestLesson.instructor_id.toString()
-//                            timeId = nearestLesson.timeID.toString()
-//                            timeTitle = nearestLesson.time.toString()
-//                            cancelTitle = "${dateConverterForTitle(nearestLesson.date.toString(), requireContext())} ${nearestLesson.time}"
-//                            nearestDate = nearestLesson.date.toString()
-//                            instructorPhoneNumber = nearestLesson.phone.toString()
-//                            binding.btHomePracticeCallInstructor.setEnable()
-//                            binding.btHomePracticeChangeInstructor.setEnable()
-//                        } else {
-//                            Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop()
-//                                .into(binding.homePracticeInstructorAvatar)
-//                            instructorName.text = resources.getString(R.string.no)
-//                            instructorCar.text = resources.getString(R.string.no)
-//                            instructorRate.text = resources.getString(R.string.no)
-//                            binding.btHomePracticeCallInstructor.setDisable()
-//                            binding.btHomePracticeChangeInstructor.setDisable()
-//                        }
-//                    }
-//                    "fail" -> {
-//                        Toast.makeText(requireContext(), resources.getString(R.string.error), Toast.LENGTH_SHORT).show()
-//                        Glide.with(requireContext()).load(R.drawable.ic_man).circleCrop()
-//                            .into(binding.homePracticeInstructorAvatar)
-//                        instructorName.text = resources.getString(R.string.no)
-//                        instructorCar.text = resources.getString(R.string.no)
-//                        instructorRate.text = resources.getString(R.string.no)
-//                        binding.btHomePracticeCallInstructor.setDisable()
-//                        binding.btHomePracticeChangeInstructor.setDisable()
-//                    }
-//                }
-//            }
-//        })
 
         home.hViewModel.lessonCancelResponse.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
@@ -214,7 +171,7 @@ class HomePracticeFragment : Fragment() {
         }
     }
 
-    private fun showConfirm(date:String, parent: String){
+    private fun showConfirm(date: String, parent: String){
         Handler(Looper.getMainLooper()).postDelayed({
             val cancelConfirm = ConfirmCancelDialogFragment(date, parent)
             cancelConfirm.show(childFragmentManager, "ConfirmCancelDialogFragment")
@@ -226,6 +183,11 @@ class HomePracticeFragment : Fragment() {
         binding.homePracticeMenuInCard.setVisible()
         binding.homePracticeMenuConstraint.alphaUp(100)
         binding.homePracticeMenuInCard.alphaUp(100)
+        if (nearestDate == ""){
+            binding.btHomePracticeMenuSignupToPractice.setDisable()
+        } else {
+            binding.btHomePracticeMenuSignupToPractice.setEnable()
+        }
     }
 
     private fun hideMenu() {

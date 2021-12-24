@@ -242,4 +242,6 @@
     <string name="change_filial">Выбрать другой филиал</string>
     <string name="already_exist">Номер уже зарегистрирован</string>
     <string name="avatar_annotation">Смотрите в камеру прямо, как на паспорт. Фото используется для документов автошколы</string>
+    <string name="take_photo">Сделать фото</string>
+    <string name="take_from_gallery">Выбрать из галлереи</string>
 </resources>
