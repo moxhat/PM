@@ -26,6 +26,7 @@ import com.madcrew.pravamobil.view.fragment.education.home.practice.HomePractice
 import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.ConfirmationSpravkaFragment
 import com.madcrew.pravamobil.view.fragment.education.home.practice.beforespravka.NoSpravkaFragment
 import com.madcrew.pravamobil.view.fragment.education.home.theory.HomeTheoryFragment
+import com.madcrew.pravamobil.view.fragment.education.home.theory.before_theory.HomeBeforeTheoryFragment
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewPager: ViewPager2
     private lateinit var homePagerAdapter: HomePagerAdapter
     lateinit var hViewModel: HomeViewModel
+    lateinit var homeTheoryState: Fragment
 
 
     override fun onCreateView(
@@ -58,9 +60,11 @@ class HomeFragment : Fragment() {
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
 
-        hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+//        hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
 
-        setSpravkaAdd()
+        homeTheoryState = HomeBeforeTheoryFragment()
+
+//        setSpravkaAdd()
 
         if (isOnline(requireContext())){
             hViewModel.getNearestPractice(SpravkaStatusRequest(TOKEN, schoolId, clientId))
@@ -85,14 +89,27 @@ class HomeFragment : Fragment() {
 
         hViewModel.theoryHistory.observe(viewLifecycleOwner, {response ->
             if (response.isSuccessful){
-                thTitleSecond = if (response.body()!!.status == "done"){
-                    "${response.body()!!.schedule!![0].date?.let {
-                        dateConverterForTitle(
-                            it, requireContext())
-                    }}, ${response.body()!!.schedule!![0].time}, ${response.body()!!.schedule!![0].place}"
+                if (response.body()!!.status == "done"){
+                    var index = 0
+                for (i in response.body()!!.schedule!!){
+                    if (index != response.body()!!.schedule!!.size -1){
+                        index++
+                    }
+                    if (i.status == "Пройдено"){
+                        homeTheoryState = HomeTheoryFragment()
+                        thTitleSecond = "${response.body()!!.schedule!![index].date?.let {
+                            dateConverterForTitle(
+                                it, requireContext())
+                        }}, ${response.body()!!.schedule!![0].time}, ${response.body()!!.schedule!![0].place}"
+                        break
+                    } else{
+                        homeTheoryState = HomeBeforeTheoryFragment()
+                        hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                    }
+                }
 
                 } else {
-                    resources.getString(R.string.no_lesson)
+                    thTitleSecond =  resources.getString(R.string.no_lesson)
                 }
                 setTitle(thTitleSecond)
             } else {
@@ -189,7 +206,7 @@ class HomeFragment : Fragment() {
 
     private fun setSpravkaConfirmed() {
         val fragmentsWithSpravkaList =
-            mutableListOf(HomeTheoryFragment(), HomePracticeFragment(), HomeExamFragment())
+            mutableListOf(homeTheoryState, HomePracticeFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsWithSpravkaList)
         val item = binding.homeViewPager.currentItem
         binding.homeViewPager.adapter = homePagerAdapter
@@ -199,7 +216,7 @@ class HomeFragment : Fragment() {
 
     fun setSpravkaConfirmation() {
         val fragmentsConfirmationSpravkaList =
-            mutableListOf(HomeTheoryFragment(), ConfirmationSpravkaFragment(), HomeExamFragment())
+            mutableListOf(homeTheoryState, ConfirmationSpravkaFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsConfirmationSpravkaList)
         val item = binding.homeViewPager.currentItem
         binding.homeViewPager.adapter = homePagerAdapter
@@ -209,7 +226,7 @@ class HomeFragment : Fragment() {
 
     private fun setSpravkaAdd() {
         val fragmentsNoSpravkaList =
-            mutableListOf(HomeTheoryFragment(), NoSpravkaFragment(), HomeExamFragment())
+            mutableListOf(homeTheoryState, NoSpravkaFragment(), HomeExamFragment())
         homePagerAdapter = HomePagerAdapter(this, fragmentsNoSpravkaList)
         val item = binding.homeViewPager.currentItem
         binding.homeViewPager.adapter = homePagerAdapter

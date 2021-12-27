@@ -244,4 +244,6 @@
     <string name="avatar_annotation">Смотрите в камеру прямо, как на паспорт. Фото используется для документов автошколы</string>
     <string name="take_photo">Сделать фото</string>
     <string name="take_from_gallery">Выбрать из галлереи</string>
+    <string name="need_to_have">При себе иметь</string>
+    <string name="work_instruments">Письменные\nпринадлежности</string>
 </resources>
