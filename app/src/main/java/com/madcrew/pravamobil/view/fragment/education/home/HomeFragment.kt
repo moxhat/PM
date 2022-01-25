@@ -66,50 +66,62 @@ class HomeFragment : Fragment() {
 
 //        setSpravkaAdd()
 
-        if (isOnline(requireContext())){
+        if (isOnline(requireContext())) {
             hViewModel.getNearestPractice(SpravkaStatusRequest(TOKEN, schoolId, clientId))
         } else {
             noInternet(requireContext())
         }
 
-        hViewModel.nearestPracticeResponse.observe(viewLifecycleOwner, {response ->
-            if (response.isSuccessful){
-                prTitleSecond = if (response.body()!!.status == "done" && response.body()!!.next!!.date != ""){
-                    "${response.body()!!.next!!.date?.let {
-                        dateConverterForTitle(
-                            it, requireContext())
-                    }}, ${response.body()!!.next!!.time}, ${response.body()!!.next!!.place}"
-                } else {
-                    resources.getString(R.string.no_lesson)
-                }
+        hViewModel.nearestPracticeResponse.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                prTitleSecond =
+                    if (response.body()!!.status == "done" && response.body()!!.next!!.date != "") {
+                        "${
+                            response.body()!!.next!!.date?.let {
+                                dateConverterForTitle(
+                                    it, requireContext()
+                                )
+                            }
+                        }, ${response.body()!!.next!!.time}, ${response.body()!!.next!!.place}"
+                    } else {
+                        resources.getString(R.string.no_lesson)
+                    }
             } else {
                 showServerError(requireContext())
             }
         })
 
-        hViewModel.theoryHistory.observe(viewLifecycleOwner, {response ->
-            if (response.isSuccessful){
-                if (response.body()!!.status == "done"){
+        hViewModel.theoryHistory.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                if (response.body()!!.status == "done") {
                     var index = 0
-                for (i in response.body()!!.schedule!!){
-                    if (index != response.body()!!.schedule!!.size -1){
-                        index++
+                    for (i in response.body()!!.schedule!!) {
+                        if (index != response.body()!!.schedule!!.size - 1) {
+                            index++
+                        }
+                        if (i.status == "Пройдено") {
+                            homeTheoryState = HomeTheoryFragment()
+                            thTitleSecond = "${
+                                response.body()!!.schedule!![index].date?.let {
+                                    dateConverterForTitle(
+                                        it, requireContext()
+                                    )
+                                }
+                            }, ${response.body()!!.schedule!![0].time}, ${response.body()!!.schedule!![0].place}"
+                            break
+                        } else {
+                            homeTheoryState = HomeBeforeTheoryFragment()
+                            hViewModel.getSpravkaStatus(
+                                SpravkaStatusRequest(
+                                    TOKEN,
+                                    schoolId,
+                                    clientId
+                                )
+                            )
+                        }
                     }
-                    if (i.status == "Пройдено"){
-                        homeTheoryState = HomeTheoryFragment()
-                        thTitleSecond = "${response.body()!!.schedule!![index].date?.let {
-                            dateConverterForTitle(
-                                it, requireContext())
-                        }}, ${response.body()!!.schedule!![0].time}, ${response.body()!!.schedule!![0].place}"
-                        break
-                    } else{
-                        homeTheoryState = HomeBeforeTheoryFragment()
-                        hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
-                    }
-                }
-
                 } else {
-                    thTitleSecond =  resources.getString(R.string.no_lesson)
+                    thTitleSecond = resources.getString(R.string.no_lesson)
                 }
                 setTitle(thTitleSecond)
             } else {
@@ -118,15 +130,19 @@ class HomeFragment : Fragment() {
         })
 
 
-        hViewModel.spravkaStatus.observe(viewLifecycleOwner, {response ->
-            if (response.isSuccessful){
-                if (Preferences.getPrefsString("spravka", requireContext()) != "confirm"){
+        hViewModel.spravkaStatus.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                if (Preferences.getPrefsString("spravka", requireContext()) != "confirm") {
                     setSpravkaConfirmation()
                 } else {
                     setSpravkaConfirmed()
                 }
-                if (response.body()!!.status == "done"){
-                    Preferences.setPrefsString("spravkaStatus",  response.body()!!.medical, requireContext())
+                if (response.body()!!.status == "done") {
+                    Preferences.setPrefsString(
+                        "spravkaStatus",
+                        response.body()!!.medical,
+                        requireContext()
+                    )
                     when (Preferences.getPrefsString("spravkaStatus", requireContext())) {
                         "empty" -> setSpravkaAdd()
                         "confirm" -> {
@@ -135,15 +151,28 @@ class HomeFragment : Fragment() {
                         }
                         "noconfirm" -> setSpravkaConfirmation()
                         "deactivate" -> {
-                            Preferences.setPrefsString("SpravkaConfirmedDialogFragment", "0", requireContext())
+                            Preferences.setPrefsString(
+                                "SpravkaConfirmedDialogFragment",
+                                "0",
+                                requireContext()
+                            )
                             Preferences.setPrefsString("spravka", "deactivate", requireContext())
                             Handler(Looper.getMainLooper()).postDelayed({
                                 val confirmedDialog = SpravkaConfirmedDialogFragment("bad")
-                                confirmedDialog.show(childFragmentManager, "SpravkaConfirmedDialogFragment")
+                                confirmedDialog.show(
+                                    childFragmentManager,
+                                    "SpravkaConfirmedDialogFragment"
+                                )
                             }, 1000)
                             setSpravkaAdd()
                             Preferences.setPrefsString("spravkaStatus", "empty", requireContext())
-                            hViewModel.deleteSpravka(SpravkaStatusRequest(TOKEN, schoolId, clientId))
+                            hViewModel.deleteSpravka(
+                                SpravkaStatusRequest(
+                                    TOKEN,
+                                    schoolId,
+                                    clientId
+                                )
+                            )
                         }
                     }
                 }
@@ -175,7 +204,7 @@ class HomeFragment : Fragment() {
         homeViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                when (position){
+                when (position) {
                     0 -> setTitle(thTitleSecond)
                     1 -> setTitle(prTitleSecond)
                 }
@@ -197,8 +226,8 @@ class HomeFragment : Fragment() {
         super.onPause()
         val clientId = Preferences.getPrefsString("clientId", requireContext()).toString()
         val schoolId = Preferences.getPrefsString("schoolId", requireContext()).toString()
-        if (Preferences.getPrefsString("loadingSpravka", requireContext()) != "true"){
-            if (Preferences.getPrefsString("spravka", requireContext()) != "confirm"){
+        if (Preferences.getPrefsString("loadingSpravka", requireContext()) != "true") {
+            if (Preferences.getPrefsString("spravka", requireContext()) != "confirm") {
                 hViewModel.getSpravkaStatus(SpravkaStatusRequest(TOKEN, schoolId, clientId))
             }
         }
@@ -234,7 +263,7 @@ class HomeFragment : Fragment() {
         homePagerAdapter.notifyDataSetChanged()
     }
 
-    private fun setTitle(title: String){
+    private fun setTitle(title: String) {
         binding.educationInfoFieldText.text = title
     }
 

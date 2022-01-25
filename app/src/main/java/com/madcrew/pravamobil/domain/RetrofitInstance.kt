@@ -1,6 +1,7 @@
 package com.madcrew.pravamobil.domain
 
 
+import android.content.Context
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

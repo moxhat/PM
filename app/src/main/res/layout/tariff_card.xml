@@ -13,11 +13,30 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_tariff_card_select"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/ic_main_button"
+        android:fontFamily="@font/ubuntu_b"
+        android:singleLine="true"
+        android:text="@string/select"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <ScrollView
         android:id="@+id/tariff_card_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="SpeakableTextPresentCheck" >
+        android:layout_marginBottom="70dp"
+        tools:ignore="SpeakableTextPresentCheck">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tariff_card_main_constraint"
@@ -251,32 +270,11 @@
                 android:text="@string/may_be_installments"
                 android:textColor="@color/gray_text"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tariff_card_price" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bt_tariff_card_select"
-                android:layout_width="0dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/ic_main_button"
-                android:fontFamily="@font/ubuntu_b"
-                android:singleLine="true"
-                android:text="@string/select"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tariff_card_payment_by_instalments"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/tariff_card_price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
