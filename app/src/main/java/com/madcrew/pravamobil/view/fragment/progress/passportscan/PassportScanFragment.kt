@@ -1,42 +1,36 @@
 package com.madcrew.pravamobil.view.fragment.progress.passportscan
 
 import android.Manifest
+import androidx.fragment.app.Fragment
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.madcrew.pravamobil.BuildConfig
 import com.madcrew.pravamobil.R
 import com.madcrew.pravamobil.databinding.FragmentPassportScanBinding
-import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
-import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFragment
-import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
-import com.tbruyelle.rxpermissions2.RxPermissions
-import java.io.File
-
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-import android.util.Base64
-import android.util.Log
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.madcrew.pravamobil.domain.BaseUrl.Companion.TOKEN
 import com.madcrew.pravamobil.models.requestmodels.ClientInfoRequest
 import com.madcrew.pravamobil.models.requestmodels.FullRegistrationRequest
 import com.madcrew.pravamobil.models.submodels.DocumentsPhotosModel
 import com.madcrew.pravamobil.utils.*
 import com.madcrew.pravamobil.view.activity.progress.ProgressActivity
-import java.io.ByteArrayOutputStream
-
+import com.madcrew.pravamobil.view.fragment.progress.checkdata.CheckDataFragment
+import com.madcrew.pravamobil.view.fragment.progress.notadult.ClientIsNotAdultFragment
+import com.madcrew.pravamobil.view.fragment.progress.snils.SnilsFragment
+import com.tbruyelle.rxpermissions3.RxPermissions
+import java.io.File
 import java.io.InputStream
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 
 
 class PassportScanFragment(
@@ -89,6 +83,8 @@ class PassportScanFragment(
 
     private val previewImage by lazy { binding.passportImage }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -132,13 +128,13 @@ class PassportScanFragment(
                         listOf("dateBirthday", "passport", "snils", "kpp", "format", "place")
                     )
                 )
-                parent.mViewModel.clientInfo.observe(viewLifecycleOwner, { response ->
+                parent.mViewModel.clientInfo.observe(viewLifecycleOwner) { response ->
                     if (response.isSuccessful) {
                         if (response.body()!!.status == "done") {
                             clientIsAdult = response.body()!!.client?.adult == "true"
                         }
                     }
-                })
+                }
             }
         }
 
